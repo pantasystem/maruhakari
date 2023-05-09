@@ -1,4 +1,22 @@
 syntax = "proto3";
 
+option go_package="pkg/service/proto";
+import "google/protobuf/timestamp.proto";
+
+message RecordHistoryRequest {
+    string device_token = 1;
+    string nfc_uid = 2;
+    float weight = 3;
+}
+
+
+message MeasurementHistory {
+    string id = 1;
+    string food_id = 2;
+    float weight = 3;
+    google.protobuf.Timestamp created_at = 7;
+}
+
 service MeasurementHistoryService {
+    rpc RecordHistory(RecordHistoryRequest) returns (MeasurementHistory);
 }
