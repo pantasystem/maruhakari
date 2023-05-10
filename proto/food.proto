@@ -2,19 +2,52 @@ syntax = "proto3";
 
 option go_package="pkg/service/proto";
 import "google/protobuf/timestamp.proto";
+import "proto/food_state_type.proto";
 
 
 message Food {
     string id = 1;
-    float container_weight = 2;
-    float container_capacity = 3;
-    string name = 4;
-    string account_id = 5;
-    string nfc_uid = 6;
-    google.protobuf.Timestamp created_at = 7;
-    google.protobuf.Timestamp updated_at = 8;
+    string name = 5;
+    float container_weight_gram = 2;
+    float container_max_weight_gram = 3;
+    optional float gram_per_milliliter = 4;
+    string account_id = 6;
+    string nfc_uid = 7;
+    float raw_weight_gram = 8;
+    float weight_gram = 9;
+    FoodStateType state_type = 12;
+
+    google.protobuf.Timestamp created_at = 10;
+    google.protobuf.Timestamp updated_at = 11;
+}
+
+message CreateFood {
+    string name = 1;
+    string account_id = 2;
+    string nfc_uid = 3;
+    float container_weight_gram = 4;
+    float container_capacity_ml = 5;
+    float gram_per_milliliter = 6;
+    bool force = 7;
+}
+
+message UpdateFood {
+    string id = 1;
+    string name = 2;
+    string account_id = 3;
+    string nfc_uid = 4;
+    float container_weight_gram = 5;
+    float container_capacity_ml = 6;
+    bool force = 7;
+}
+
+message FindFoodByNfcUid {
+    string nfc_uid = 1;
+}
+
+message FindFoodById {
+    string id = 1;
 }
 
 service FoodService {
-    
 }
