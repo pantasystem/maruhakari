@@ -3,7 +3,7 @@ syntax = "proto3";
 option go_package="pkg/service/proto";
 
 
-enum FooStateType {
+enum FoodStateType {
     SOLID = 0;
     POWDER = 1; 
     LOQUID = 2;

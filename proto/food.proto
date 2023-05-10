@@ -3,6 +3,7 @@ syntax = "proto3";
 option go_package="pkg/service/proto";
 import "google/protobuf/timestamp.proto";
 import "proto/food_state_type.proto";
+import "google/protobuf/empty.proto";
 
 
 message Food {
@@ -21,33 +22,42 @@ message Food {
     google.protobuf.Timestamp updated_at = 11;
 }
 
-message CreateFood {
+message CreateFoodRequest {
     string name = 1;
     string account_id = 2;
     string nfc_uid = 3;
     float container_weight_gram = 4;
-    float container_capacity_ml = 5;
-    float gram_per_milliliter = 6;
+    float container_max_weight_gram = 5;
+    optional float gram_per_milliliter = 6;
     bool force = 7;
 }
 
-message UpdateFood {
-    string id = 1;
-    string name = 2;
-    string account_id = 3;
-    string nfc_uid = 4;
-    float container_weight_gram = 5;
-    float container_capacity_ml = 6;
+message UpdateFoodRequest {
+    string name = 1;
+    string account_id = 2;
+    string nfc_uid = 3;
+    float container_weight_gram = 4;
+    float container_max_weight_gram = 5;
+    optional float gram_per_milliliter = 6;
     bool force = 7;
 }
 
-message FindFoodByNfcUid {
+message MyFoods {
+    repeated Food foods = 1;
+}
+
+message FindFoodByNfcUidRequest {
     string nfc_uid = 1;
 }
 
-message FindFoodById {
+message FindFoodByIdRequest {
     string id = 1;
 }
 
 service FoodService {
+    rpc CreateFood(CreateFoodRequest) returns (Food) {}
+    rpc UpdateFood(UpdateFoodRequest) returns (Food) {}
+    rpc FindFoodByNfcUid(FindFoodByNfcUidRequest) returns (Food) {}
+    rpc FindFoodById(FindFoodByIdRequest) returns (Food) {}
+    rpc FindByOwnFoods(google.protobuf.Empty) returns (MyFoods) {}
 }

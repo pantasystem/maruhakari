@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+import "proto/food_state_type.proto";
+import "google/protobuf/timestamp.proto";
+
+message FoodTemplate {
+    string id = 1;
+    FoodStateType state = 2;
+    string name = 3;
+    optional float gram_per_miller = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+}
+
+service FoodTemplateService {
+    
+}
