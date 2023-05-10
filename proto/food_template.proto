@@ -2,6 +2,7 @@ syntax = "proto3";
 
 import "proto/food_state_type.proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 message FoodTemplate {
     string id = 1;
@@ -12,6 +13,9 @@ message FoodTemplate {
     google.protobuf.Timestamp updated_at = 6;
 }
 
+message FoodTemplateList {
+    repeated FoodTemplate food_templates = 1;
+}
 service FoodTemplateService {
-    
+    rpc GetFoodTemplateList (google.protobuf.Empty) returns (FoodTemplateList);
 }
