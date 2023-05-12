@@ -2,6 +2,7 @@ syntax= "proto3";
 
 import "google/protobuf/empty.proto";
 
+option go_package="pkg/service/proto";
 
 message ContainerTemplate {
     string id = 1;
