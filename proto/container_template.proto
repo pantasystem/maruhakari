@@ -1,1 +1,20 @@
 syntax= "proto3";
+
+import "google/protobuf/empty.proto";
+
+
+message ContainerTemplate {
+    string id = 1;
+    string label = 3;
+    string image_url = 2;
+    float container_weight_gram = 4;
+    float container_max_weight_gram = 5;
+}
+
+message ContainerTemplateList {
+    repeated ContainerTemplate container_templates = 1;
+}
+
+service ContainerTemplateService {
+    rpc GetContainerTemplateList (google.protobuf.Empty) returns (ContainerTemplateList) {}
+}

@@ -2,7 +2,6 @@ syntax = "proto3";
 
 option go_package="pkg/service/proto";
 import "google/protobuf/timestamp.proto";
-import "proto/food_state_type.proto";
 import "google/protobuf/empty.proto";
 
 
@@ -16,7 +15,6 @@ message Food {
     string nfc_uid = 7;
     float raw_weight_gram = 8;
     float weight_gram = 9;
-    FoodStateType state_type = 12;
 
     google.protobuf.Timestamp created_at = 10;
     google.protobuf.Timestamp updated_at = 11;
