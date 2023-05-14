@@ -9,7 +9,7 @@ import (
 
 type Account struct {
 	ID                uuid.UUID `gorm:"primaryKey"`
-	Username          string
+	Username          string    `gorm:"uniqueIndex"`
 	EncryptedPassword string
 	Token             uuid.UUID `gorm:"uniqueIndex"`
 	Devices           *[]Device `gorm:"foreignKey:AccountID"`

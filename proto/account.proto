@@ -2,10 +2,48 @@ syntax = "proto3";
 
 option go_package="pkg/service/proto";
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
 
 message Account {
     string id = 1;
-    string nickname = 2;
+    string username = 2;
     google.protobuf.Timestamp created_at = 3;
     google.protobuf.Timestamp updated_at = 4;
+}
+
+message CreateAccountRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message CreateAccountResponse {
+    string token = 1;
+    Account account = 2;
+}
+
+message FindUser {
+    string id = 1;
+}
+
+message SearchAccountRequest {
+    string keyword = 1;
+}
+
+message FindMeResponse {
+    optional Account account = 1;
+    AuthState auth_state = 2;
+}
+// 認証の状態を表す定数
+enum AuthState {
+    // 認証されていない
+    UNAUTHENTICATED = 0;
+    // 認証されている
+    AUTHENTICATED = 1;
+}
+
+service AccountService {
+    rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse) {}
+    rpc Find(FindUser) returns (Account) {}
+    rpc FindMe(google.protobuf.Empty) returns(FindMeResponse) {}
 }
