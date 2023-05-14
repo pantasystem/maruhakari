@@ -20,5 +20,16 @@ func (r *MeasurementHistoryRepositoryImpl) Create(ctx context.Context, measureme
 }
 
 func (r *MeasurementHistoryRepositoryImpl) FindLatestByFoodIDs(ctx context.Context, foodIDs []uuid.UUID) ([]*entity.MeasurementHistory, error) {
-	return nil, nil
+	measurementHistories := []*entity.MeasurementHistory{}
+	result := r.DB.WithContext(ctx).Where(`
+		exists(
+			select 1 from(
+				select max(id) as id from measurement_histories 
+					where food_id in ? group by food_id
+			) mh2 where mh2.id = measurement_histories.id
+		)`, foodIDs).Find(&measurementHistories)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return measurementHistories, nil
 }
