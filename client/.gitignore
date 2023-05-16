@@ -441,3 +441,5 @@ hs_err_pid*
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/flutter,macos,linux,android,androidstudio,intellij,xcode
+
+.fvm/flutter_sdk
