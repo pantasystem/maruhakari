@@ -1,0 +1,60 @@
+package handler
+
+import (
+	"context"
+	"core-api/pkg/module"
+	"fmt"
+
+	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
+	"google.golang.org/grpc"
+)
+
+type Key int
+
+const (
+	AccountId Key = iota
+)
+
+func NewAuthInterceptor(c module.Module) func(ctx context.Context,
+	req interface{},
+	info *grpc.UnaryServerInfo,
+	handler grpc.UnaryHandler,
+) (interface{}, error) {
+	return func(ctx context.Context,
+		req interface{},
+		info *grpc.UnaryServerInfo,
+		handler grpc.UnaryHandler,
+	) (interface{}, error) {
+		fmt.Printf("info.FullMethod: %v\n", info.FullMethod)
+		// 認証をスキップするパス
+		if info.FullMethod == "/AccountService/CreateAccount" {
+			return handler(ctx, req)
+		} else {
+			// 認証がOKならContextを返す
+			userIdSetCtx, err := authorize(c, ctx)
+			if err != nil {
+				if info.FullMethod == "/AccountService/FindMe" {
+					return handler(ctx, req)
+				}
+				return nil, err
+			}
+			return handler(userIdSetCtx, req)
+		}
+	}
+
+}
+
+func authorize(module module.Module, ctx context.Context) (context.Context, error) {
+	// ヘッダーのトークンからユーザIDを取得
+	token, err := grpc_auth.AuthFromMD(ctx, "Bearer")
+	if err != nil {
+		return nil, err
+	}
+	// jwtのトークンを検証してaccountを取得（処理の記載は割愛）
+	account, err := module.RepositoryModule().AccountRepository().FindByToken(ctx, token)
+	if err != nil {
+		return nil, err
+	}
+
+	return context.WithValue(ctx, AccountId, account.ID.String()), nil
+}
