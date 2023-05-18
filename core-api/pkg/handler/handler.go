@@ -34,9 +34,13 @@ func Setup(m module.Module) *grpc.Server {
 	foodTemplateHandler := &FoodTemplateHandler{
 		Module: m,
 	}
+	foodHandler := &FoodHandler{
+		Module: m,
+	}
 	proto.RegisterAccountServiceServer(s, accountHandler)
 	proto.RegisterContainerTemplateServiceServer(s, containerTemplateHandler)
 	proto.RegisterFoodTemplateServiceServer(s, foodTemplateHandler)
+	proto.RegisterFoodServiceServer(s, foodHandler)
 
 	return s
 }
