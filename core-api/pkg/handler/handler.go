@@ -2,9 +2,11 @@ package handler
 
 import (
 	"context"
+	"core-api/pkg/handler/proto"
 	"core-api/pkg/module"
 	"fmt"
 
+	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"google.golang.org/grpc"
 )
@@ -14,6 +16,21 @@ type Key int
 const (
 	AccountId Key = iota
 )
+
+func Setup(m module.Module) *grpc.Server {
+	s := grpc.NewServer(
+		grpc.UnaryInterceptor(
+			grpc_middleware.ChainUnaryServer(
+				NewAuthInterceptor(m),
+			),
+		),
+	)
+	accountHandler := &AccountHandler{
+		Module: m,
+	}
+	proto.RegisterAccountServiceServer(s, accountHandler)
+	return s
+}
 
 func NewAuthInterceptor(c module.Module) func(ctx context.Context,
 	req interface{},
