@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class InitialPage extends StatelessWidget {
   const InitialPage({super.key});
@@ -25,10 +26,14 @@ class InitialPage extends StatelessWidget {
             width: double.infinity,
             child: Column(
               children: [
-                TextButton(onPressed: () {}, child: const Text("ログイン")),
+                TextButton(onPressed: () {
+                  GoRouter.of(context).push("/login");
+                }, child: const Text("ログイン")),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    GoRouter.of(context).push("/signup");
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32),
