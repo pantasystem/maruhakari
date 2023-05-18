@@ -20,6 +20,12 @@ class AccountRepository {
     return res.account;
   }
 
+  Future<Account> login({required String username, required String password}) async {
+    final res = await client.login(LoginRequest(username: username, password: password));
+    await authRepository.saveToken(token: res.token);
+    return res.account;
+  }
+
   Future<Account> find({required String accountId}) async {
     final res = await client.find(FindUser(id: accountId),
         options: CallOptions(metadata: {
