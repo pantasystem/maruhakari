@@ -1,4 +1,5 @@
 import 'package:client/pages/initial_page.dart';
+import 'package:client/pages/login_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -25,8 +26,15 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.red,
         primaryColor: const Color.fromARGB(0xff, 0xee, 0x02, 0x02),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+            titleTextStyle: TextStyle(
+                color: Colors.black,
+                fontSize: 18,
+            )
+        )
       ),
-      home: const InitialPage(),
+      home: const LoginPage(),
     );
   }
 }
