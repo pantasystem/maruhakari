@@ -29,3 +29,7 @@ func (r *ModuleImpl) FoodTemplateRepository() repository.FoodTempalteRepository 
 func (r *ModuleImpl) MeasurementHistoryRepository() repository.MeasurementHistoryRepository {
 	return &MeasurementHistoryRepositoryImpl{DB: r.DB}
 }
+
+func (r *ModuleImpl) FoodRepository() repository.FoodRepository {
+	return &FoodRepositoryImpl{DB: r.DB}
+}
