@@ -6,6 +6,7 @@ import (
 	"core-api/pkg/handler/proto"
 	"core-api/pkg/module"
 	"errors"
+	"fmt"
 
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -22,7 +23,11 @@ func (r *AccountHandler) CreateAccount(ctx context.Context, req *proto.CreateAcc
 	a := &entity.Account{
 		Username: req.Username,
 	}
-	a, err := r.Module.RepositoryModule().AccountRepository().Create(ctx, a)
+	err := a.SetPassword(req.Password)
+	if err != nil {
+		return nil, err
+	}
+	a, err = r.Module.RepositoryModule().AccountRepository().Create(ctx, a)
 
 	if err != nil {
 		return nil, err
@@ -102,5 +107,32 @@ func (r *AccountHandler) FindMe(ctx context.Context, req *emptypb.Empty) (*proto
 			},
 		},
 		AuthState: proto.AuthState_AUTHENTICATED,
+	}, nil
+}
+
+func (r *AccountHandler) Login(ctx context.Context, req *proto.LoginRequest) (*proto.CreateAccountResponse, error) {
+	a, err := r.Module.RepositoryModule().AccountRepository().FindByUsername(ctx, req.Username)
+	if err != nil {
+		return nil, err
+	}
+
+	if !a.CheckPassword(req.Password) {
+		return nil, fmt.Errorf("invalid password")
+	}
+
+	return &proto.CreateAccountResponse{
+		Token: a.Token.String(),
+		Account: &proto.Account{
+			Id:       a.ID.String(),
+			Username: a.Username,
+			CreatedAt: &timestamppb.Timestamp{
+				Seconds: a.CreatedAt.Unix(),
+				Nanos:   int32(a.CreatedAt.Nanosecond()),
+			},
+			UpdatedAt: &timestamppb.Timestamp{
+				Seconds: a.UpdatedAt.Unix(),
+				Nanos:   int32(a.UpdatedAt.Nanosecond()),
+			},
+		},
 	}, nil
 }
