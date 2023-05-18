@@ -57,6 +57,10 @@ func (r *AccountHandler) Find(ctx context.Context, req *proto.FindUser) (*proto.
 			Seconds: a.CreatedAt.Unix(),
 			Nanos:   int32(a.CreatedAt.Nanosecond()),
 		},
+		UpdatedAt: &timestamppb.Timestamp{
+			Seconds: a.UpdatedAt.Unix(),
+			Nanos:   int32(a.UpdatedAt.Nanosecond()),
+		},
 	}, nil
 }
 
