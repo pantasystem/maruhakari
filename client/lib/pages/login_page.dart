@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:client/state/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,6 +52,21 @@ class LoginPageState extends ConsumerState {
               ),
               ElevatedButton(
                 onPressed: () {
+                  if (!_formKey.currentState!.validate()) {
+                    return;
+                  }
+                  ref.read(authStoreProvider).login(
+                      username: inputIdController.text,
+                    password: inputPasswordController.text,
+                  ).then((value) {
+                    log('ログインに成功');
+                    // GoRouter.of(context).push("/home");
+                  }).catchError((e, st) {
+                    log('ログインに失敗', error: e, stackTrace: st);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("ログインに失敗"))
+                    );
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(

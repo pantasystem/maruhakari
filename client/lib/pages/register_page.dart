@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:client/state/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,14 +34,14 @@ class RegisterPageState extends ConsumerState {
               children: [
                 Column(
                   children: [
-                    TextField(
+                    TextFormField(
                       controller: inputIdController,
                       decoration: const InputDecoration(label: Text("ID")),
                     ),
                     const SizedBox(
                       height: 16,
                     ),
-                    TextField(
+                    TextFormField(
                       controller: inputPasswordController,
                       decoration: const InputDecoration(
                         label: Text("パスワード"),
@@ -49,6 +52,20 @@ class RegisterPageState extends ConsumerState {
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    if (!_formKey.currentState!.validate()) {
+                      return;
+                    }
+                    ref.read(authStoreProvider).register(
+                      username: inputIdController.text,
+                      password: inputPasswordController.text,
+                    ).then((value) {
+                      log('登録に成功');
+                    }).catchError((e, st) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("登録に失敗"))
+                      );
+                      log('登録に失敗', error: e, stackTrace: st);
+                    });
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
