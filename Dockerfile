@@ -9,7 +9,7 @@ RUN apk update && \
 RUN mkdir /go/src/app
 WORKDIR /go/src/app
 
-ADD . /go/src/app
+ADD ./core-api /go/src/app
 
 RUN go mod tidy && \
     go install github.com/cosmtrek/air@v1.27.3

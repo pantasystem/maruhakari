@@ -24,7 +24,7 @@ final $typed_data.Uint8List recordHistoryRequestDescriptor = $convert.base64Deco
 const MeasurementHistory$json = const {
   '1': 'MeasurementHistory',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'id', '3': 1, '4': 1, '5': 3, '10': 'id'},
     const {'1': 'food_id', '3': 2, '4': 1, '5': 9, '10': 'foodId'},
     const {'1': 'weight', '3': 3, '4': 1, '5': 2, '10': 'weight'},
     const {'1': 'created_at', '3': 7, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'createdAt'},
@@ -32,4 +32,4 @@ const MeasurementHistory$json = const {
 };
 
 /// Descriptor for `MeasurementHistory`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List measurementHistoryDescriptor = $convert.base64Decode('ChJNZWFzdXJlbWVudEhpc3RvcnkSDgoCaWQYASABKAlSAmlkEhcKB2Zvb2RfaWQYAiABKAlSBmZvb2RJZBIWCgZ3ZWlnaHQYAyABKAJSBndlaWdodBI5CgpjcmVhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIJY3JlYXRlZEF0');
+final $typed_data.Uint8List measurementHistoryDescriptor = $convert.base64Decode('ChJNZWFzdXJlbWVudEhpc3RvcnkSDgoCaWQYASABKANSAmlkEhcKB2Zvb2RfaWQYAiABKAlSBmZvb2RJZBIWCgZ3ZWlnaHQYAyABKAJSBndlaWdodBI5CgpjcmVhdGVkX2F0GAcgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIJY3JlYXRlZEF0');

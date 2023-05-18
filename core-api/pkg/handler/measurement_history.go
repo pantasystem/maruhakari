@@ -37,7 +37,7 @@ func (r *MeasurementHistoryHandler) RecordHistory(ctx context.Context, in *proto
 		return nil, err
 	}
 	return &proto.MeasurementHistory{
-		Id:     h.ID.String(),
+		Id:     h.ID,
 		FoodId: f.ID.String(),
 		Weight: h.RawWeightGram,
 		CreatedAt: &timestamppb.Timestamp{

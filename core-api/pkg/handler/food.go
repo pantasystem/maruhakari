@@ -9,6 +9,7 @@ import (
 
 	"github.com/google/uuid"
 	"google.golang.org/protobuf/types/known/emptypb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type FoodHandler struct {
@@ -49,6 +50,14 @@ func (r *FoodHandler) CreateFood(ctx context.Context, in *proto.CreateFoodReques
 		GramPerMilliliter:      f.GramPerMilliliter,
 		AccountId:              f.AccountID.String(),
 		NfcUid:                 f.NfcUid,
+		UpdatedAt: &timestamppb.Timestamp{
+			Seconds: f.UpdatedAt.Unix(),
+			Nanos:   int32(f.UpdatedAt.Nanosecond()),
+		},
+		CreatedAt: &timestamppb.Timestamp{
+			Seconds: f.CreatedAt.Unix(),
+			Nanos:   int32(f.CreatedAt.Nanosecond()),
+		},
 	}
 	if len(histories) > 0 {
 		latestHistory := histories[0]
@@ -101,6 +110,14 @@ func (r *FoodHandler) UpdateFood(ctx context.Context, in *proto.UpdateFoodReques
 		GramPerMilliliter:      f.GramPerMilliliter,
 		AccountId:              f.AccountID.String(),
 		NfcUid:                 f.NfcUid,
+		CreatedAt: &timestamppb.Timestamp{
+			Seconds: f.CreatedAt.Unix(),
+			Nanos:   int32(f.CreatedAt.Nanosecond()),
+		},
+		UpdatedAt: &timestamppb.Timestamp{
+			Seconds: f.UpdatedAt.Unix(),
+			Nanos:   int32(f.UpdatedAt.Nanosecond()),
+		},
 	}
 	if len(histories) > 0 {
 		latestHistory := histories[0]
@@ -139,6 +156,14 @@ func (r *FoodHandler) FindFoodByNfcUid(ctx context.Context, in *proto.FindFoodBy
 		GramPerMilliliter:      f.GramPerMilliliter,
 		AccountId:              f.AccountID.String(),
 		NfcUid:                 f.NfcUid,
+		CreatedAt: &timestamppb.Timestamp{
+			Seconds: f.CreatedAt.Unix(),
+			Nanos:   int32(f.CreatedAt.Nanosecond()),
+		},
+		UpdatedAt: &timestamppb.Timestamp{
+			Seconds: f.UpdatedAt.Unix(),
+			Nanos:   int32(f.UpdatedAt.Nanosecond()),
+		},
 	}
 	if len(histories) > 0 {
 		latestHistory := histories[0]
@@ -181,6 +206,14 @@ func (r *FoodHandler) FindFoodById(ctx context.Context, in *proto.FindFoodByIdRe
 		GramPerMilliliter:      f.GramPerMilliliter,
 		AccountId:              f.AccountID.String(),
 		NfcUid:                 f.NfcUid,
+		CreatedAt: &timestamppb.Timestamp{
+			Seconds: f.CreatedAt.Unix(),
+			Nanos:   int32(f.CreatedAt.Nanosecond()),
+		},
+		UpdatedAt: &timestamppb.Timestamp{
+			Seconds: f.UpdatedAt.Unix(),
+			Nanos:   int32(f.UpdatedAt.Nanosecond()),
+		},
 	}
 	if len(histories) > 0 {
 		latestHistory := histories[0]
@@ -225,6 +258,14 @@ func (r *FoodHandler) FindByOwnFoods(ctx context.Context, in *emptypb.Empty) (*p
 			GramPerMilliliter:      food.GramPerMilliliter,
 			AccountId:              food.AccountID.String(),
 			NfcUid:                 food.NfcUid,
+			CreatedAt: &timestamppb.Timestamp{
+				Seconds: food.CreatedAt.Unix(),
+				Nanos:   int32(food.CreatedAt.Nanosecond()),
+			},
+			UpdatedAt: &timestamppb.Timestamp{
+				Seconds: food.UpdatedAt.Unix(),
+				Nanos:   int32(food.UpdatedAt.Nanosecond()),
+			},
 		}
 		foodList = append(foodList, pf)
 		history := historyMap[food.ID]

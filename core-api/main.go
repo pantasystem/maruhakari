@@ -19,6 +19,7 @@ func main() {
 	fmt.Printf("Start Server!!\n")
 	err := godotenv.Load(".env")
 	if err != nil {
+		fmt.Printf("Error loading .env file")
 		panic(err)
 	}
 
@@ -26,12 +27,14 @@ func main() {
 	config.LoadFromEnv()
 	db, err := gorm.Open(postgres.Open(config.Dsn), &gorm.Config{})
 	if err != nil {
+		fmt.Printf("Error connecting to database")
 		panic(err)
 	}
 
 	db.AutoMigrate(&entity.Account{}, &entity.ContainerTemplate{}, &entity.Device{}, &entity.Food{}, &entity.FoodTemplate{}, &entity.MeasurementHistory{})
 	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", config.Port))
 	if err != nil {
+		fmt.Printf("Error starting the server")
 		panic(err)
 	}
 	m := &module.ModuleImpl{
