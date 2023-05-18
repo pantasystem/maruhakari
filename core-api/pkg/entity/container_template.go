@@ -12,6 +12,7 @@ type ContainerTemplate struct {
 	Label                  string
 	ContainerWeightGram    float32
 	ContainerMaxWeightGram float32
+	ImageUrl               string
 	CreatedAt              time.Time
 	UpdatedAt              time.Time
 }
