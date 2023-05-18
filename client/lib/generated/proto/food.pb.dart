@@ -205,7 +205,6 @@ class Food extends $pb.GeneratedMessage {
 class CreateFoodRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'CreateFoodRequest', createEmptyInstance: create)
     ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountId')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'nfcUid')
     ..a<$core.double>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'containerWeightGram', $pb.PbFieldType.OF)
     ..a<$core.double>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'containerMaxWeightGram', $pb.PbFieldType.OF)
@@ -217,7 +216,6 @@ class CreateFoodRequest extends $pb.GeneratedMessage {
   CreateFoodRequest._() : super();
   factory CreateFoodRequest({
     $core.String? name,
-    $core.String? accountId,
     $core.String? nfcUid,
     $core.double? containerWeightGram,
     $core.double? containerMaxWeightGram,
@@ -227,9 +225,6 @@ class CreateFoodRequest extends $pb.GeneratedMessage {
     final _result = create();
     if (name != null) {
       _result.name = name;
-    }
-    if (accountId != null) {
-      _result.accountId = accountId;
     }
     if (nfcUid != null) {
       _result.nfcUid = nfcUid;
@@ -278,65 +273,56 @@ class CreateFoodRequest extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearName() => clearField(1);
 
-  @$pb.TagNumber(2)
-  $core.String get accountId => $_getSZ(1);
-  @$pb.TagNumber(2)
-  set accountId($core.String v) { $_setString(1, v); }
-  @$pb.TagNumber(2)
-  $core.bool hasAccountId() => $_has(1);
-  @$pb.TagNumber(2)
-  void clearAccountId() => clearField(2);
-
   @$pb.TagNumber(3)
-  $core.String get nfcUid => $_getSZ(2);
+  $core.String get nfcUid => $_getSZ(1);
   @$pb.TagNumber(3)
-  set nfcUid($core.String v) { $_setString(2, v); }
+  set nfcUid($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(3)
-  $core.bool hasNfcUid() => $_has(2);
+  $core.bool hasNfcUid() => $_has(1);
   @$pb.TagNumber(3)
   void clearNfcUid() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.double get containerWeightGram => $_getN(3);
+  $core.double get containerWeightGram => $_getN(2);
   @$pb.TagNumber(4)
-  set containerWeightGram($core.double v) { $_setFloat(3, v); }
+  set containerWeightGram($core.double v) { $_setFloat(2, v); }
   @$pb.TagNumber(4)
-  $core.bool hasContainerWeightGram() => $_has(3);
+  $core.bool hasContainerWeightGram() => $_has(2);
   @$pb.TagNumber(4)
   void clearContainerWeightGram() => clearField(4);
 
   @$pb.TagNumber(5)
-  $core.double get containerMaxWeightGram => $_getN(4);
+  $core.double get containerMaxWeightGram => $_getN(3);
   @$pb.TagNumber(5)
-  set containerMaxWeightGram($core.double v) { $_setFloat(4, v); }
+  set containerMaxWeightGram($core.double v) { $_setFloat(3, v); }
   @$pb.TagNumber(5)
-  $core.bool hasContainerMaxWeightGram() => $_has(4);
+  $core.bool hasContainerMaxWeightGram() => $_has(3);
   @$pb.TagNumber(5)
   void clearContainerMaxWeightGram() => clearField(5);
 
   @$pb.TagNumber(6)
-  $core.double get gramPerMilliliter => $_getN(5);
+  $core.double get gramPerMilliliter => $_getN(4);
   @$pb.TagNumber(6)
-  set gramPerMilliliter($core.double v) { $_setFloat(5, v); }
+  set gramPerMilliliter($core.double v) { $_setFloat(4, v); }
   @$pb.TagNumber(6)
-  $core.bool hasGramPerMilliliter() => $_has(5);
+  $core.bool hasGramPerMilliliter() => $_has(4);
   @$pb.TagNumber(6)
   void clearGramPerMilliliter() => clearField(6);
 
   @$pb.TagNumber(7)
-  $core.bool get force => $_getBF(6);
+  $core.bool get force => $_getBF(5);
   @$pb.TagNumber(7)
-  set force($core.bool v) { $_setBool(6, v); }
+  set force($core.bool v) { $_setBool(5, v); }
   @$pb.TagNumber(7)
-  $core.bool hasForce() => $_has(6);
+  $core.bool hasForce() => $_has(5);
   @$pb.TagNumber(7)
   void clearForce() => clearField(7);
 }
 
 class UpdateFoodRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'UpdateFoodRequest', createEmptyInstance: create)
-    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
-    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accountId')
+    ..aOS(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'id')
+    ..aOS(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'name')
     ..aOS(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'nfcUid')
     ..a<$core.double>(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'containerWeightGram', $pb.PbFieldType.OF)
     ..a<$core.double>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'containerMaxWeightGram', $pb.PbFieldType.OF)
@@ -347,8 +333,8 @@ class UpdateFoodRequest extends $pb.GeneratedMessage {
 
   UpdateFoodRequest._() : super();
   factory UpdateFoodRequest({
+    $core.String? id,
     $core.String? name,
-    $core.String? accountId,
     $core.String? nfcUid,
     $core.double? containerWeightGram,
     $core.double? containerMaxWeightGram,
@@ -356,11 +342,11 @@ class UpdateFoodRequest extends $pb.GeneratedMessage {
     $core.bool? force,
   }) {
     final _result = create();
+    if (id != null) {
+      _result.id = id;
+    }
     if (name != null) {
       _result.name = name;
-    }
-    if (accountId != null) {
-      _result.accountId = accountId;
     }
     if (nfcUid != null) {
       _result.nfcUid = nfcUid;
@@ -401,22 +387,22 @@ class UpdateFoodRequest extends $pb.GeneratedMessage {
   static UpdateFoodRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.String get name => $_getSZ(0);
+  $core.String get id => $_getSZ(0);
   @$pb.TagNumber(1)
-  set name($core.String v) { $_setString(0, v); }
+  set id($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasName() => $_has(0);
+  $core.bool hasId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearName() => clearField(1);
+  void clearId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get accountId => $_getSZ(1);
+  $core.String get name => $_getSZ(1);
   @$pb.TagNumber(2)
-  set accountId($core.String v) { $_setString(1, v); }
+  set name($core.String v) { $_setString(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasAccountId() => $_has(1);
+  $core.bool hasName() => $_has(1);
   @$pb.TagNumber(2)
-  void clearAccountId() => clearField(2);
+  void clearName() => clearField(2);
 
   @$pb.TagNumber(3)
   $core.String get nfcUid => $_getSZ(2);

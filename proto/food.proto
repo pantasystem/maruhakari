@@ -22,7 +22,6 @@ message Food {
 
 message CreateFoodRequest {
     string name = 1;
-    string account_id = 2;
     string nfc_uid = 3;
     float container_weight_gram = 4;
     float container_max_weight_gram = 5;
@@ -31,8 +30,8 @@ message CreateFoodRequest {
 }
 
 message UpdateFoodRequest {
-    string name = 1;
-    string account_id = 2;
+    string id = 1;
+    string name = 2;
     string nfc_uid = 3;
     float container_weight_gram = 4;
     float container_max_weight_gram = 5;

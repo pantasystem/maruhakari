@@ -36,7 +36,6 @@ const CreateFoodRequest$json = const {
   '1': 'CreateFoodRequest',
   '2': const [
     const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'account_id', '3': 2, '4': 1, '5': 9, '10': 'accountId'},
     const {'1': 'nfc_uid', '3': 3, '4': 1, '5': 9, '10': 'nfcUid'},
     const {'1': 'container_weight_gram', '3': 4, '4': 1, '5': 2, '10': 'containerWeightGram'},
     const {'1': 'container_max_weight_gram', '3': 5, '4': 1, '5': 2, '10': 'containerMaxWeightGram'},
@@ -49,13 +48,13 @@ const CreateFoodRequest$json = const {
 };
 
 /// Descriptor for `CreateFoodRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List createFoodRequestDescriptor = $convert.base64Decode('ChFDcmVhdGVGb29kUmVxdWVzdBISCgRuYW1lGAEgASgJUgRuYW1lEh0KCmFjY291bnRfaWQYAiABKAlSCWFjY291bnRJZBIXCgduZmNfdWlkGAMgASgJUgZuZmNVaWQSMgoVY29udGFpbmVyX3dlaWdodF9ncmFtGAQgASgCUhNjb250YWluZXJXZWlnaHRHcmFtEjkKGWNvbnRhaW5lcl9tYXhfd2VpZ2h0X2dyYW0YBSABKAJSFmNvbnRhaW5lck1heFdlaWdodEdyYW0SMwoTZ3JhbV9wZXJfbWlsbGlsaXRlchgGIAEoAkgAUhFncmFtUGVyTWlsbGlsaXRlcogBARIUCgVmb3JjZRgHIAEoCFIFZm9yY2VCFgoUX2dyYW1fcGVyX21pbGxpbGl0ZXI=');
+final $typed_data.Uint8List createFoodRequestDescriptor = $convert.base64Decode('ChFDcmVhdGVGb29kUmVxdWVzdBISCgRuYW1lGAEgASgJUgRuYW1lEhcKB25mY191aWQYAyABKAlSBm5mY1VpZBIyChVjb250YWluZXJfd2VpZ2h0X2dyYW0YBCABKAJSE2NvbnRhaW5lcldlaWdodEdyYW0SOQoZY29udGFpbmVyX21heF93ZWlnaHRfZ3JhbRgFIAEoAlIWY29udGFpbmVyTWF4V2VpZ2h0R3JhbRIzChNncmFtX3Blcl9taWxsaWxpdGVyGAYgASgCSABSEWdyYW1QZXJNaWxsaWxpdGVyiAEBEhQKBWZvcmNlGAcgASgIUgVmb3JjZUIWChRfZ3JhbV9wZXJfbWlsbGlsaXRlcg==');
 @$core.Deprecated('Use updateFoodRequestDescriptor instead')
 const UpdateFoodRequest$json = const {
   '1': 'UpdateFoodRequest',
   '2': const [
-    const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'account_id', '3': 2, '4': 1, '5': 9, '10': 'accountId'},
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'nfc_uid', '3': 3, '4': 1, '5': 9, '10': 'nfcUid'},
     const {'1': 'container_weight_gram', '3': 4, '4': 1, '5': 2, '10': 'containerWeightGram'},
     const {'1': 'container_max_weight_gram', '3': 5, '4': 1, '5': 2, '10': 'containerMaxWeightGram'},
@@ -68,7 +67,7 @@ const UpdateFoodRequest$json = const {
 };
 
 /// Descriptor for `UpdateFoodRequest`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List updateFoodRequestDescriptor = $convert.base64Decode('ChFVcGRhdGVGb29kUmVxdWVzdBISCgRuYW1lGAEgASgJUgRuYW1lEh0KCmFjY291bnRfaWQYAiABKAlSCWFjY291bnRJZBIXCgduZmNfdWlkGAMgASgJUgZuZmNVaWQSMgoVY29udGFpbmVyX3dlaWdodF9ncmFtGAQgASgCUhNjb250YWluZXJXZWlnaHRHcmFtEjkKGWNvbnRhaW5lcl9tYXhfd2VpZ2h0X2dyYW0YBSABKAJSFmNvbnRhaW5lck1heFdlaWdodEdyYW0SMwoTZ3JhbV9wZXJfbWlsbGlsaXRlchgGIAEoAkgAUhFncmFtUGVyTWlsbGlsaXRlcogBARIUCgVmb3JjZRgHIAEoCFIFZm9yY2VCFgoUX2dyYW1fcGVyX21pbGxpbGl0ZXI=');
+final $typed_data.Uint8List updateFoodRequestDescriptor = $convert.base64Decode('ChFVcGRhdGVGb29kUmVxdWVzdBIOCgJpZBgBIAEoCVICaWQSEgoEbmFtZRgCIAEoCVIEbmFtZRIXCgduZmNfdWlkGAMgASgJUgZuZmNVaWQSMgoVY29udGFpbmVyX3dlaWdodF9ncmFtGAQgASgCUhNjb250YWluZXJXZWlnaHRHcmFtEjkKGWNvbnRhaW5lcl9tYXhfd2VpZ2h0X2dyYW0YBSABKAJSFmNvbnRhaW5lck1heFdlaWdodEdyYW0SMwoTZ3JhbV9wZXJfbWlsbGlsaXRlchgGIAEoAkgAUhFncmFtUGVyTWlsbGlsaXRlcogBARIUCgVmb3JjZRgHIAEoCFIFZm9yY2VCFgoUX2dyYW1fcGVyX21pbGxpbGl0ZXI=');
 @$core.Deprecated('Use myFoodsDescriptor instead')
 const MyFoods$json = const {
   '1': 'MyFoods',
