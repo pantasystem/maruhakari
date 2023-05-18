@@ -37,10 +37,18 @@ func Setup(m module.Module) *grpc.Server {
 	foodHandler := &FoodHandler{
 		Module: m,
 	}
+	deviceHandler := &DeviceHandler{
+		Module: m,
+	}
+	history := &MeasurementHistoryHandler{
+		Module: m,
+	}
 	proto.RegisterAccountServiceServer(s, accountHandler)
 	proto.RegisterContainerTemplateServiceServer(s, containerTemplateHandler)
 	proto.RegisterFoodTemplateServiceServer(s, foodTemplateHandler)
 	proto.RegisterFoodServiceServer(s, foodHandler)
+	proto.RegisterDeviceServiceServer(s, deviceHandler)
+	proto.RegisterMeasurementHistoryServiceServer(s, history)
 
 	return s
 }
