@@ -236,7 +236,26 @@ func (r *FoodHandler) FindByOwnFoods(ctx context.Context, in *emptypb.Empty) (*p
 	if err != nil {
 		return nil, err
 	}
-	var foodList []*proto.Food
+	foodList, err := r.ConvertToProtoFoods(ctx, foods)
+	if err != nil {
+		return nil, err
+	}
+
+	lowWeightFoods := make([]*proto.Food, 0)
+	for _, food := range foodList {
+		p := food.WeightGram / food.ContainerWeightGram
+		if p < 0.1 {
+			lowWeightFoods = append(lowWeightFoods, food)
+		}
+	}
+	return &proto.MyFoods{
+		Foods:          foodList,
+		LowWeightFoods: lowWeightFoods,
+	}, nil
+
+}
+
+func (r *FoodHandler) ConvertToProtoFoods(ctx context.Context, foods []*entity.Food) ([]*proto.Food, error) {
 	foodIds := make([]uuid.UUID, len(foods))
 	for i, food := range foods {
 		foodIds[i] = food.ID
@@ -249,6 +268,7 @@ func (r *FoodHandler) FindByOwnFoods(ctx context.Context, in *emptypb.Empty) (*p
 	for _, history := range histories {
 		historyMap[history.FoodID] = history
 	}
+	var protoFoods []*proto.Food
 	for _, food := range foods {
 		pf := &proto.Food{
 			Id:                     food.ID.String(),
@@ -267,15 +287,13 @@ func (r *FoodHandler) FindByOwnFoods(ctx context.Context, in *emptypb.Empty) (*p
 				Nanos:   int32(food.UpdatedAt.Nanosecond()),
 			},
 		}
-		foodList = append(foodList, pf)
+		protoFoods = append(protoFoods, pf)
 		history := historyMap[food.ID]
 		if history != nil {
 			pf.RawWeightGram = history.RawWeightGram
 			pf.WeightGram = history.RawWeightGram - pf.ContainerWeightGram
 		}
 	}
-	return &proto.MyFoods{
-		Foods: foodList,
-	}, nil
+	return protoFoods, nil
 
 }
