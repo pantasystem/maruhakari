@@ -453,16 +453,26 @@ class UpdateFoodRequest extends $pb.GeneratedMessage {
 class MyFoods extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(const $core.bool.fromEnvironment('protobuf.omit_message_names') ? '' : 'MyFoods', createEmptyInstance: create)
     ..pc<Food>(1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'foods', $pb.PbFieldType.PM, subBuilder: Food.create)
+    ..pc<Food>(2, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'lowWeightFoods', $pb.PbFieldType.PM, subBuilder: Food.create)
+    ..pc<Food>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'unusedFoods', $pb.PbFieldType.PM, subBuilder: Food.create)
     ..hasRequiredFields = false
   ;
 
   MyFoods._() : super();
   factory MyFoods({
     $core.Iterable<Food>? foods,
+    $core.Iterable<Food>? lowWeightFoods,
+    $core.Iterable<Food>? unusedFoods,
   }) {
     final _result = create();
     if (foods != null) {
       _result.foods.addAll(foods);
+    }
+    if (lowWeightFoods != null) {
+      _result.lowWeightFoods.addAll(lowWeightFoods);
+    }
+    if (unusedFoods != null) {
+      _result.unusedFoods.addAll(unusedFoods);
     }
     return _result;
   }
@@ -489,6 +499,12 @@ class MyFoods extends $pb.GeneratedMessage {
 
   @$pb.TagNumber(1)
   $core.List<Food> get foods => $_getList(0);
+
+  @$pb.TagNumber(2)
+  $core.List<Food> get lowWeightFoods => $_getList(1);
+
+  @$pb.TagNumber(3)
+  $core.List<Food> get unusedFoods => $_getList(2);
 }
 
 class FindFoodByNfcUidRequest extends $pb.GeneratedMessage {

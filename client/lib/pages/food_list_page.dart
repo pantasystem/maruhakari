@@ -12,6 +12,137 @@ class FoodListPage extends ConsumerStatefulWidget {
   }
 }
 
+final myFoods = MyFoods(
+  lowWeightFoods: [
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 750,
+      gramPerMilliliter: 1,
+      name: "醤油",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 65,
+    ),
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 750,
+      gramPerMilliliter: 1,
+      name: "スーパーマヨネーズ",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 40,
+    ),
+
+  ],
+  unusedFoods: [
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 750,
+      gramPerMilliliter: 1,
+      name: "醤油",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 65,
+    ),
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 750,
+      gramPerMilliliter: 1,
+      name: "スーパーマヨネーズ",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 40,
+    ),
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 750,
+      gramPerMilliliter: 1,
+      name: "醤油",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 575,
+    ),
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 500,
+      gramPerMilliliter: 1,
+      name: "ラー油",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 200,
+    ),
+  ],
+  foods: [
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 750,
+      gramPerMilliliter: 1,
+      name: "醤油",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 65,
+    ),
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 750,
+      gramPerMilliliter: 1,
+      name: "スーパーマヨネーズ",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 100,
+    ),
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 750,
+      gramPerMilliliter: 1,
+      name: "醤油",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 575,
+    ),
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 750,
+      gramPerMilliliter: 1,
+      name: "醤油",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 575,
+    ),
+    Food(
+      id: "id",
+      containerWeightGram: 25,
+      containerMaxWeightGram: 500,
+      gramPerMilliliter: 1,
+      name: "ラー油",
+      accountId: "account",
+      nfcUid: "nfc-id",
+      rawWeightGram: 600,
+      weightGram: 200,
+    )
+  ],
+);
+
 class HomePageState extends ConsumerState {
   @override
   Widget build(BuildContext context) {
@@ -40,79 +171,16 @@ class HomePageState extends ConsumerState {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              child: GridView(
+              child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 180,
                 ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "醤油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 65,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "スーパーマヨネーズ",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 100,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "醤油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 575,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "醤油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 575,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 500,
-                      gramPerMilliliter: 1,
-                      name: "ラー油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 200,
-                    ),
-                  )
-                ],
+                itemCount: myFoods.lowWeightFoods.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return FoodCard(food: myFoods.lowWeightFoods[index]);
+                },
               ),
             ),
             const Padding(
@@ -131,79 +199,16 @@ class HomePageState extends ConsumerState {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              child: GridView(
+              child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 180,
                 ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "醤油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 65,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "スーパーマヨネーズ",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 100,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "醤油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 575,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "醤油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 575,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 500,
-                      gramPerMilliliter: 1,
-                      name: "ラー油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 200,
-                    ),
-                  )
-                ],
+                itemCount: myFoods.unusedFoods.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return FoodCard(food: myFoods.unusedFoods[index]);
+                },
               ),
             ),
             const Padding(
@@ -222,80 +227,18 @@ class HomePageState extends ConsumerState {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              child: GridView(
+              child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 180,
                 ),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "醤油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 65,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "スーパーマヨネーズ",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 100,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "醤油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 575,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 750,
-                      gramPerMilliliter: 1,
-                      name: "醤油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 575,
-                    ),
-                  ),
-                  FoodCard(
-                    food: Food(
-                      id: "id",
-                      containerWeightGram: 25,
-                      containerMaxWeightGram: 500,
-                      gramPerMilliliter: 1,
-                      name: "ラー油",
-                      accountId: "account",
-                      nfcUid: "nfc-id",
-                      rawWeightGram: 600,
-                      weightGram: 200,
-                    ),
-                  )
-                ],
+                itemCount: myFoods.foods.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return FoodCard(food: myFoods.foods[index]);
+                },
               ),
+
             )
           ],
         ),

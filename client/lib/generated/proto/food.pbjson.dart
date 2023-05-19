@@ -73,11 +73,13 @@ const MyFoods$json = const {
   '1': 'MyFoods',
   '2': const [
     const {'1': 'foods', '3': 1, '4': 3, '5': 11, '6': '.Food', '10': 'foods'},
+    const {'1': 'low_weight_foods', '3': 2, '4': 3, '5': 11, '6': '.Food', '10': 'lowWeightFoods'},
+    const {'1': 'unused_foods', '3': 3, '4': 3, '5': 11, '6': '.Food', '10': 'unusedFoods'},
   ],
 };
 
 /// Descriptor for `MyFoods`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List myFoodsDescriptor = $convert.base64Decode('CgdNeUZvb2RzEhsKBWZvb2RzGAEgAygLMgUuRm9vZFIFZm9vZHM=');
+final $typed_data.Uint8List myFoodsDescriptor = $convert.base64Decode('CgdNeUZvb2RzEhsKBWZvb2RzGAEgAygLMgUuRm9vZFIFZm9vZHMSLwoQbG93X3dlaWdodF9mb29kcxgCIAMoCzIFLkZvb2RSDmxvd1dlaWdodEZvb2RzEigKDHVudXNlZF9mb29kcxgDIAMoCzIFLkZvb2RSC3VudXNlZEZvb2Rz');
 @$core.Deprecated('Use findFoodByNfcUidRequestDescriptor instead')
 const FindFoodByNfcUidRequest$json = const {
   '1': 'FindFoodByNfcUidRequest',
