@@ -150,102 +150,113 @@ class HomePageState extends ConsumerState {
         appBar: AppBar(
           title: const Text("調味料一覧"),
           actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.account_circle))
+            IconButton(onPressed: () {}, icon: const Icon(Icons.account_circle))
           ],
         ),
-        body: ListView(
-          children: [
-            const Padding(
-              padding: EdgeInsets.only(
-                  top: 16,
-                  left: 16,
-                  right: 16,
-                  bottom: 8
-              ),
-              child: Text(
-                  "残量が少ない",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 180,
-                ),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: myFoods.lowWeightFoods.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return FoodCard(food: myFoods.lowWeightFoods[index]);
-                },
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                  top: 16,
-                  left: 16,
-                  right: 16,
-                  bottom: 8
-              ),
-              child: Text(
-                "ほとんど使われていない",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 180,
-                ),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: myFoods.unusedFoods.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return FoodCard(food: myFoods.unusedFoods[index]);
-                },
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                top: 16,
-                left: 16,
-                right: 16,
-                bottom: 8
-              ),
-              child: Text(
-                "全て",
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 180,
-                ),
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: myFoods.foods.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return FoodCard(food: myFoods.foods[index]);
-                },
-              ),
-
-            )
-          ],
-        ),
+        body: MyFoodsListView(myFoods: myFoods),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         onPressed: (){},
       ),
+    );
+  }
+}
+
+
+class MyFoodsListView extends StatelessWidget {
+  const MyFoodsListView({super.key, required this.myFoods});
+  final MyFoods myFoods;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        const Padding(
+          padding: EdgeInsets.only(
+              top: 16,
+              left: 16,
+              right: 16,
+              bottom: 8
+          ),
+          child: Text(
+            "残量が少ない",
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 180,
+            ),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: myFoods.lowWeightFoods.length,
+            itemBuilder: (BuildContext context, int index) {
+              return FoodCard(food: myFoods.lowWeightFoods[index]);
+            },
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(
+              top: 16,
+              left: 16,
+              right: 16,
+              bottom: 8
+          ),
+          child: Text(
+            "ほとんど使われていない",
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 180,
+            ),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: myFoods.unusedFoods.length,
+            itemBuilder: (BuildContext context, int index) {
+              return FoodCard(food: myFoods.unusedFoods[index]);
+            },
+          ),
+        ),
+        const Padding(
+          padding: EdgeInsets.only(
+              top: 16,
+              left: 16,
+              right: 16,
+              bottom: 8
+          ),
+          child: Text(
+            "全て",
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 16),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 180,
+            ),
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: myFoods.foods.length,
+            itemBuilder: (BuildContext context, int index) {
+              return FoodCard(food: myFoods.foods[index]);
+            },
+          ),
+
+        )
+      ],
     );
   }
 }

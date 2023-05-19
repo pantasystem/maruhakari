@@ -41,6 +41,8 @@ message UpdateFoodRequest {
 
 message MyFoods {
     repeated Food foods = 1;
+    repeated Food low_weight_foods = 2;
+    repeated Food unused_foods = 3;
 }
 
 message FindFoodByNfcUidRequest {
