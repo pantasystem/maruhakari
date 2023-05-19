@@ -1,3 +1,4 @@
+import 'package:client/pages/food_list_page.dart';
 import 'package:client/pages/initial_page.dart';
 import 'package:client/pages/login_page.dart';
 import 'package:client/pages/register_page.dart';
@@ -38,9 +39,8 @@ final routerProvider = Provider((ref) {
             path: "/home",
             pageBuilder: (context, state) {
               return const MaterialPage(
-                  child: Scaffold(
-                body: Text("HOme"),
-              ));
+                child: FoodListPage()
+              );
             })
       ],
       refreshListenable: authState,

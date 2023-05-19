@@ -65,7 +65,7 @@ func NewAuthInterceptor(c module.Module) func(ctx context.Context,
 	) (interface{}, error) {
 		fmt.Printf("info.FullMethod: %v\n", info.FullMethod)
 		// 認証をスキップするパス
-		if info.FullMethod == "/AccountService/CreateAccount" {
+		if info.FullMethod == "/AccountService/CreateAccount" || info.FullMethod == "/AccountService/Login" {
 			return handler(ctx, req)
 		} else {
 			// 認証がOKならContextを返す
