@@ -156,7 +156,29 @@ class HomePageState extends ConsumerState {
         body: MyFoodsListView(myFoods: myFoods),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: (){},
+        onPressed: (){
+          showModalBottomSheet(context: context, builder: (BuildContext context) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.add_to_home_screen),
+                  title: const Text("デバイスを追加"),
+                  onTap: () {
+
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.playlist_add_outlined),
+                  title: const Text("調味料を追加"),
+                  onTap: () {
+
+                  },
+                ),
+              ],
+            );
+          });
+        },
       ),
     );
   }
