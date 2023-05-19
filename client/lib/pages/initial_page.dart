@@ -32,7 +32,7 @@ class InitialPage extends StatelessWidget {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    GoRouter.of(context).push("/signup");
+                    GoRouter.of(context).push("/register");
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(

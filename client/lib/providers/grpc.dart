@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:client/generated/proto/account.pbgrpc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grpc/grpc.dart';
 
-import '../proto/account.pbgrpc.dart';
 
 final channelProvider = Provider((ref) {
   return ClientChannel(() {
@@ -12,7 +12,7 @@ final channelProvider = Provider((ref) {
     }
     return 'localhost';
   }(),
-      port: 8080,
+      port: 8081,
       options: const ChannelOptions(
         credentials: ChannelCredentials.insecure(),
       ));

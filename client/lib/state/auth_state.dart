@@ -1,5 +1,5 @@
 import 'package:client/generated/proto/account.pb.dart';
-import 'package:client/generated/providers/repositories.dart';
+import 'package:client/providers/repositories.dart';
 import 'package:client/repositories/account_repository.dart';
 import 'package:client/repositories/auth_repository.dart';
 import 'package:flutter/cupertino.dart';

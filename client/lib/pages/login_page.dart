@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:client/state/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -60,7 +61,7 @@ class LoginPageState extends ConsumerState {
                     password: inputPasswordController.text,
                   ).then((value) {
                     log('ログインに成功');
-                    // GoRouter.of(context).push("/home");
+                    GoRouter.of(context).go("/home");
                   }).catchError((e, st) {
                     log('ログインに失敗', error: e, stackTrace: st);
                     ScaffoldMessenger.of(context).showSnackBar(
