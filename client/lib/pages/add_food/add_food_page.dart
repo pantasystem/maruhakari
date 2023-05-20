@@ -1,7 +1,7 @@
 import 'package:client/state/add_food_page_state.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../components/number_stepper.dart';
 
@@ -19,19 +19,61 @@ class AddFoodPageState extends ConsumerState {
   Widget build(BuildContext context) {
     final notifier = ref.watch(addFoodPageNotifierProvider);
     return Scaffold(
-        appBar: AppBar(
-          title: AppFoodPageAppBarTitle(section: notifier.section),
-        ),
-        body: Column(
-          children: [
-            AddFoodPageStepper(sectionType: notifier.section, width: MediaQuery.of(context).size.width),
-          ],
-        ));
+      appBar: AppBar(
+        title: AppFoodPageAppBarTitle(section: notifier.section),
+      ),
+      body: const AddFoodPagePasteNfcSectionBody(),
+    );
+  }
+}
+
+class AddFoodPagePasteNfcSectionBody extends ConsumerWidget {
+  const AddFoodPagePasteNfcSectionBody({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AddFoodPageStepper(
+              sectionType: AddFoodSectionType.pasteNfc,
+              width: MediaQuery.of(context).size.width),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "NFCタグを容器の底に\n貼り付けてください。",
+                style: TextStyle(fontSize: 20),
+              ),
+              const SizedBox(height: 32,),
+              SvgPicture.asset(
+                'assets/img_paste_nfc_to_container.svg',
+                width: 320,
+                height: 320,
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () {},
+                child: const Text("次へ"),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
 
 class AddFoodPageStepper extends StatelessWidget {
-  const AddFoodPageStepper({super.key, required this.sectionType, required this.width});
+  const AddFoodPageStepper(
+      {super.key, required this.sectionType, required this.width});
+
   final AddFoodSectionType sectionType;
   final double width;
 
@@ -48,8 +90,7 @@ class AddFoodPageStepper extends StatelessWidget {
       totalSteps: 4,
       width: width,
       curStep: () {
-        switch(sectionType) {
-
+        switch (sectionType) {
           case AddFoodSectionType.pasteNfc:
             return 1;
           case AddFoodSectionType.scanNfc:
@@ -65,7 +106,6 @@ class AddFoodPageStepper extends StatelessWidget {
           case AddFoodSectionType.confirmation:
             return 4;
         }
-
       }(),
       stepCompleteColor: Theme.of(context).primaryColor,
       currentStepColor: const Color(0xffdbecff),
@@ -77,11 +117,12 @@ class AddFoodPageStepper extends StatelessWidget {
 
 class AppFoodPageAppBarTitle extends StatelessWidget {
   const AppFoodPageAppBarTitle({super.key, required this.section});
+
   final AddFoodSectionType section;
 
   @override
   Widget build(BuildContext context) {
-    switch(section) {
+    switch (section) {
       case AddFoodSectionType.pasteNfc:
         return const Text("NFCタグを貼り付け");
       case AddFoodSectionType.scanNfc:
@@ -99,5 +140,3 @@ class AppFoodPageAppBarTitle extends StatelessWidget {
     }
   }
 }
-
-
