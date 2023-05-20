@@ -1,9 +1,11 @@
+import 'package:client/pages/add_food/add_food_paste_food_section_body.dart';
 import 'package:client/state/add_food_page_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 
 import '../components/number_stepper.dart';
+import 'add_food_scan_nfc_section_body.dart';
 
 class AddFoodPage extends ConsumerStatefulWidget {
   const AddFoodPage({super.key});
@@ -44,94 +46,6 @@ class AddFoodPageState extends ConsumerState {
   }
 }
 
-class AddFoodPagePasteNfcSectionBody extends ConsumerWidget {
-  const AddFoodPagePasteNfcSectionBody({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          AddFoodPageStepper(
-            sectionType: AddFoodSectionType.pasteNfc,
-            width: MediaQuery.of(context).size.width,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "NFCタグを容器の底に\n貼り付けてください。",
-                style: TextStyle(fontSize: 20),
-              ),
-              const SizedBox(
-                height: 32,
-              ),
-              SvgPicture.asset(
-                'assets/img_paste_nfc_to_container.svg',
-                width: 320,
-                height: 320,
-              )
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(addFoodPageNotifierProvider).goToScanNfcSection();
-                },
-                child: const Text("次へ"),
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class AddFoodPageScanNfcSectionBody extends ConsumerWidget {
-  const AddFoodPageScanNfcSectionBody({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          AddFoodPageStepper(
-            sectionType: AddFoodSectionType.scanNfc,
-            width: MediaQuery.of(context).size.width,
-          ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  "貼り付けたNFCを\nスキャンしてください",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Image.asset(
-                  "assets/img_scan_nfc.png",
-                  width: 320,
-                  height: 320,
-                ),
-                const SizedBox(height: 16),
-                const Text("スキャンするのを待っています..."),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
 
 class AddFoodPageStepper extends StatelessWidget {
   const AddFoodPageStepper(
@@ -203,3 +117,8 @@ class AppFoodPageAppBarTitle extends StatelessWidget {
     }
   }
 }
+
+final isAvailableNfcFutureProvider = FutureProvider.autoDispose((ref) {
+  return NfcManager.instance.isAvailable();
+});
+
