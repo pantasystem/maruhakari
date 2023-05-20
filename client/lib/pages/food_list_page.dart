@@ -2,6 +2,7 @@ import 'package:client/generated/proto/food.pb.dart';
 import 'package:client/pages/components/food_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class FoodListPage extends ConsumerStatefulWidget {
   const FoodListPage({super.key});
@@ -172,7 +173,7 @@ class HomePageState extends ConsumerState {
                   leading: const Icon(Icons.playlist_add_outlined),
                   title: const Text("調味料を追加"),
                   onTap: () {
-
+                    GoRouter.of(context).push("/add-food");
                   },
                 ),
               ],

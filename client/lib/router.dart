@@ -1,3 +1,4 @@
+import 'package:client/pages/add_food/add_food_page.dart';
 import 'package:client/pages/food_list_page.dart';
 import 'package:client/pages/initial_page.dart';
 import 'package:client/pages/login_page.dart';
@@ -31,17 +32,23 @@ final routerProvider = Provider((ref) {
           },
         ),
         GoRoute(
-            path: "/initial",
-            pageBuilder: (context, state) {
-              return const MaterialPage(child: InitialPage());
-            }),
+          path: "/initial",
+          pageBuilder: (context, state) {
+            return const MaterialPage(child: InitialPage());
+          },
+        ),
         GoRoute(
-            path: "/home",
-            pageBuilder: (context, state) {
-              return const MaterialPage(
-                child: FoodListPage()
-              );
-            })
+          path: "/home",
+          pageBuilder: (context, state) {
+            return const MaterialPage(child: FoodListPage());
+          },
+        ),
+        GoRoute(
+          path: "/add-food",
+          pageBuilder: (context, state) {
+            return const MaterialPage(child: AddFoodPage());
+          },
+        )
       ],
       refreshListenable: authState,
       redirect: (context, state) {
