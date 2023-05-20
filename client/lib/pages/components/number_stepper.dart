@@ -38,12 +38,10 @@ class NumberStepper extends StatelessWidget {
 
   getCircleColor(i) {
     Color color;
-    if (i + 1 < curStep) {
+    if (i + 1 <= curStep) {
       color = stepCompleteColor;
-    } else if (i + 1 == curStep) {
-      color = currentStepColor;
     } else {
-      color = Colors.white;
+      color = Colors.grey;
     }
     return color;
   }
@@ -63,7 +61,7 @@ class NumberStepper extends StatelessWidget {
 
   getLineColor(i) {
     var color =
-    curStep > i + 1 ? Colors.blue.withOpacity(0.4) : Colors.grey[200];
+    curStep > i + 1 ? Colors.red.withOpacity(0.4) : Colors.grey[200];
     return color;
   }
 
@@ -110,24 +108,15 @@ class NumberStepper extends StatelessWidget {
   }
 
   Widget getInnerElementOfStepper(index) {
-    if (index + 1 < curStep) {
-      return const Icon(
-        Icons.check,
-        color: Colors.white,
-        size: 16.0,
-      );
-    } else if (index + 1 == curStep) {
-      return Center(
-        child: Text(
-          '$curStep',
-          style: const TextStyle(
-            color: Colors.blue,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'Roboto',
-          ),
+    return Center(
+      child: Text(
+        '${index + 1}',
+        style: const TextStyle(
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Roboto',
         ),
-      );
-    } else
-      return Container();
+      ),
+    );
   }
 }
