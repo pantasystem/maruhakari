@@ -1,12 +1,21 @@
 
-import 'package:client/pages/add_food/add_food_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddFoodPageNotifier extends ChangeNotifier {
 
   AddFoodSectionType section = AddFoodSectionType.pasteNfc;
+  String? name;
+  String? nfcUid;
+  double? containerWeightGram;
+  double? containerMaxWeightGram;
+  double? gramPerMilliliter;
 
+
+  void goToScanNfcSection() {
+    section = AddFoodSectionType.scanNfc;
+    notifyListeners();
+  }
 
 }
 
@@ -20,6 +29,6 @@ enum AddFoodSectionType {
   confirmation
 }
 
-final addFoodPageNotifierProvider = ChangeNotifierProvider((ref) {
+final addFoodPageNotifierProvider = ChangeNotifierProvider.autoDispose((ref) {
   return AddFoodPageNotifier();
 });

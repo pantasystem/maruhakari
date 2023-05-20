@@ -24,11 +24,7 @@ class NumberStepper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-        top: 20.0,
-        left: 24.0,
-        right: 24.0,
-      ),
+
       width: width,
       child: Row(
         children: _steps(),
