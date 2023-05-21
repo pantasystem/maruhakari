@@ -3,12 +3,34 @@ import 'package:client/pages/add_food/add_food_page.dart';
 import 'package:client/state/add_food_page_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nfc_manager/nfc_manager.dart';
 
-class AddFoodPageScanNfcSectionBody extends ConsumerWidget {
+class AddFoodPageScanNfcSectionBody extends ConsumerStatefulWidget {
   const AddFoodPageScanNfcSectionBody({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return AddFoodPageScanNfcSectionBodyState();
+  }
+}
+class AddFoodPageScanNfcSectionBodyState extends ConsumerState {
+
+  @override
+  void initState() {
+    NfcManager.instance.startSession(onDiscovered: (NfcTag tag) async {
+      print(tag.data);
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    NfcManager.instance.stopSession();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(

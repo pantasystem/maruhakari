@@ -57,10 +57,10 @@ final routerProvider = Provider((ref) {
           return "/splash";
         }
 
-        if (state.subloc != "/splash" &&
-            authState.type == AuthStateType.error) {
-          return "/splash";
-        }
+        // if (state.subloc != "/splash" &&
+        //     authState.type == AuthStateType.error) {
+        //   return "/splash";
+        // }
 
         if ((state.subloc != "/register" &&
                 state.subloc != "/login" &&
