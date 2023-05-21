@@ -37,14 +37,14 @@ Map<String, dynamic> _$$_LoginAccountRequestToJson(
 _$_Account _$$_AccountFromJson(Map<String, dynamic> json) => _$_Account(
       id: json['id'] as String,
       username: json['username'] as String,
-      createdAt: json['createdAt'] as String,
-      updatedAt: json['updatedAt'] as String,
+      createdAt: json['created_at'] as String,
+      updatedAt: json['updated_at'] as String,
     );
 
 Map<String, dynamic> _$$_AccountToJson(_$_Account instance) =>
     <String, dynamic>{
       'id': instance.id,
       'username': instance.username,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
+      'created_at': instance.createdAt,
+      'updated_at': instance.updatedAt,
     };

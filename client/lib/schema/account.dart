@@ -28,8 +28,8 @@ class Account with _$Account {
   const factory Account({
     required String id,
     required String username,
-    required String createdAt,
-    required String updatedAt,
+    @JsonKey(name: "created_at") required String createdAt,
+    @JsonKey(name: "updated_at") required String updatedAt,
   }) = _Account;
 
   factory Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);

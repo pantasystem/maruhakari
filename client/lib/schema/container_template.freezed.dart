@@ -22,8 +22,11 @@ ContainerTemplate _$ContainerTemplateFromJson(Map<String, dynamic> json) {
 mixin _$ContainerTemplate {
   String get id => throw _privateConstructorUsedError;
   String get label => throw _privateConstructorUsedError;
+  @JsonKey(name: "image_url")
   String get imageUrl => throw _privateConstructorUsedError;
+  @JsonKey(name: "container_weight_gram")
   double get containerWeightGram => throw _privateConstructorUsedError;
+  @JsonKey(name: "container_max_weight_gram")
   double get containerMaxWeightGram => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,9 +44,12 @@ abstract class $ContainerTemplateCopyWith<$Res> {
   $Res call(
       {String id,
       String label,
-      String imageUrl,
-      double containerWeightGram,
-      double containerMaxWeightGram});
+      @JsonKey(name: "image_url")
+          String imageUrl,
+      @JsonKey(name: "container_weight_gram")
+          double containerWeightGram,
+      @JsonKey(name: "container_max_weight_gram")
+          double containerMaxWeightGram});
 }
 
 /// @nodoc
@@ -101,9 +107,12 @@ abstract class _$$_ContainerTemplateCopyWith<$Res>
   $Res call(
       {String id,
       String label,
-      String imageUrl,
-      double containerWeightGram,
-      double containerMaxWeightGram});
+      @JsonKey(name: "image_url")
+          String imageUrl,
+      @JsonKey(name: "container_weight_gram")
+          double containerWeightGram,
+      @JsonKey(name: "container_max_weight_gram")
+          double containerMaxWeightGram});
 }
 
 /// @nodoc
@@ -154,9 +163,12 @@ class _$_ContainerTemplate implements _ContainerTemplate {
   const _$_ContainerTemplate(
       {required this.id,
       required this.label,
-      required this.imageUrl,
-      required this.containerWeightGram,
-      required this.containerMaxWeightGram});
+      @JsonKey(name: "image_url")
+          required this.imageUrl,
+      @JsonKey(name: "container_weight_gram")
+          required this.containerWeightGram,
+      @JsonKey(name: "container_max_weight_gram")
+          required this.containerMaxWeightGram});
 
   factory _$_ContainerTemplate.fromJson(Map<String, dynamic> json) =>
       _$$_ContainerTemplateFromJson(json);
@@ -166,10 +178,13 @@ class _$_ContainerTemplate implements _ContainerTemplate {
   @override
   final String label;
   @override
+  @JsonKey(name: "image_url")
   final String imageUrl;
   @override
+  @JsonKey(name: "container_weight_gram")
   final double containerWeightGram;
   @override
+  @JsonKey(name: "container_max_weight_gram")
   final double containerMaxWeightGram;
 
   @override
@@ -216,9 +231,12 @@ abstract class _ContainerTemplate implements ContainerTemplate {
   const factory _ContainerTemplate(
       {required final String id,
       required final String label,
-      required final String imageUrl,
-      required final double containerWeightGram,
-      required final double containerMaxWeightGram}) = _$_ContainerTemplate;
+      @JsonKey(name: "image_url")
+          required final String imageUrl,
+      @JsonKey(name: "container_weight_gram")
+          required final double containerWeightGram,
+      @JsonKey(name: "container_max_weight_gram")
+          required final double containerMaxWeightGram}) = _$_ContainerTemplate;
 
   factory _ContainerTemplate.fromJson(Map<String, dynamic> json) =
       _$_ContainerTemplate.fromJson;
@@ -228,10 +246,13 @@ abstract class _ContainerTemplate implements ContainerTemplate {
   @override
   String get label;
   @override
+  @JsonKey(name: "image_url")
   String get imageUrl;
   @override
+  @JsonKey(name: "container_weight_gram")
   double get containerWeightGram;
   @override
+  @JsonKey(name: "container_max_weight_gram")
   double get containerMaxWeightGram;
   @override
   @JsonKey(ignore: true)

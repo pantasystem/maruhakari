@@ -339,7 +339,9 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
 mixin _$Account {
   String get id => throw _privateConstructorUsedError;
   String get username => throw _privateConstructorUsedError;
+  @JsonKey(name: "created_at")
   String get createdAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "updated_at")
   String get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -352,7 +354,11 @@ abstract class $AccountCopyWith<$Res> {
   factory $AccountCopyWith(Account value, $Res Function(Account) then) =
       _$AccountCopyWithImpl<$Res, Account>;
   @useResult
-  $Res call({String id, String username, String createdAt, String updatedAt});
+  $Res call(
+      {String id,
+      String username,
+      @JsonKey(name: "created_at") String createdAt,
+      @JsonKey(name: "updated_at") String updatedAt});
 }
 
 /// @nodoc
@@ -401,7 +407,11 @@ abstract class _$$_AccountCopyWith<$Res> implements $AccountCopyWith<$Res> {
       __$$_AccountCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String username, String createdAt, String updatedAt});
+  $Res call(
+      {String id,
+      String username,
+      @JsonKey(name: "created_at") String createdAt,
+      @JsonKey(name: "updated_at") String updatedAt});
 }
 
 /// @nodoc
@@ -446,8 +456,8 @@ class _$_Account implements _Account {
   const _$_Account(
       {required this.id,
       required this.username,
-      required this.createdAt,
-      required this.updatedAt});
+      @JsonKey(name: "created_at") required this.createdAt,
+      @JsonKey(name: "updated_at") required this.updatedAt});
 
   factory _$_Account.fromJson(Map<String, dynamic> json) =>
       _$$_AccountFromJson(json);
@@ -457,8 +467,10 @@ class _$_Account implements _Account {
   @override
   final String username;
   @override
+  @JsonKey(name: "created_at")
   final String createdAt;
   @override
+  @JsonKey(name: "updated_at")
   final String updatedAt;
 
   @override
@@ -501,10 +513,11 @@ class _$_Account implements _Account {
 
 abstract class _Account implements Account {
   const factory _Account(
-      {required final String id,
-      required final String username,
-      required final String createdAt,
-      required final String updatedAt}) = _$_Account;
+          {required final String id,
+          required final String username,
+          @JsonKey(name: "created_at") required final String createdAt,
+          @JsonKey(name: "updated_at") required final String updatedAt}) =
+      _$_Account;
 
   factory _Account.fromJson(Map<String, dynamic> json) = _$_Account.fromJson;
 
@@ -513,8 +526,10 @@ abstract class _Account implements Account {
   @override
   String get username;
   @override
+  @JsonKey(name: "created_at")
   String get createdAt;
   @override
+  @JsonKey(name: "updated_at")
   String get updatedAt;
   @override
   @JsonKey(ignore: true)
