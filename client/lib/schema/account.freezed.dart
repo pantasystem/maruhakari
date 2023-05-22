@@ -536,3 +536,170 @@ abstract class _Account implements Account {
   _$$_AccountCopyWith<_$_Account> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+TokenWithAccount _$TokenWithAccountFromJson(Map<String, dynamic> json) {
+  return _TokenWithAccount.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TokenWithAccount {
+  String get token => throw _privateConstructorUsedError;
+  Account get account => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $TokenWithAccountCopyWith<TokenWithAccount> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TokenWithAccountCopyWith<$Res> {
+  factory $TokenWithAccountCopyWith(
+          TokenWithAccount value, $Res Function(TokenWithAccount) then) =
+      _$TokenWithAccountCopyWithImpl<$Res, TokenWithAccount>;
+  @useResult
+  $Res call({String token, Account account});
+
+  $AccountCopyWith<$Res> get account;
+}
+
+/// @nodoc
+class _$TokenWithAccountCopyWithImpl<$Res, $Val extends TokenWithAccount>
+    implements $TokenWithAccountCopyWith<$Res> {
+  _$TokenWithAccountCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token = null,
+    Object? account = null,
+  }) {
+    return _then(_value.copyWith(
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      account: null == account
+          ? _value.account
+          : account // ignore: cast_nullable_to_non_nullable
+              as Account,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $AccountCopyWith<$Res> get account {
+    return $AccountCopyWith<$Res>(_value.account, (value) {
+      return _then(_value.copyWith(account: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$_TokenWithAccountCopyWith<$Res>
+    implements $TokenWithAccountCopyWith<$Res> {
+  factory _$$_TokenWithAccountCopyWith(
+          _$_TokenWithAccount value, $Res Function(_$_TokenWithAccount) then) =
+      __$$_TokenWithAccountCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String token, Account account});
+
+  @override
+  $AccountCopyWith<$Res> get account;
+}
+
+/// @nodoc
+class __$$_TokenWithAccountCopyWithImpl<$Res>
+    extends _$TokenWithAccountCopyWithImpl<$Res, _$_TokenWithAccount>
+    implements _$$_TokenWithAccountCopyWith<$Res> {
+  __$$_TokenWithAccountCopyWithImpl(
+      _$_TokenWithAccount _value, $Res Function(_$_TokenWithAccount) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? token = null,
+    Object? account = null,
+  }) {
+    return _then(_$_TokenWithAccount(
+      token: null == token
+          ? _value.token
+          : token // ignore: cast_nullable_to_non_nullable
+              as String,
+      account: null == account
+          ? _value.account
+          : account // ignore: cast_nullable_to_non_nullable
+              as Account,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_TokenWithAccount implements _TokenWithAccount {
+  const _$_TokenWithAccount({required this.token, required this.account});
+
+  factory _$_TokenWithAccount.fromJson(Map<String, dynamic> json) =>
+      _$$_TokenWithAccountFromJson(json);
+
+  @override
+  final String token;
+  @override
+  final Account account;
+
+  @override
+  String toString() {
+    return 'TokenWithAccount(token: $token, account: $account)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_TokenWithAccount &&
+            (identical(other.token, token) || other.token == token) &&
+            (identical(other.account, account) || other.account == account));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(runtimeType, token, account);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_TokenWithAccountCopyWith<_$_TokenWithAccount> get copyWith =>
+      __$$_TokenWithAccountCopyWithImpl<_$_TokenWithAccount>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_TokenWithAccountToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TokenWithAccount implements TokenWithAccount {
+  const factory _TokenWithAccount(
+      {required final String token,
+      required final Account account}) = _$_TokenWithAccount;
+
+  factory _TokenWithAccount.fromJson(Map<String, dynamic> json) =
+      _$_TokenWithAccount.fromJson;
+
+  @override
+  String get token;
+  @override
+  Account get account;
+  @override
+  @JsonKey(ignore: true)
+  _$$_TokenWithAccountCopyWith<_$_TokenWithAccount> get copyWith =>
+      throw _privateConstructorUsedError;
+}

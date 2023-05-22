@@ -48,3 +48,15 @@ Map<String, dynamic> _$$_AccountToJson(_$_Account instance) =>
       'created_at': instance.createdAt,
       'updated_at': instance.updatedAt,
     };
+
+_$_TokenWithAccount _$$_TokenWithAccountFromJson(Map<String, dynamic> json) =>
+    _$_TokenWithAccount(
+      token: json['token'] as String,
+      account: Account.fromJson(json['account'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$_TokenWithAccountToJson(_$_TokenWithAccount instance) =>
+    <String, dynamic>{
+      'token': instance.token,
+      'account': instance.account,
+    };

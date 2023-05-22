@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'account.freezed.dart';
+
 part 'account.g.dart';
 
 @freezed
@@ -10,7 +11,8 @@ class CreateAccountRequest with _$CreateAccountRequest {
     required String password,
   }) = _CreateAccountRequest;
 
-  factory CreateAccountRequest.fromJson(Map<String, dynamic> json) => _$CreateAccountRequestFromJson(json);
+  factory CreateAccountRequest.fromJson(Map<String, dynamic> json) =>
+      _$CreateAccountRequestFromJson(json);
 }
 
 @freezed
@@ -20,7 +22,8 @@ class LoginAccountRequest with _$LoginAccountRequest {
     required String password,
   }) = _LoginAccountRequest;
 
-  factory LoginAccountRequest.fromJson(Map<String, dynamic> json) => _$LoginAccountRequestFromJson(json);
+  factory LoginAccountRequest.fromJson(Map<String, dynamic> json) =>
+      _$LoginAccountRequestFromJson(json);
 }
 
 @freezed
@@ -32,5 +35,15 @@ class Account with _$Account {
     @JsonKey(name: "updated_at") required String updatedAt,
   }) = _Account;
 
-  factory Account.fromJson(Map<String, dynamic> json) => _$AccountFromJson(json);
+  factory Account.fromJson(Map<String, dynamic> json) =>
+      _$AccountFromJson(json);
+}
+
+@freezed
+class TokenWithAccount with _$TokenWithAccount {
+  const factory TokenWithAccount(
+      {required String token, required Account account}) = _TokenWithAccount;
+
+  factory TokenWithAccount.fromJson(Map<String, dynamic> json) =>
+      _$TokenWithAccountFromJson(json);
 }
