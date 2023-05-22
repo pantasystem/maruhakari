@@ -25,7 +25,7 @@ class AccountRepository {
   Future<Account> login({required String username, required String password}) async {
     return handleError(() async {
       final res = await client.login(LoginAccountRequest(username: username, password: password));
-      authRepository.saveToken(token: res.token);
+      await authRepository.saveToken(token: res.token);
       return res.account;
     });
   }
