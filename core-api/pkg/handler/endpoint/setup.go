@@ -36,4 +36,6 @@ func (r *SetupHandler) Setup(g *gin.Engine, c schema.Module) {
 
 	mhc := c.MeasurementHistoryController()
 	g.POST("api/v1/measurement-histories", mhc.RecordHistory)
+
+	g.Static("/container-images", "./container-images")
 }

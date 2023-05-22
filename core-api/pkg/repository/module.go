@@ -7,4 +7,5 @@ type Module interface {
 	MeasurementHistoryRepository() MeasurementHistoryRepository
 	ContainerTemplateRepository() ContainerTemplateRepository
 	FoodTemplateRepository() FoodTempalteRepository
+	ConfigRepository() ConfigRepository
 }

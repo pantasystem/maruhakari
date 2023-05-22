@@ -33,3 +33,7 @@ func (r *ModuleImpl) MeasurementHistoryRepository() repository.MeasurementHistor
 func (r *ModuleImpl) FoodRepository() repository.FoodRepository {
 	return &FoodRepositoryImpl{DB: r.DB}
 }
+
+func (r *ModuleImpl) ConfigRepository() repository.ConfigRepository {
+	return NewConfigRepository()
+}

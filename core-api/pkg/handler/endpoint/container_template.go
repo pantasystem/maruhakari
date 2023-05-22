@@ -18,12 +18,18 @@ func (r *ContainerTemplateHandler) GetContainerTemplates(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 	}
 
+	cf, err := r.Module.RepositoryModule().ConfigRepository().Get(c)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
 	resTemplates := make([]*schema.ContainerTemplate, len(templates))
 	for i, template := range templates {
 		resTemplates[i] = &schema.ContainerTemplate{
 			Id:                     template.ID.String(),
 			Label:                  template.Label,
-			ImageUrl:               template.ImageUrl,
+			ImageUrl:               cf.ServerUrl + "/" + template.ImagePath,
 			ContainerWeightGram:    template.ContainerWeightGram,
 			ContainerMaxWeightGram: template.ContainerMaxWeightGram,
 		}

@@ -23,7 +23,7 @@ func (r *ContainerTemplateHandler) CreateContainerTemplate(ctx context.Context, 
 		containerTemplates = append(containerTemplates, &proto.ContainerTemplate{
 			Id:                     template.ID.String(),
 			Label:                  template.Label,
-			ImageUrl:               template.ImageUrl,
+			ImageUrl:               template.ImagePath,
 			ContainerWeightGram:    template.ContainerWeightGram,
 			ContainerMaxWeightGram: template.ContainerMaxWeightGram,
 		})
