@@ -1,4 +1,6 @@
 
+import 'dart:typed_data';
+
 import 'package:client/pages/add_food/add_food_page.dart';
 import 'package:client/state/add_food_page_state.dart';
 import 'package:collection/collection.dart';
@@ -71,9 +73,11 @@ class AddFoodPageScanNfcSectionBodyState extends ConsumerState {
   }
 
   void onReceiveNfcData(Map<String, dynamic> data) {
-    final ids = data.values.whereType<Map<String, dynamic>>().map((e) {
-      return e["identifier"];
-    }).whereType<List<int>>().map((id){
+    final ids = data.values.map((e) {
+      final map = (e as Map<dynamic, dynamic>?) ?? {};
+      final list = map["identifier"] as Uint8List?;
+      return list;
+    }).whereType<Uint8List>().map((id){
       return id.map((e) => e.toRadixString(16)).reduce((value, element) => element + value);
     });
     final id = ids.firstOrNull;
