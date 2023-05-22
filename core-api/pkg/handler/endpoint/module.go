@@ -36,3 +36,10 @@ func (r *ModuleImpl) FoodController() schema.FoodController {
 	}
 	return &c
 }
+
+func (r *ModuleImpl) MeasurementHistoryController() schema.MeasurementHistoryController {
+	c := MeasurementHistoryHandler{
+		Module: r.Module,
+	}
+	return &c
+}

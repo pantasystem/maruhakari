@@ -1,12 +1,16 @@
 package schema
 
-import "github.com/gin-gonic/gin"
+import (
+	"time"
+
+	"github.com/gin-gonic/gin"
+)
 
 type MeasurementHistory struct {
-	Id        string  `json:"id"`
-	FoodId    string  `json:"food_id"`
-	Weight    float32 `json:"weight"`
-	CreatedAt string  `json:"created_at"`
+	Id        int64     `json:"id"`
+	FoodId    string    `json:"food_id"`
+	Weight    float32   `json:"weight"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 type RecordHistoryRequest struct {

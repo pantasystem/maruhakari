@@ -34,4 +34,6 @@ func (r *SetupHandler) Setup(g *gin.Engine, c schema.Module) {
 	g.POST("api/v1/foods", m.CheckToken(), fc.CreateFood)
 	g.PUT("api/v1/foods/:foodId", m.CheckToken(), fc.UpdateFood)
 
+	mhc := c.MeasurementHistoryController()
+	g.POST("api/v1/measurement-histories", mhc.RecordHistory)
 }

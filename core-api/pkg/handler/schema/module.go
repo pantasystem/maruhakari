@@ -5,4 +5,5 @@ type Module interface {
 	ContainerTemplateController() ContainerTemplateController
 	FoodTemplateController() FoodTemplateController
 	FoodController() FoodController
+	MeasurementHistoryController() MeasurementHistoryController
 }
