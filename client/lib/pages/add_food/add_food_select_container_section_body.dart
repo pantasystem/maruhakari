@@ -11,6 +11,7 @@ class AddFoodSelectContainerSectionBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final containerTemplates = ref.watch(containerTemplateFutureProvider);
+    final notifier = ref.watch(addFoodPageNotifierProvider);
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -37,17 +38,34 @@ class AddFoodSelectContainerSectionBody extends ConsumerWidget {
                   maxCrossAxisExtent: 180,
                 ),
                 itemBuilder: (BuildContext context, int index) {
+                  final isSelected = notifier.selectedContainer == data[index];
                   return Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(6),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(data[index].label),
-                          Image.network(data[index].imageUrl, width: 45, height: 45,),
-                        ],
+                    shape: isSelected ? RoundedRectangleBorder(
+                      side: const BorderSide(
+                        color: Colors.red,
                       ),
+                      borderRadius: BorderRadius.circular(4),
+                    ) : null,
+                    color: isSelected ? Colors.red.shade50 : Colors.white,
+                    child: InkWell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(data[index].label),
+                            Image.network(
+                              data[index].imageUrl,
+                              width: 45,
+                              height: 45,
+                            ),
+                          ],
+                        ),
+                      ),
+                      onTap: () {
+                        notifier.setSelectedContainerTemplate(data[index]);
+                      },
                     ),
                   );
                 },
@@ -79,6 +97,7 @@ class AddFoodSelectContainerSectionBody extends ConsumerWidget {
   }
 }
 
-final containerTemplateFutureProvider = FutureProvider<List<ContainerTemplate>>((ref) async {
+final containerTemplateFutureProvider =
+    FutureProvider<List<ContainerTemplate>>((ref) async {
   return await ref.read(containerTemplateRepository).findAll();
 });

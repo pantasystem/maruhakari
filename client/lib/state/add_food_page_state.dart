@@ -1,4 +1,5 @@
 
+import 'package:client/schema/container_template.dart';
 import 'package:client/schema/food_template.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,6 +12,8 @@ class AddFoodPageNotifier extends ChangeNotifier {
   double? containerWeightGram;
   double? containerMaxWeightGram;
   double? gramPerMilliliter;
+
+  ContainerTemplate? selectedContainer;
 
 
   void goToScanNfcSection() {
@@ -32,6 +35,12 @@ class AddFoodPageNotifier extends ChangeNotifier {
   void setFoodInfoByTemplate(FoodTemplate template) {
     name = template.name;
     gramPerMilliliter = template.gramPerMiller;
+    notifyListeners();
+  }
+
+  void setSelectedContainerTemplate(ContainerTemplate template) {
+    selectedContainer = template;
+    containerMaxWeightGram = template.containerMaxWeightGram;
     notifyListeners();
   }
 
