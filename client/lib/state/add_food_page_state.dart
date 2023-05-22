@@ -50,7 +50,7 @@ class AddFoodPageNotifier extends ChangeNotifier {
 
   void setSelectedContainerTemplate(ContainerTemplate template) {
     selectedContainer = template;
-    containerMaxWeightGram = template.containerMaxWeightGram / (gramPerMilliliter ?? 1);
+    containerMaxWeightGram = template.containerMaxWeightGram * (gramPerMilliliter ?? 1);
     containerWeightGram = template.containerWeightGram;
     notifyListeners();
   }
