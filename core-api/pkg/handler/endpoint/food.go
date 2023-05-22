@@ -30,6 +30,19 @@ func (r *FoodHandler) CreateFood(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	exists, err := r.Module.RepositoryModule().FoodRepository().FindByAccountIdAndNfcUid(c, aId, req.NfcUid)
+	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+	}
+	if exists != nil && req.Force {
+		exists.NfcUid = nil
+		_, err = r.Module.RepositoryModule().FoodRepository().Update(c, exists)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+	}
+
 	f, err := r.Module.RepositoryModule().FoodRepository().Create(c, &entity.Food{
 		ContainerWeightGram:    req.ContainerWeightGram,
 		ContainerMaxWeightGram: req.ContainerMaxWeightGram,
