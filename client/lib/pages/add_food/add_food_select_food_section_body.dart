@@ -1,6 +1,5 @@
 import 'package:client/pages/add_food/add_food_page.dart';
 import 'package:client/providers/repositories.dart';
-import 'package:client/schema/food_template.dart';
 import 'package:client/state/add_food_page_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -61,10 +60,14 @@ class AddFoodSelectFoodSectionBody extends ConsumerWidget {
                       return ListView.builder(
                         itemCount: d.length,
                         itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
+                          return InkWell(
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
-                              child: Text(d[index].name),
+                              child: Row(
+                                children: [
+                                  Text(d[index].name)
+                                ],
+                              ),
                             ),
                             onTap: () {
                               notifier.setFoodInfoByTemplate(d[index]);
@@ -113,54 +116,3 @@ class AddFoodSelectFoodSectionBody extends ConsumerWidget {
 final foodTemplatesFutureProvider = FutureProvider((ref) async {
   return await ref.read(foodTemplateRepository).findAll();
 });
-
-// final dummyFoodTemplates = [
-//   FoodTemplate(
-//       id: "id-1",
-//       name: "しょうゆ",
-//       createdAt: DateTime.now(),
-//       updatedAt: DateTime.now(),
-//       gramPerMiller: 12),
-//   FoodTemplate(
-//       id: "id-2",
-//       name: "みりん",
-//       createdAt: DateTime.now(),
-//       updatedAt: DateTime.now(),
-//       gramPerMiller: 12),
-//   FoodTemplate(
-//       id: "id-3",
-//       name: "サラダ油",
-//       createdAt: DateTime.now(),
-//       updatedAt: DateTime.now(),
-//       gramPerMiller: 12),
-//   FoodTemplate(
-//       id: "id-4",
-//       name: "ポン酢",
-//       createdAt: DateTime.now(),
-//       updatedAt: DateTime.now(),
-//       gramPerMiller: 12),
-//   FoodTemplate(
-//       id: "id-5",
-//       name: "マヨネーズ",
-//       createdAt: DateTime.now(),
-//       updatedAt: DateTime.now(),
-//       gramPerMiller: 12),
-//   FoodTemplate(
-//       id: "id-6",
-//       name: "ケチャップ",
-//       createdAt: DateTime.now(),
-//       updatedAt: DateTime.now(),
-//       gramPerMiller: 12),
-//   FoodTemplate(
-//       id: "id-7",
-//       name: "レモン汁",
-//       createdAt: DateTime.now(),
-//       updatedAt: DateTime.now(),
-//       gramPerMiller: 12),
-//   FoodTemplate(
-//       id: "id-8",
-//       name: "胡椒",
-//       createdAt: DateTime.now(),
-//       updatedAt: DateTime.now(),
-//       gramPerMiller: 12),
-// ];

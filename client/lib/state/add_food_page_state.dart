@@ -50,7 +50,7 @@ class AddFoodPageNotifier extends ChangeNotifier {
   }
 
   bool validateFoodInfo() {
-    return name != null && name?.isNotEmpty == true && gramPerMilliliter != null;
+    return name != null && name?.isNotEmpty == true;
   }
 
   bool validateContainerInfo() {
