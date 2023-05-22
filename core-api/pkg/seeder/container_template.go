@@ -7,7 +7,7 @@ import (
 	"fmt"
 )
 
-func Seed(ctx context.Context, module module.Module) {
+func SeedContainerTemplates(ctx context.Context, module module.Module) {
 	list, _ := module.RepositoryModule().ContainerTemplateRepository().FindAll(ctx)
 	if len(list) > 0 {
 		fmt.Printf("Skip seeding container template\n")

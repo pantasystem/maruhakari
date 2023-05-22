@@ -35,5 +35,6 @@ func main() {
 	}
 
 	ctx := context.Background()
-	seeder.Seed(ctx, m)
+	seeder.SeedContainerTemplates(ctx, m)
+	seeder.SeedFoodTemplates(ctx, m)
 }
