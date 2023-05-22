@@ -1,10 +1,14 @@
 
+import 'package:client/providers/repositories.dart';
+import 'package:client/repositories/food_repository.dart';
 import 'package:client/schema/container_template.dart';
 import 'package:client/schema/food_template.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddFoodPageNotifier extends ChangeNotifier {
+  AddFoodPageNotifier(this._foodRepository);
+  final FoodRepository _foodRepository;
 
   AddFoodSectionType section = AddFoodSectionType.pasteNfc;
   String? name;
@@ -14,6 +18,7 @@ class AddFoodPageNotifier extends ChangeNotifier {
   double? gramPerMilliliter;
 
   ContainerTemplate? selectedContainer;
+
 
 
   void goToScanNfcSection() {
@@ -57,6 +62,17 @@ class AddFoodPageNotifier extends ChangeNotifier {
   bool validateContainerInfo() {
     return containerMaxWeightGram != null;
   }
+
+  Future<void> save() async {
+    notifyListeners();
+    await _foodRepository.create(
+      name: name!,
+      nfcUid: nfcUid!,
+      containerMaxWeightGram: containerMaxWeightGram!,
+      containerWeightGram: containerWeightGram!,
+    );
+
+  }
 }
 
 enum AddFoodSectionType {
@@ -70,5 +86,5 @@ enum AddFoodSectionType {
 }
 
 final addFoodPageNotifierProvider = ChangeNotifierProvider.autoDispose((ref) {
-  return AddFoodPageNotifier();
+  return AddFoodPageNotifier(ref.read(foodRepository));
 });

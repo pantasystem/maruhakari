@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddFoodConfirmSectionBody extends ConsumerWidget {
-  const AddFoodConfirmSectionBody({super.key});
+  const AddFoodConfirmSectionBody({super.key, required this.onConfirmButtonClicked});
+  final VoidCallback onConfirmButtonClicked;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -11,6 +12,8 @@ class AddFoodConfirmSectionBody extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -30,6 +33,12 @@ class AddFoodConfirmSectionBody extends ConsumerWidget {
               const SizedBox(height: 4,),
               const Text("容器の容量", style: TextStyle(fontSize: 16, color: Colors.blue),),
               Text("${notifier.containerMaxWeightGram ?? 0}g", style: const TextStyle(fontSize: 20)),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(onPressed: onConfirmButtonClicked, child: const Text("決定"))
             ],
           )
         ],

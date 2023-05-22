@@ -42,7 +42,13 @@ class AddFoodPageState extends ConsumerState {
           case AddFoodSectionType.inputContainerInfo:
             return const Text("未実装");
           case AddFoodSectionType.confirmation:
-            return const AddFoodConfirmSectionBody();
+            return AddFoodConfirmSectionBody(
+              onConfirmButtonClicked: () {
+                notifier.save().then((value) {
+                  Navigator.of(context).pop();
+                });
+              },
+            );
         }
       }(),
     );
