@@ -1,9 +1,7 @@
 
-import 'dart:typed_data';
 
 import 'package:client/pages/add_food/add_food_page.dart';
 import 'package:client/state/add_food_page_state.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nfc_manager/nfc_manager.dart';
@@ -73,18 +71,18 @@ class AddFoodPageScanNfcSectionBodyState extends ConsumerState {
   }
 
   void onReceiveNfcData(Map<String, dynamic> data) {
-    final ids = data.values.map((e) {
-      final map = (e as Map<dynamic, dynamic>?) ?? {};
-      final list = map["identifier"] as Uint8List?;
-      return list;
-    }).whereType<Uint8List>().map((id){
-      return id.map((e) => e.toRadixString(16)).reduce((value, element) => element + value);
-    });
-    final id = ids.firstOrNull;
-    if (id == null) {
-      return;
-    }
-    ref.read(addFoodPageNotifierProvider).setNfcUid(id);
+    // final ids = data.values.map((e) {
+    //   final map = (e as Map<dynamic, dynamic>?) ?? {};
+    //   final list = map["identifier"] as Uint8List?;
+    //   return list;
+    // }).whereType<Uint8List>().map((id){
+    //   return id.map((e) => e.toRadixString(16)).reduce((value, element) => element + value);
+    // });
+    // final id = ids.firstOrNull;
+    // if (id == null) {
+    //   return;
+    // }
+    ref.read(addFoodPageNotifierProvider).setNfcUid('id');
   }
 }
 

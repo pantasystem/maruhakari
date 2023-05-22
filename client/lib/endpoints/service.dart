@@ -22,7 +22,7 @@ abstract class MaruhakariApiClient {
   Future<Account> verifyToken();
 
   @GET("api/v1/container-templates")
-  Future<ContainerTemplate> getContainerTemplates();
+  Future<List<ContainerTemplate>> getContainerTemplates();
 
   @GET("api/v1/food-templates")
   Future<List<FoodTemplate>> getFoodTemplates();

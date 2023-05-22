@@ -28,5 +28,5 @@ func (r *FoodTemplateHandler) GetFoodTemplates(c *gin.Context) {
 			UpdatedAt:     template.UpdatedAt,
 		}
 	}
-	c.JSON(http.StatusOK, templates)
+	c.JSON(http.StatusOK, resTemplates)
 }
