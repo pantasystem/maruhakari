@@ -1,4 +1,5 @@
 import 'package:client/pages/add_food/add_food_paste_food_section_body.dart';
+import 'package:client/pages/add_food/add_food_select_food_section_body.dart';
 import 'package:client/state/add_food_page_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +32,7 @@ class AddFoodPageState extends ConsumerState {
           case AddFoodSectionType.scanNfc:
             return const AddFoodPageScanNfcSectionBody();
           case AddFoodSectionType.selectFood:
-            return const Text("未実装");
+            return const AddFoodSelectFoodSectionBody();
           case AddFoodSectionType.inputFoodInfo:
             return const Text("未実装");
           case AddFoodSectionType.selectContainerType:

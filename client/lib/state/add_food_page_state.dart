@@ -1,4 +1,5 @@
 
+import 'package:client/schema/food_template.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,10 +18,25 @@ class AddFoodPageNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void goToSelectContainerSection() {
+    section = AddFoodSectionType.selectContainerType;
+    notifyListeners();
+  }
+
   void setNfcUid(String id) {
     nfcUid = id;
     section = AddFoodSectionType.selectFood;
     notifyListeners();
+  }
+
+  void setFoodInfoByTemplate(FoodTemplate template) {
+    name = template.name;
+    gramPerMilliliter = template.gramPerMiller;
+    notifyListeners();
+  }
+
+  bool validateFoodInfo() {
+    return name != null && name?.isNotEmpty == true && gramPerMilliliter != null;
   }
 }
 
