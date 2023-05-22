@@ -1,4 +1,5 @@
 import 'package:client/pages/add_food/add_food_paste_food_section_body.dart';
+import 'package:client/pages/add_food/add_food_select_container_section_body.dart';
 import 'package:client/pages/add_food/add_food_select_food_section_body.dart';
 import 'package:client/state/add_food_page_state.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class AddFoodPageState extends ConsumerState {
           case AddFoodSectionType.inputFoodInfo:
             return const Text("未実装");
           case AddFoodSectionType.selectContainerType:
-            return const Text("未実装");
+            return const AddFoodSelectContainerSectionBody();
           case AddFoodSectionType.inputContainerInfo:
             return const Text("未実装");
           case AddFoodSectionType.confirmation:
