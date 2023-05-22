@@ -30,7 +30,6 @@ type CreateFoodRequest struct {
 }
 
 type UpdateFoodRequest struct {
-	Id                     string   `json:"id"`
 	Name                   string   `json:"name"`
 	NfcUid                 string   `json:"nfc_uid"`
 	ContainerWeightGram    float32  `json:"container_weight_gram"`

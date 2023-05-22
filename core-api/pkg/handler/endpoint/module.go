@@ -29,3 +29,10 @@ func (r *ModuleImpl) FoodTemplateController() schema.FoodTemplateController {
 	}
 	return &c
 }
+
+func (r *ModuleImpl) FoodController() schema.FoodController {
+	c := FoodHandler{
+		Module: r.Module,
+	}
+	return &c
+}

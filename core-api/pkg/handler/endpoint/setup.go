@@ -27,4 +27,11 @@ func (r *SetupHandler) Setup(g *gin.Engine, c schema.Module) {
 	ftc := c.FoodTemplateController()
 	g.GET("api/v1/food-templates", ftc.GetFoodTemplates)
 
+	fc := c.FoodController()
+	g.GET("api/v1/foods", m.CheckToken(), fc.FindByOwnFoods)
+	g.GET("api/v1/foods/:foodId", m.CheckToken(), fc.FindFoodById)
+	g.GET("api/v1/foods/:foodId/related-nfc", m.CheckToken(), fc.FindFoodByNfcUid)
+	g.POST("api/v1/foods", m.CheckToken(), fc.CreateFood)
+	g.PUT("api/v1/foods/:foodId", m.CheckToken(), fc.UpdateFood)
+
 }
