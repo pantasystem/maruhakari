@@ -115,13 +115,13 @@ class _MaruhakariApiClient implements MaruhakariApiClient {
   }
 
   @override
-  Future<FoodTemplate> getFoodTemplates() async {
+  Future<List<FoodTemplate>> getFoodTemplates() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<FoodTemplate>(Options(
+        .fetch<List<dynamic>>(_setStreamType<List<FoodTemplate>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -133,7 +133,9 @@ class _MaruhakariApiClient implements MaruhakariApiClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = FoodTemplate.fromJson(_result.data!);
+    var value = _result.data!
+        .map((dynamic i) => FoodTemplate.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 

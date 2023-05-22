@@ -25,7 +25,7 @@ abstract class MaruhakariApiClient {
   Future<ContainerTemplate> getContainerTemplates();
 
   @GET("api/v1/food-templates")
-  Future<FoodTemplate> getFoodTemplates();
+  Future<List<FoodTemplate>> getFoodTemplates();
 
   @GET("api/v1/foods")
   Future<List<Food>> getOwnFoods();
