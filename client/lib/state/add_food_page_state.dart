@@ -17,6 +17,11 @@ class AddFoodPageNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setNfcUid(String id) {
+    nfcUid = id;
+    section = AddFoodSectionType.selectFood;
+    notifyListeners();
+  }
 }
 
 enum AddFoodSectionType {
