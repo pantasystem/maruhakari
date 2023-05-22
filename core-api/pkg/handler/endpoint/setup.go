@@ -12,12 +12,16 @@ type SetupHandler struct {
 	Module module.Module
 }
 
-func (r *SetupHandler) Setup(g *gin.Engine, c schema.AccountController) {
+func (r *SetupHandler) Setup(g *gin.Engine, c schema.Module) {
 	m := middleware.DefaultAuthMiddleware{
 		Module: r.Module,
 	}
-	g.POST("api/v1/accounts/register", c.CreateAccount)
-	g.POST("api/v1/accounts/login", c.LoginAccount)
-	g.GET("api/v1/accounts/verify", m.CheckToken(), c.VerifyToken)
+	ac := c.AccountController()
+	g.POST("api/v1/accounts/register", ac.CreateAccount)
+	g.POST("api/v1/accounts/login", ac.LoginAccount)
+	g.GET("api/v1/accounts/verify", m.CheckToken(), ac.VerifyToken)
+
+	ctc := c.ContainerTemplateController()
+	g.GET("api/v1/container-templates", ctc.GetContainerTemplates)
 
 }

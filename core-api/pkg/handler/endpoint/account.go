@@ -54,7 +54,7 @@ func (r *AccountHandler) CreateAccount(c *gin.Context) {
 	})
 }
 
-func (r *AccountHandler) Login(c *gin.Context) {
+func (r *AccountHandler) LoginAccount(c *gin.Context) {
 	var req schema.LoginAccountRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"validation_error": err.Error()})
