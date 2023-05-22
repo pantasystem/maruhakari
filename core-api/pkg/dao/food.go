@@ -34,9 +34,10 @@ func (r *FoodRepositoryImpl) FindByID(ctx context.Context, id uuid.UUID) (*entit
 	return food, nil
 }
 
-func (r *FoodRepositoryImpl) FindByNfcUid(ctx context.Context, nfcUid string) (*entity.Food, error) {
+func (r *FoodRepositoryImpl) FindByAccountIdAndNfcUid(ctx context.Context, accountId uuid.UUID, nfcUid string) (*entity.Food, error) {
 	food := &entity.Food{}
-	if err := r.DB.WithContext(ctx).Where("nfc_uid = ?", nfcUid).First(food).Error; err != nil {
+	if err := r.DB.WithContext(ctx).Where("nfc_uid = ?", nfcUid).
+		Where("account_id = ?", accountId).First(food).Error; err != nil {
 		return nil, err
 	}
 	return food, nil

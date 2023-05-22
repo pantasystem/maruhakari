@@ -27,7 +27,7 @@ func (r *MeasurementHistoryHandler) RecordHistory(c *gin.Context) {
 		return
 	}
 
-	f, err := r.Module.RepositoryModule().FoodRepository().FindByNfcUid(c, req.NfcUid)
+	f, err := r.Module.RepositoryModule().FoodRepository().FindByAccountIdAndNfcUid(c, dv.AccountID, req.NfcUid)
 	if err != nil {
 		c.JSON(404, gin.H{"error": err.Error()})
 		return

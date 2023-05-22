@@ -16,12 +16,12 @@ type MeasurementHistoryHandler struct {
 
 func (r *MeasurementHistoryHandler) RecordHistory(ctx context.Context, in *proto.RecordHistoryRequest) (*proto.MeasurementHistory, error) {
 
-	f, err := r.Module.RepositoryModule().FoodRepository().FindByNfcUid(ctx, in.NfcUid)
+	dev, err := r.Module.RepositoryModule().DeviceRepository().FindByToken(ctx, in.DeviceToken)
 	if err != nil {
 		return nil, err
 	}
 
-	_, err = r.Module.RepositoryModule().DeviceRepository().FindByToken(ctx, in.DeviceToken)
+	f, err := r.Module.RepositoryModule().FoodRepository().FindByAccountIdAndNfcUid(ctx, dev.AccountID, in.NfcUid)
 	if err != nil {
 		return nil, err
 	}

@@ -13,9 +13,9 @@ type Food struct {
 	ContainerMaxWeightGram float32
 	GramPerMilliliter      *float32
 	Name                   string
-	AccountID              uuid.UUID
-	Account                *Account `gorm:"foreignKey:AccountID"`
-	NfcUid                 string
+	AccountID              uuid.UUID `gorm:"uniqueIndex:idx_nfc_and_account_id"`
+	Account                *Account  `gorm:"foreignKey:AccountID"`
+	NfcUid                 *string   `gorm:"uniqueIndex:idx_nfc_and_account_id"`
 	CreatedAt              time.Time
 	UpdatedAt              time.Time
 }

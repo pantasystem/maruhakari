@@ -32,7 +32,7 @@ func (r *FoodHandler) CreateFood(ctx context.Context, in *proto.CreateFoodReques
 		GramPerMilliliter:      in.GramPerMilliliter,
 		Name:                   in.Name,
 		AccountID:              aUuid,
-		NfcUid:                 in.NfcUid,
+		NfcUid:                 &in.NfcUid,
 	})
 	if err != nil {
 		return nil, err
@@ -89,7 +89,7 @@ func (r *FoodHandler) UpdateFood(ctx context.Context, in *proto.UpdateFoodReques
 		return nil, fmt.Errorf("invalid account id")
 	}
 	f.Name = in.Name
-	f.NfcUid = in.NfcUid
+	f.NfcUid = &in.NfcUid
 	f.ContainerMaxWeightGram = in.ContainerMaxWeightGram
 	f.ContainerWeightGram = in.ContainerWeightGram
 	f.GramPerMilliliter = in.GramPerMilliliter
@@ -137,7 +137,7 @@ func (r *FoodHandler) FindFoodByNfcUid(ctx context.Context, in *proto.FindFoodBy
 		return nil, err
 	}
 
-	f, err := r.Module.RepositoryModule().FoodRepository().FindByNfcUid(ctx, in.NfcUid)
+	f, err := r.Module.RepositoryModule().FoodRepository().FindByAccountIdAndNfcUid(ctx, aUuid, in.NfcUid)
 	if err != nil {
 		return nil, err
 	}

@@ -13,7 +13,7 @@ type Food struct {
 	ContainerMaxWeightGram float32    `json:"container_max_weight_gram"`
 	GramPerMilliliter      *float32   `json:"gram_per_milliliter"`
 	AccountId              string     `json:"account_id"`
-	NfcUid                 string     `json:"nfc_uid"`
+	NfcUid                 *string    `json:"nfc_uid"`
 	RawWeightGram          float32    `json:"raw_weight_gram"`
 	WeightGram             float32    `json:"weight_gram"`
 	CreatedAt              *time.Time `json:"created_at,omitempty"`

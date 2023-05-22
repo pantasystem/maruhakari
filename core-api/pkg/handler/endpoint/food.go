@@ -36,7 +36,7 @@ func (r *FoodHandler) CreateFood(c *gin.Context) {
 		GramPerMilliliter:      req.GramPerMilliliter,
 		Name:                   req.Name,
 		AccountID:              aId,
-		NfcUid:                 req.NfcUid,
+		NfcUid:                 &req.NfcUid,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
@@ -102,7 +102,7 @@ func (r *FoodHandler) UpdateFood(c *gin.Context) {
 		return
 	}
 	f.Name = req.Name
-	f.NfcUid = req.NfcUid
+	f.NfcUid = &req.NfcUid
 	f.ContainerWeightGram = req.ContainerWeightGram
 	f.ContainerMaxWeightGram = req.ContainerMaxWeightGram
 	f.GramPerMilliliter = req.GramPerMilliliter
@@ -143,7 +143,12 @@ func (r *FoodHandler) FindFoodByNfcUid(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid nfc uid"})
 		return
 	}
-	f, err := r.Module.RepositoryModule().FoodRepository().FindByNfcUid(c, nfcUid)
+	aId, err := uuid.Parse(c.GetString(middleware.AccountId))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	f, err := r.Module.RepositoryModule().FoodRepository().FindByAccountIdAndNfcUid(c, aId, nfcUid)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
