@@ -40,12 +40,14 @@ class AddFoodSelectContainerSectionBody extends ConsumerWidget {
                 itemBuilder: (BuildContext context, int index) {
                   final isSelected = notifier.selectedContainer == data[index];
                   return Card(
-                    shape: isSelected ? RoundedRectangleBorder(
-                      side: const BorderSide(
-                        color: Colors.red,
-                      ),
-                      borderRadius: BorderRadius.circular(4),
-                    ) : null,
+                    shape: isSelected
+                        ? RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: Colors.red,
+                            ),
+                            borderRadius: BorderRadius.circular(4),
+                          )
+                        : null,
                     color: isSelected ? Colors.red.shade50 : Colors.white,
                     child: InkWell(
                       child: Padding(
@@ -88,7 +90,12 @@ class AddFoodSelectContainerSectionBody extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ElevatedButton(onPressed: () {}, child: const Text("次へ"))
+              ElevatedButton(
+                onPressed: notifier.validateContainerInfo() ? () {
+                  notifier.goToConfirmationSection();
+                } : null,
+                child: const Text("次へ"),
+              )
             ],
           )
         ],

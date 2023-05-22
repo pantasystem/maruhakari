@@ -26,6 +26,11 @@ class AddFoodPageNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void goToConfirmationSection() {
+    section = AddFoodSectionType.confirmation;
+    notifyListeners();
+  }
+
   void setNfcUid(String id) {
     nfcUid = id;
     section = AddFoodSectionType.selectFood;
@@ -46,6 +51,10 @@ class AddFoodPageNotifier extends ChangeNotifier {
 
   bool validateFoodInfo() {
     return name != null && name?.isNotEmpty == true && gramPerMilliliter != null;
+  }
+
+  bool validateContainerInfo() {
+    return containerMaxWeightGram != null;
   }
 }
 
