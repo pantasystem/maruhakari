@@ -31,7 +31,7 @@ mixin _$Food {
   @JsonKey(name: 'account_id')
   String get accountId => throw _privateConstructorUsedError;
   @JsonKey(name: 'nfc_uid')
-  String get nfcUid => throw _privateConstructorUsedError;
+  String? get nfcUid => throw _privateConstructorUsedError;
   @JsonKey(name: 'raw_weight_gram')
   double get rawWeightGram => throw _privateConstructorUsedError;
   @JsonKey(name: 'weight_gram')
@@ -63,7 +63,7 @@ abstract class $FoodCopyWith<$Res> {
       @JsonKey(name: 'account_id')
           String accountId,
       @JsonKey(name: 'nfc_uid')
-          String nfcUid,
+          String? nfcUid,
       @JsonKey(name: 'raw_weight_gram')
           double rawWeightGram,
       @JsonKey(name: 'weight_gram')
@@ -93,7 +93,7 @@ class _$FoodCopyWithImpl<$Res, $Val extends Food>
     Object? containerMaxWeightGram = null,
     Object? gramPerMilliliter = freezed,
     Object? accountId = null,
-    Object? nfcUid = null,
+    Object? nfcUid = freezed,
     Object? rawWeightGram = null,
     Object? weightGram = null,
     Object? createdAt = freezed,
@@ -124,10 +124,10 @@ class _$FoodCopyWithImpl<$Res, $Val extends Food>
           ? _value.accountId
           : accountId // ignore: cast_nullable_to_non_nullable
               as String,
-      nfcUid: null == nfcUid
+      nfcUid: freezed == nfcUid
           ? _value.nfcUid
           : nfcUid // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       rawWeightGram: null == rawWeightGram
           ? _value.rawWeightGram
           : rawWeightGram // ignore: cast_nullable_to_non_nullable
@@ -166,7 +166,7 @@ abstract class _$$_FoodCopyWith<$Res> implements $FoodCopyWith<$Res> {
       @JsonKey(name: 'account_id')
           String accountId,
       @JsonKey(name: 'nfc_uid')
-          String nfcUid,
+          String? nfcUid,
       @JsonKey(name: 'raw_weight_gram')
           double rawWeightGram,
       @JsonKey(name: 'weight_gram')
@@ -192,7 +192,7 @@ class __$$_FoodCopyWithImpl<$Res> extends _$FoodCopyWithImpl<$Res, _$_Food>
     Object? containerMaxWeightGram = null,
     Object? gramPerMilliliter = freezed,
     Object? accountId = null,
-    Object? nfcUid = null,
+    Object? nfcUid = freezed,
     Object? rawWeightGram = null,
     Object? weightGram = null,
     Object? createdAt = freezed,
@@ -223,10 +223,10 @@ class __$$_FoodCopyWithImpl<$Res> extends _$FoodCopyWithImpl<$Res, _$_Food>
           ? _value.accountId
           : accountId // ignore: cast_nullable_to_non_nullable
               as String,
-      nfcUid: null == nfcUid
+      nfcUid: freezed == nfcUid
           ? _value.nfcUid
           : nfcUid // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       rawWeightGram: null == rawWeightGram
           ? _value.rawWeightGram
           : rawWeightGram // ignore: cast_nullable_to_non_nullable
@@ -262,7 +262,7 @@ class _$_Food implements _Food {
       @JsonKey(name: 'account_id')
           required this.accountId,
       @JsonKey(name: 'nfc_uid')
-          required this.nfcUid,
+          this.nfcUid,
       @JsonKey(name: 'raw_weight_gram')
           required this.rawWeightGram,
       @JsonKey(name: 'weight_gram')
@@ -292,7 +292,7 @@ class _$_Food implements _Food {
   final String accountId;
   @override
   @JsonKey(name: 'nfc_uid')
-  final String nfcUid;
+  final String? nfcUid;
   @override
   @JsonKey(name: 'raw_weight_gram')
   final double rawWeightGram;
@@ -380,7 +380,7 @@ abstract class _Food implements Food {
       @JsonKey(name: 'account_id')
           required final String accountId,
       @JsonKey(name: 'nfc_uid')
-          required final String nfcUid,
+          final String? nfcUid,
       @JsonKey(name: 'raw_weight_gram')
           required final double rawWeightGram,
       @JsonKey(name: 'weight_gram')
@@ -410,7 +410,7 @@ abstract class _Food implements Food {
   String get accountId;
   @override
   @JsonKey(name: 'nfc_uid')
-  String get nfcUid;
+  String? get nfcUid;
   @override
   @JsonKey(name: 'raw_weight_gram')
   double get rawWeightGram;
@@ -985,11 +985,11 @@ MyFoodsResponse _$MyFoodsResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$MyFoodsResponse {
   @JsonKey(name: 'foods')
-  List<Food>? get foods => throw _privateConstructorUsedError;
+  List<Food> get foods => throw _privateConstructorUsedError;
   @JsonKey(name: 'low_weight_foods')
-  List<Food>? get lowWeightFoods => throw _privateConstructorUsedError;
+  List<Food> get lowWeightFoods => throw _privateConstructorUsedError;
   @JsonKey(name: 'unused_foods')
-  List<Food>? get unusedFoods => throw _privateConstructorUsedError;
+  List<Food> get unusedFoods => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1004,9 +1004,9 @@ abstract class $MyFoodsResponseCopyWith<$Res> {
       _$MyFoodsResponseCopyWithImpl<$Res, MyFoodsResponse>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'foods') List<Food>? foods,
-      @JsonKey(name: 'low_weight_foods') List<Food>? lowWeightFoods,
-      @JsonKey(name: 'unused_foods') List<Food>? unusedFoods});
+      {@JsonKey(name: 'foods') List<Food> foods,
+      @JsonKey(name: 'low_weight_foods') List<Food> lowWeightFoods,
+      @JsonKey(name: 'unused_foods') List<Food> unusedFoods});
 }
 
 /// @nodoc
@@ -1022,23 +1022,23 @@ class _$MyFoodsResponseCopyWithImpl<$Res, $Val extends MyFoodsResponse>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? foods = freezed,
-    Object? lowWeightFoods = freezed,
-    Object? unusedFoods = freezed,
+    Object? foods = null,
+    Object? lowWeightFoods = null,
+    Object? unusedFoods = null,
   }) {
     return _then(_value.copyWith(
-      foods: freezed == foods
+      foods: null == foods
           ? _value.foods
           : foods // ignore: cast_nullable_to_non_nullable
-              as List<Food>?,
-      lowWeightFoods: freezed == lowWeightFoods
+              as List<Food>,
+      lowWeightFoods: null == lowWeightFoods
           ? _value.lowWeightFoods
           : lowWeightFoods // ignore: cast_nullable_to_non_nullable
-              as List<Food>?,
-      unusedFoods: freezed == unusedFoods
+              as List<Food>,
+      unusedFoods: null == unusedFoods
           ? _value.unusedFoods
           : unusedFoods // ignore: cast_nullable_to_non_nullable
-              as List<Food>?,
+              as List<Food>,
     ) as $Val);
   }
 }
@@ -1052,9 +1052,9 @@ abstract class _$$_MyFoodsResponseCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'foods') List<Food>? foods,
-      @JsonKey(name: 'low_weight_foods') List<Food>? lowWeightFoods,
-      @JsonKey(name: 'unused_foods') List<Food>? unusedFoods});
+      {@JsonKey(name: 'foods') List<Food> foods,
+      @JsonKey(name: 'low_weight_foods') List<Food> lowWeightFoods,
+      @JsonKey(name: 'unused_foods') List<Food> unusedFoods});
 }
 
 /// @nodoc
@@ -1068,23 +1068,23 @@ class __$$_MyFoodsResponseCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? foods = freezed,
-    Object? lowWeightFoods = freezed,
-    Object? unusedFoods = freezed,
+    Object? foods = null,
+    Object? lowWeightFoods = null,
+    Object? unusedFoods = null,
   }) {
     return _then(_$_MyFoodsResponse(
-      foods: freezed == foods
+      foods: null == foods
           ? _value._foods
           : foods // ignore: cast_nullable_to_non_nullable
-              as List<Food>?,
-      lowWeightFoods: freezed == lowWeightFoods
+              as List<Food>,
+      lowWeightFoods: null == lowWeightFoods
           ? _value._lowWeightFoods
           : lowWeightFoods // ignore: cast_nullable_to_non_nullable
-              as List<Food>?,
-      unusedFoods: freezed == unusedFoods
+              as List<Food>,
+      unusedFoods: null == unusedFoods
           ? _value._unusedFoods
           : unusedFoods // ignore: cast_nullable_to_non_nullable
-              as List<Food>?,
+              as List<Food>,
     ));
   }
 }
@@ -1093,9 +1093,12 @@ class __$$_MyFoodsResponseCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_MyFoodsResponse implements _MyFoodsResponse {
   const _$_MyFoodsResponse(
-      {@JsonKey(name: 'foods') final List<Food>? foods,
-      @JsonKey(name: 'low_weight_foods') final List<Food>? lowWeightFoods,
-      @JsonKey(name: 'unused_foods') final List<Food>? unusedFoods})
+      {@JsonKey(name: 'foods')
+          required final List<Food> foods,
+      @JsonKey(name: 'low_weight_foods')
+          required final List<Food> lowWeightFoods,
+      @JsonKey(name: 'unused_foods')
+          required final List<Food> unusedFoods})
       : _foods = foods,
         _lowWeightFoods = lowWeightFoods,
         _unusedFoods = unusedFoods;
@@ -1103,37 +1106,31 @@ class _$_MyFoodsResponse implements _MyFoodsResponse {
   factory _$_MyFoodsResponse.fromJson(Map<String, dynamic> json) =>
       _$$_MyFoodsResponseFromJson(json);
 
-  final List<Food>? _foods;
+  final List<Food> _foods;
   @override
   @JsonKey(name: 'foods')
-  List<Food>? get foods {
-    final value = _foods;
-    if (value == null) return null;
+  List<Food> get foods {
     if (_foods is EqualUnmodifiableListView) return _foods;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_foods);
   }
 
-  final List<Food>? _lowWeightFoods;
+  final List<Food> _lowWeightFoods;
   @override
   @JsonKey(name: 'low_weight_foods')
-  List<Food>? get lowWeightFoods {
-    final value = _lowWeightFoods;
-    if (value == null) return null;
+  List<Food> get lowWeightFoods {
     if (_lowWeightFoods is EqualUnmodifiableListView) return _lowWeightFoods;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_lowWeightFoods);
   }
 
-  final List<Food>? _unusedFoods;
+  final List<Food> _unusedFoods;
   @override
   @JsonKey(name: 'unused_foods')
-  List<Food>? get unusedFoods {
-    final value = _unusedFoods;
-    if (value == null) return null;
+  List<Food> get unusedFoods {
     if (_unusedFoods is EqualUnmodifiableListView) return _unusedFoods;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_unusedFoods);
   }
 
   @override
@@ -1177,23 +1174,25 @@ class _$_MyFoodsResponse implements _MyFoodsResponse {
 
 abstract class _MyFoodsResponse implements MyFoodsResponse {
   const factory _MyFoodsResponse(
-          {@JsonKey(name: 'foods') final List<Food>? foods,
-          @JsonKey(name: 'low_weight_foods') final List<Food>? lowWeightFoods,
-          @JsonKey(name: 'unused_foods') final List<Food>? unusedFoods}) =
-      _$_MyFoodsResponse;
+      {@JsonKey(name: 'foods')
+          required final List<Food> foods,
+      @JsonKey(name: 'low_weight_foods')
+          required final List<Food> lowWeightFoods,
+      @JsonKey(name: 'unused_foods')
+          required final List<Food> unusedFoods}) = _$_MyFoodsResponse;
 
   factory _MyFoodsResponse.fromJson(Map<String, dynamic> json) =
       _$_MyFoodsResponse.fromJson;
 
   @override
   @JsonKey(name: 'foods')
-  List<Food>? get foods;
+  List<Food> get foods;
   @override
   @JsonKey(name: 'low_weight_foods')
-  List<Food>? get lowWeightFoods;
+  List<Food> get lowWeightFoods;
   @override
   @JsonKey(name: 'unused_foods')
-  List<Food>? get unusedFoods;
+  List<Food> get unusedFoods;
   @override
   @JsonKey(ignore: true)
   _$$_MyFoodsResponseCopyWith<_$_MyFoodsResponse> get copyWith =>

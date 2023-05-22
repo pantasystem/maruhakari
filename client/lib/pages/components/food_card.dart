@@ -1,4 +1,4 @@
-import 'package:client/generated/proto/food.pb.dart';
+import 'package:client/schema/food.dart';
 import 'package:flutter/material.dart';
 
 class FoodCard extends StatelessWidget {

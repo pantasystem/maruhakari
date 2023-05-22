@@ -7,6 +7,7 @@ import (
 	"core-api/pkg/handler/schema"
 	"core-api/pkg/module"
 	"errors"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -241,18 +242,21 @@ func (r *FoodHandler) FindFoodById(c *gin.Context) {
 }
 
 func (r *FoodHandler) FindByOwnFoods(c *gin.Context) {
-	aId, err := uuid.Parse(c.GetString("accountId"))
+	aId, err := uuid.Parse(c.GetString(middleware.AccountId))
 	if err != nil {
+		fmt.Printf("error: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	foods, err := r.Module.RepositoryModule().FoodRepository().FindByAccountID(c, aId)
 	if err != nil {
+		fmt.Printf("error: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	foodList, err := r.ConvertToProtoFoods(c, foods)
 	if err != nil {
+		fmt.Printf("error: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
@@ -264,10 +268,11 @@ func (r *FoodHandler) FindByOwnFoods(c *gin.Context) {
 			lowWeightFoods = append(lowWeightFoods, food)
 		}
 	}
+	unusedFoods := make([]*schema.Food, 0)
 	c.JSON(http.StatusOK, &schema.MyFoodsResponse{
 		Foods:          foodList,
 		LowWeightFoods: lowWeightFoods,
-		UnusedFoods:    nil,
+		UnusedFoods:    unusedFoods,
 	})
 
 }

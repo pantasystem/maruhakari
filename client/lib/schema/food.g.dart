@@ -14,7 +14,7 @@ _$_Food _$$_FoodFromJson(Map<String, dynamic> json) => _$_Food(
           (json['container_max_weight_gram'] as num).toDouble(),
       gramPerMilliliter: (json['gram_per_milliliter'] as num?)?.toDouble(),
       accountId: json['account_id'] as String,
-      nfcUid: json['nfc_uid'] as String,
+      nfcUid: json['nfc_uid'] as String?,
       rawWeightGram: (json['raw_weight_gram'] as num).toDouble(),
       weightGram: (json['weight_gram'] as num).toDouble(),
       createdAt: _fromJson(json['created_at'] as String?),
@@ -83,14 +83,14 @@ Map<String, dynamic> _$$_UpdateFoodRequestToJson(
 
 _$_MyFoodsResponse _$$_MyFoodsResponseFromJson(Map<String, dynamic> json) =>
     _$_MyFoodsResponse(
-      foods: (json['foods'] as List<dynamic>?)
-          ?.map((e) => Food.fromJson(e as Map<String, dynamic>))
+      foods: (json['foods'] as List<dynamic>)
+          .map((e) => Food.fromJson(e as Map<String, dynamic>))
           .toList(),
-      lowWeightFoods: (json['low_weight_foods'] as List<dynamic>?)
-          ?.map((e) => Food.fromJson(e as Map<String, dynamic>))
+      lowWeightFoods: (json['low_weight_foods'] as List<dynamic>)
+          .map((e) => Food.fromJson(e as Map<String, dynamic>))
           .toList(),
-      unusedFoods: (json['unused_foods'] as List<dynamic>?)
-          ?.map((e) => Food.fromJson(e as Map<String, dynamic>))
+      unusedFoods: (json['unused_foods'] as List<dynamic>)
+          .map((e) => Food.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

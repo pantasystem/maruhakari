@@ -25,4 +25,10 @@ class FoodRepository {
       );
     });
   }
+
+  Future<MyFoodsResponse> getMyFoods() async {
+    return await handleError(() async {
+      return await client.getOwnFoods();
+    });
+  }
 }

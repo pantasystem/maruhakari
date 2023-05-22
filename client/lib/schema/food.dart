@@ -12,7 +12,7 @@ class Food with _$Food {
     @JsonKey(name: 'container_max_weight_gram') required double containerMaxWeightGram,
     @JsonKey(name: 'gram_per_milliliter') double? gramPerMilliliter,
     @JsonKey(name: 'account_id') required String accountId,
-    @JsonKey(name: 'nfc_uid') required String nfcUid,
+    @JsonKey(name: 'nfc_uid') String? nfcUid,
     @JsonKey(name: 'raw_weight_gram') required double rawWeightGram,
     @JsonKey(name: 'weight_gram') required double weightGram,
     @JsonKey(name: 'created_at', fromJson: _fromJson, toJson: _toJson) DateTime? createdAt,
@@ -54,9 +54,9 @@ class UpdateFoodRequest with _$UpdateFoodRequest {
 @freezed
 class MyFoodsResponse with _$MyFoodsResponse {
   const factory MyFoodsResponse({
-    @JsonKey(name: 'foods') List<Food>? foods,
-    @JsonKey(name: 'low_weight_foods') List<Food>? lowWeightFoods,
-    @JsonKey(name: 'unused_foods') List<Food>? unusedFoods,
+    @JsonKey(name: 'foods') required List<Food> foods,
+    @JsonKey(name: 'low_weight_foods') required List<Food> lowWeightFoods,
+    @JsonKey(name: 'unused_foods') required List<Food> unusedFoods,
   }) = _MyFoodsResponse;
 
   factory MyFoodsResponse.fromJson(Map<String, dynamic> json) => _$MyFoodsResponseFromJson(json);

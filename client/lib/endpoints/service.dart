@@ -28,7 +28,7 @@ abstract class MaruhakariApiClient {
   Future<List<FoodTemplate>> getFoodTemplates();
 
   @GET("api/v1/foods")
-  Future<List<Food>> getOwnFoods();
+  Future<MyFoodsResponse> getOwnFoods();
 
   @GET("api/v1/foods/{foodId}")
   Future<Food> getFood(@Path("foodId") String foodId);
