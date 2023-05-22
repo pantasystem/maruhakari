@@ -1,6 +1,10 @@
 package schema
 
-import "time"
+import (
+	"time"
+
+	"github.com/gin-gonic/gin"
+)
 
 type Food struct {
 	Id                     string     `json:"id"`
@@ -39,4 +43,12 @@ type MyFoodsResponse struct {
 	Foods          []*Food `json:"foods"`
 	LowWeightFoods []*Food `json:"low_weight_foods"`
 	UnusedFoods    []*Food `json:"unused_foods"`
+}
+
+type FoodController interface {
+	CreateFood(c *gin.Context)
+	UpdateFood(c *gin.Context)
+	FindFoodByNfcUid(c *gin.Context)
+	FindFoodById(c *gin.Context)
+	FindByOwnFoods(c *gin.Context)
 }
