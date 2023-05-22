@@ -1,5 +1,7 @@
 package schema
 
+import "github.com/gin-gonic/gin"
+
 type CreateAccountRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
@@ -15,4 +17,15 @@ type Account struct {
 	Username  string `json:"username"`
 	CreatedAt string `json:"created_at"`
 	UpdatedAt string `json:"updated_at"`
+}
+
+type TokenWithAccount struct {
+	Token   string   `json:"token"`
+	Account *Account `json:"account"`
+}
+
+type AccountController interface {
+	CreateAccount(c *gin.Context)
+	LoginAccount(c *gin.Context)
+	VerifyToken(c *gin.Context)
 }
