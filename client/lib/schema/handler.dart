@@ -31,7 +31,7 @@ Future<T> handleError<T>(Execute<T> executor) async {
     log('通史エラー', error: e);
     final statusCode = e.response?.statusCode;
     if (statusCode == 401) {
-      throw UnimplementedError('認証エラー:${e.stackTrace}');
+      throw UnauthorizedException('認証エラー:${e.stackTrace}');
     } else if (statusCode == 404) {
       throw NotFoundException('このリソースは存在しません。${e.stackTrace}');
     } else if (statusCode != null && statusCode >= 500 && statusCode < 600) {
