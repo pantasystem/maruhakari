@@ -24,4 +24,7 @@ func (r *SetupHandler) Setup(g *gin.Engine, c schema.Module) {
 	ctc := c.ContainerTemplateController()
 	g.GET("api/v1/container-templates", ctc.GetContainerTemplates)
 
+	ftc := c.FoodTemplateController()
+	g.GET("api/v1/food-templates", ftc.GetFoodTemplates)
+
 }
