@@ -2,6 +2,7 @@ import 'package:client/providers/repositories.dart';
 import 'package:client/repositories/account_repository.dart';
 import 'package:client/repositories/auth_repository.dart';
 import 'package:client/schema/account.dart';
+import 'package:client/schema/handler.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,8 +19,8 @@ class AuthStore extends ChangeNotifier {
     try {
       final result = await accountRepository.findMe();
       myAccount = result;
-
-    } on UnimplementedError catch(_)  {
+      type = AuthStateType.authorized;
+    } on UnauthorizedException catch(_)  {
       type = AuthStateType.unauthorized;
     } catch (e) {
       type = AuthStateType.error;

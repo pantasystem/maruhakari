@@ -12,7 +12,7 @@ message Food {
     float container_max_weight_gram = 3;
     optional float gram_per_milliliter = 4;
     string account_id = 6;
-    string nfc_uid = 7;
+    optional string nfc_uid = 7;
     float raw_weight_gram = 8;
     float weight_gram = 9;
 
