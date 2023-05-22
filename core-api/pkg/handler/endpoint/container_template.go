@@ -34,6 +34,6 @@ func (r *ContainerTemplateHandler) GetContainerTemplates(c *gin.Context) {
 			ContainerMaxWeightGram: template.ContainerMaxWeightGram,
 		}
 	}
-	c.JSON(http.StatusOK, templates)
+	c.JSON(http.StatusOK, resTemplates)
 
 }
