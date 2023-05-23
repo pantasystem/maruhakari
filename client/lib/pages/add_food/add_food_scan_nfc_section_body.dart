@@ -1,5 +1,6 @@
 
 
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:client/pages/add_food/add_food_page.dart';
@@ -63,7 +64,7 @@ class AddFoodPageScanNfcSectionBodyState extends ConsumerState {
                 const SizedBox(height: 16),
                 const Text("スキャンするのを待っています..."),
                 TextButton(onPressed: () {
-                  ref.read(addFoodPageNotifierProvider).setNfcUid('test-uid');
+                  ref.read(addFoodPageNotifierProvider).setNfcUid(_generateNonce());
                 }, child: const Text("test"))
               ],
             ),
@@ -90,3 +91,10 @@ class AddFoodPageScanNfcSectionBodyState extends ConsumerState {
 }
 
 final dummy = {"nfca": {"identifier": [170, 225, 185, 220], "atqa": [4, 0], "maxTransceiveLength": 253, "sak": 8, "timeout": 618}, "mifareclassic": {"identifier": [170, 225, 185, 220], "blockCount": 64, "maxTransceiveLength": 253, "sectorCount": 16, "size": 1024, "timeout": 618, "type": 0}, "ndefformatable": {"identifier": [170, 225, 185, 220]}};
+
+String _generateNonce([int length = 32]) {
+  const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+  final random = Random.secure();
+  final randomStr =  List.generate(length, (_) => charset[random.nextInt(charset.length)]).join();
+  return randomStr;
+}
