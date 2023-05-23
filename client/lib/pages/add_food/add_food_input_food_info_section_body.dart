@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddFoodInputFoodInfoSectionBody extends ConsumerStatefulWidget {
-  const AddFoodInputFoodInfoSectionBody({super.key});
+  const AddFoodInputFoodInfoSectionBody({super.key, this.name, this.gramPerMiller});
+  final String? name;
+  final double? gramPerMiller;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -15,6 +17,13 @@ class AddFoodInputFoodInfoSectionBodyState extends ConsumerState<AddFoodInputFoo
   final formKey = GlobalKey<FormState>();
   final inputNameTextController = TextEditingController();
   final inputGramPerMillerController = TextEditingController();
+
+  @override
+  void initState() {
+    inputNameTextController.text = widget.name ?? "";
+    inputGramPerMillerController.text = widget.gramPerMiller?.toString() ?? "";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -43,7 +43,10 @@ class AddFoodPageState extends ConsumerState {
             case AddFoodSectionType.selectFood:
               return const AddFoodSelectFoodSectionBody();
             case AddFoodSectionType.inputFoodInfo:
-              return const AddFoodInputFoodInfoSectionBody();
+              return AddFoodInputFoodInfoSectionBody(
+                name: notifier.name,
+                gramPerMiller: notifier.gramPerMilliliter,
+              );
             case AddFoodSectionType.selectContainerType:
               return const AddFoodSelectContainerSectionBody();
             case AddFoodSectionType.inputContainerInfo:
