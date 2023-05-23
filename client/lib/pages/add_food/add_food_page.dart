@@ -26,35 +26,40 @@ class AddFoodPageState extends ConsumerState {
   @override
   Widget build(BuildContext context) {
     final notifier = ref.watch(addFoodPageNotifierProvider);
-    return Scaffold(
-      appBar: AppBar(
-        title: AppFoodPageAppBarTitle(section: notifier.section),
+    return WillPopScope(
+      onWillPop: () async {
+        return notifier.pop();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: AppFoodPageAppBarTitle(section: notifier.section),
+        ),
+        body: () {
+          switch (notifier.section) {
+            case AddFoodSectionType.pasteNfc:
+              return const AddFoodPagePasteNfcSectionBody();
+            case AddFoodSectionType.scanNfc:
+              return const AddFoodPageScanNfcSectionBody();
+            case AddFoodSectionType.selectFood:
+              return const AddFoodSelectFoodSectionBody();
+            case AddFoodSectionType.inputFoodInfo:
+              return const AddFoodInputFoodInfoSectionBody();
+            case AddFoodSectionType.selectContainerType:
+              return const AddFoodSelectContainerSectionBody();
+            case AddFoodSectionType.inputContainerInfo:
+              return const AddFoodInputContainerInfoSectionBody();
+            case AddFoodSectionType.confirmation:
+              return AddFoodConfirmSectionBody(
+                onConfirmButtonClicked: () {
+                  notifier.save().then((value) {
+                    ref.refresh(myFoodsFutureProvider);
+                    Navigator.of(context).pop();
+                  });
+                },
+              );
+          }
+        }(),
       ),
-      body: () {
-        switch (notifier.section) {
-          case AddFoodSectionType.pasteNfc:
-            return const AddFoodPagePasteNfcSectionBody();
-          case AddFoodSectionType.scanNfc:
-            return const AddFoodPageScanNfcSectionBody();
-          case AddFoodSectionType.selectFood:
-            return const AddFoodSelectFoodSectionBody();
-          case AddFoodSectionType.inputFoodInfo:
-            return const AddFoodInputFoodInfoSectionBody();
-          case AddFoodSectionType.selectContainerType:
-            return const AddFoodSelectContainerSectionBody();
-          case AddFoodSectionType.inputContainerInfo:
-            return const AddFoodInputContainerInfoSectionBody();
-          case AddFoodSectionType.confirmation:
-            return AddFoodConfirmSectionBody(
-              onConfirmButtonClicked: () {
-                notifier.save().then((value) {
-                  ref.refresh(myFoodsFutureProvider);
-                  Navigator.of(context).pop();
-                });
-              },
-            );
-        }
-      }(),
     );
   }
 }

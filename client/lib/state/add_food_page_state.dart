@@ -20,18 +20,32 @@ class AddFoodPageNotifier extends ChangeNotifier {
   FoodUnitType unitType = FoodUnitType.gram;
   ContainerTemplate? selectedContainer;
 
+  List<AddFoodSectionType> _sectionStack = const [AddFoodSectionType.pasteNfc];
+
   void goToScanNfcSection() {
     section = AddFoodSectionType.scanNfc;
+    _sectionStack = [
+      ..._sectionStack,
+      section,
+    ];
     notifyListeners();
   }
 
   void goToSelectContainerSection() {
     section = AddFoodSectionType.selectContainerType;
+    _sectionStack = [
+      ..._sectionStack,
+      section,
+    ];
     notifyListeners();
   }
 
   void goToConfirmationSection() {
     section = AddFoodSectionType.confirmation;
+    _sectionStack = [
+      ..._sectionStack,
+      section,
+    ];
     notifyListeners();
   }
 
@@ -40,6 +54,10 @@ class AddFoodPageNotifier extends ChangeNotifier {
       return;
     }
     section = AddFoodSectionType.inputFoodInfo;
+    _sectionStack = [
+      ..._sectionStack,
+      section,
+    ];
     notifyListeners();
   }
 
@@ -48,12 +66,20 @@ class AddFoodPageNotifier extends ChangeNotifier {
       return;
     }
     section = AddFoodSectionType.inputContainerInfo;
+    _sectionStack = [
+      ..._sectionStack,
+      section,
+    ];
     notifyListeners();
   }
 
   void setNfcUid(String id) {
     nfcUid = id;
     section = AddFoodSectionType.selectFood;
+    _sectionStack = [
+      ..._sectionStack,
+      section,
+    ];
     notifyListeners();
   }
 
@@ -89,6 +115,10 @@ class AddFoodPageNotifier extends ChangeNotifier {
         break;
     }
     section = AddFoodSectionType.selectContainerType;
+    _sectionStack = [
+      ..._sectionStack,
+      section,
+    ];
     notifyListeners();
   }
 
@@ -106,6 +136,10 @@ class AddFoodPageNotifier extends ChangeNotifier {
         break;
     }
     section = AddFoodSectionType.confirmation;
+    _sectionStack = [
+      ..._sectionStack,
+      section,
+    ];
     notifyListeners();
   }
 
@@ -133,6 +167,18 @@ class AddFoodPageNotifier extends ChangeNotifier {
     }
     unitType = type;
     notifyListeners();
+  }
+
+  bool pop() {
+    if (_sectionStack.length <= 1) {
+      return true;
+    }
+    _sectionStack = [
+      ..._sectionStack.sublist(0, _sectionStack.length - 1),
+    ];
+    section = _sectionStack.last;
+    notifyListeners();
+    return false;
   }
 }
 
