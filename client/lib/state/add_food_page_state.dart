@@ -65,6 +65,19 @@ class AddFoodPageNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setFoodInputFormInfo({required String name, required double? gramPerMiller}) {
+    this.name = name;
+    switch(unitType) {
+      case FoodUnitType.gram:
+        break;
+      case FoodUnitType.milliliter:
+        gramPerMilliliter = gramPerMiller;
+        break;
+    }
+    section = AddFoodSectionType.selectContainerType;
+    notifyListeners();
+  }
+
   bool validateFoodInfo() {
     return name != null && name?.isNotEmpty == true;
   }
