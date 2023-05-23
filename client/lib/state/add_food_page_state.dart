@@ -17,6 +17,8 @@ class AddFoodPageNotifier extends ChangeNotifier {
   double? containerMaxWeightGram;
   double? gramPerMilliliter;
 
+
+  FoodUnitType unitType = FoodUnitType.gram;
   ContainerTemplate? selectedContainer;
 
 
@@ -81,6 +83,14 @@ class AddFoodPageNotifier extends ChangeNotifier {
     );
 
   }
+
+  void setUnitType(FoodUnitType? type) {
+    if (type == null) {
+      return;
+    }
+    unitType = type;
+    notifyListeners();
+  }
 }
 
 enum AddFoodSectionType {
@@ -91,6 +101,10 @@ enum AddFoodSectionType {
   selectContainerType,
   inputContainerInfo,
   confirmation
+}
+
+enum FoodUnitType {
+  gram, milliliter
 }
 
 final addFoodPageNotifierProvider = ChangeNotifierProvider.autoDispose((ref) {
