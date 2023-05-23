@@ -47,7 +47,10 @@ class AddFoodPageState extends ConsumerState {
             case AddFoodSectionType.selectContainerType:
               return const AddFoodSelectContainerSectionBody();
             case AddFoodSectionType.inputContainerInfo:
-              return const AddFoodInputContainerInfoSectionBody();
+              return AddFoodInputContainerInfoSectionBody(
+                containerWeight: notifier.containerWeightGram,
+                containerMaxWeight: notifier.containerMaxWeightGram,
+              );
             case AddFoodSectionType.confirmation:
               return AddFoodConfirmSectionBody(
                 onConfirmButtonClicked: () {

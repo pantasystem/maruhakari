@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddFoodInputContainerInfoSectionBody extends ConsumerStatefulWidget {
-  const AddFoodInputContainerInfoSectionBody({super.key});
+  const AddFoodInputContainerInfoSectionBody({super.key, this.containerWeight, this.containerMaxWeight});
+  final double? containerWeight;
+  final double? containerMaxWeight;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
@@ -11,10 +13,17 @@ class AddFoodInputContainerInfoSectionBody extends ConsumerStatefulWidget {
   }
 }
 
-class AddFoodInputContainerInfoSectionBodyState extends ConsumerState {
+class AddFoodInputContainerInfoSectionBodyState extends ConsumerState<AddFoodInputContainerInfoSectionBody> {
   final _formKey = GlobalKey<FormState>();
   final inputContainerWeightTextController = TextEditingController();
   final inputContainerMaxWeightTextController = TextEditingController();
+
+  @override
+  void initState() {
+    inputContainerWeightTextController.text = widget.containerWeight?.toString() ?? "";
+    inputContainerMaxWeightTextController.text = widget.containerMaxWeight?.toString() ?? "";
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
