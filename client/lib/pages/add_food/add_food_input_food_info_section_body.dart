@@ -25,6 +25,7 @@ class AddFoodInputFoodInfoSectionBodyState extends ConsumerState<AddFoodInputFoo
         key: formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,4 +1,3 @@
-
 import 'package:client/providers/repositories.dart';
 import 'package:client/repositories/food_repository.dart';
 import 'package:client/schema/container_template.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AddFoodPageNotifier extends ChangeNotifier {
   AddFoodPageNotifier(this._foodRepository);
+
   final FoodRepository _foodRepository;
 
   AddFoodSectionType section = AddFoodSectionType.pasteNfc;
@@ -17,11 +17,8 @@ class AddFoodPageNotifier extends ChangeNotifier {
   double? containerMaxWeightGram;
   double? gramPerMilliliter;
 
-
   FoodUnitType unitType = FoodUnitType.gram;
   ContainerTemplate? selectedContainer;
-
-
 
   void goToScanNfcSection() {
     section = AddFoodSectionType.scanNfc;
@@ -46,6 +43,14 @@ class AddFoodPageNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void goToInputContainerInfoSection() {
+    if (section != AddFoodSectionType.selectContainerType) {
+      return;
+    }
+    section = AddFoodSectionType.inputContainerInfo;
+    notifyListeners();
+  }
+
   void setNfcUid(String id) {
     nfcUid = id;
     section = AddFoodSectionType.selectFood;
@@ -55,19 +60,28 @@ class AddFoodPageNotifier extends ChangeNotifier {
   void setFoodInfoByTemplate(FoodTemplate template) {
     name = template.name;
     gramPerMilliliter = template.gramPerMiller;
+    if (template.gramPerMiller == null) {
+      unitType = FoodUnitType.gram;
+    } else {
+      unitType = FoodUnitType.milliliter;
+    }
     notifyListeners();
   }
 
   void setSelectedContainerTemplate(ContainerTemplate template) {
     selectedContainer = template;
-    containerMaxWeightGram = template.containerMaxWeightGram * (gramPerMilliliter ?? 1);
+    containerMaxWeightGram =
+        template.containerMaxWeightGram * (gramPerMilliliter ?? 1);
     containerWeightGram = template.containerWeightGram;
     notifyListeners();
   }
 
-  void setFoodInputFormInfo({required String name, required double? gramPerMiller}) {
+  void setFoodInputFormInfo({
+    required String name,
+    required double? gramPerMiller,
+  }) {
     this.name = name;
-    switch(unitType) {
+    switch (unitType) {
       case FoodUnitType.gram:
         break;
       case FoodUnitType.milliliter:
@@ -75,6 +89,23 @@ class AddFoodPageNotifier extends ChangeNotifier {
         break;
     }
     section = AddFoodSectionType.selectContainerType;
+    notifyListeners();
+  }
+
+  void setContainerInputFormInfo({
+    required double? containerWeight,
+    required double? containerMaxInput,
+  }) {
+    containerWeightGram = containerWeight;
+    switch (unitType) {
+      case FoodUnitType.gram:
+        containerMaxWeightGram = containerMaxInput;
+        break;
+      case FoodUnitType.milliliter:
+        containerMaxWeightGram = (containerMaxInput ?? 1000) * (gramPerMilliliter ?? 1);
+        break;
+    }
+    section = AddFoodSectionType.confirmation;
     notifyListeners();
   }
 
@@ -94,7 +125,6 @@ class AddFoodPageNotifier extends ChangeNotifier {
       containerMaxWeightGram: containerMaxWeightGram!,
       containerWeightGram: containerWeightGram!,
     );
-
   }
 
   void setUnitType(FoodUnitType? type) {
@@ -116,9 +146,7 @@ enum AddFoodSectionType {
   confirmation
 }
 
-enum FoodUnitType {
-  gram, milliliter
-}
+enum FoodUnitType { gram, milliliter }
 
 final addFoodPageNotifierProvider = ChangeNotifierProvider.autoDispose((ref) {
   return AddFoodPageNotifier(ref.read(foodRepository));

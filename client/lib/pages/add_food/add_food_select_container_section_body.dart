@@ -79,7 +79,9 @@ class AddFoodSelectContainerSectionBody extends ConsumerWidget {
             }),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              notifier.goToInputContainerInfoSection();
+            },
             child: const Text(
               "該当する容器がありません",
               style: TextStyle(
