@@ -1,4 +1,5 @@
 import 'package:client/pages/add_food/add_food_confirm_section_body.dart';
+import 'package:client/pages/add_food/add_food_input_food_info_section_body.dart';
 import 'package:client/pages/add_food/add_food_paste_food_section_body.dart';
 import 'package:client/pages/add_food/add_food_select_container_section_body.dart';
 import 'package:client/pages/add_food/add_food_select_food_section_body.dart';
@@ -37,7 +38,7 @@ class AddFoodPageState extends ConsumerState {
           case AddFoodSectionType.selectFood:
             return const AddFoodSelectFoodSectionBody();
           case AddFoodSectionType.inputFoodInfo:
-            return const Text("未実装");
+            return const AddFoodInputFoodInfoSectionBody();
           case AddFoodSectionType.selectContainerType:
             return const AddFoodSelectContainerSectionBody();
           case AddFoodSectionType.inputContainerInfo:

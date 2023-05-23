@@ -36,6 +36,14 @@ class AddFoodPageNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
+  void goToInputFoodInfoSection() {
+    if (section != AddFoodSectionType.selectFood) {
+      return;
+    }
+    section = AddFoodSectionType.inputFoodInfo;
+    notifyListeners();
+  }
+
   void setNfcUid(String id) {
     nfcUid = id;
     section = AddFoodSectionType.selectFood;

@@ -85,7 +85,9 @@ class AddFoodSelectFoodSectionBody extends ConsumerWidget {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    notifier.goToInputFoodInfoSection();
+                  },
                   child: const Text(
                     "該当する調味料がありません",
                     style: TextStyle(
