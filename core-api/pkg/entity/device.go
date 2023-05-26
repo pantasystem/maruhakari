@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type Device struct {
@@ -15,4 +16,13 @@ type Device struct {
 	Label      *string
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
+}
+
+func (r *Device) BeforeCreate(tx *gorm.DB) (err error) {
+	uuid, err := uuid.NewRandom()
+	if err != nil {
+		return err
+	}
+	r.ID = uuid
+	return nil
 }

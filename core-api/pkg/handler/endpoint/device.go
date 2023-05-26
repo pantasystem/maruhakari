@@ -2,9 +2,11 @@ package endpoint
 
 import (
 	"core-api/pkg/entity"
+	"core-api/pkg/handler/middleware"
 	"core-api/pkg/handler/schema"
 	"core-api/pkg/module"
 	"errors"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -46,14 +48,16 @@ func (r *DeviceHandler) SaveDevice(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	aId, err := uuid.Parse(c.GetString("accountId"))
+	aId, err := uuid.Parse(c.GetString(middleware.AccountId))
 	if err != nil {
+		fmt.Printf("parse account id error: %v\n", err)
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
 
 	dv, err := r.Module.RepositoryModule().DeviceRepository().FindByAccountIDAndMacAddress(c, aId, req.MacAddress)
 	if err != nil && !errors.Is(err, gorm.ErrRecordNotFound) {
+		fmt.Printf("find device error: %v\n", err)
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
@@ -66,6 +70,7 @@ func (r *DeviceHandler) SaveDevice(c *gin.Context) {
 			Token:      req.Token,
 		})
 		if err != nil {
+			fmt.Printf("create device error: %v\n", err)
 			c.JSON(500, gin.H{"error": err.Error()})
 			return
 		}
@@ -78,6 +83,7 @@ func (r *DeviceHandler) SaveDevice(c *gin.Context) {
 		dv.Token = req.Token
 		dv, err = r.Module.RepositoryModule().DeviceRepository().Update(c, dv)
 		if err != nil {
+			fmt.Printf("update device error: %v\n", err)
 			c.JSON(500, gin.H{"error": err.Error()})
 			return
 		}
