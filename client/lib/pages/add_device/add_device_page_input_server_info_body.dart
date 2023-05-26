@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:math';
 
+import 'package:client/providers/repositories.dart';
 import 'package:client/schema/iot_connection_info.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class AddDevicePageInputServerInfoBodyState
   final inputPasswordController = TextEditingController();
   final inputDeviceNameController = TextEditingController();
 
-  void _sendConnectionInfo({
+  Future<void> _sendConnectionInfo({
     required String ssid,
     required String password,
     required String token,
@@ -62,68 +63,78 @@ class AddDevicePageInputServerInfoBodyState
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Wi-Fi接続情報"),
-                Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey.shade300),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    children: [
-                      TextField(
-                        controller: inputSsidController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'SSID',
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      TextField(
-                        controller: inputPasswordController,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'パスワード',
-                        ),
-                      ),
-                    ],
-                  ),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Wi-Fi接続情報"),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.shade300),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                const SizedBox(height: 16),
-                TextField(
-                  controller: inputDeviceNameController,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: 'デバイス名',
-                  ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    _sendConnectionInfo(
-                      ssid: inputSsidController.text,
-                      password: inputPasswordController.text,
-                      token: generateNonce(16),
-                    );
-                  },
-                  child: const Text("連携"),
-                )
-              ],
-            )
-          ],
-        ));
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: inputSsidController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'SSID',
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextField(
+                      controller: inputPasswordController,
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'パスワード',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: inputDeviceNameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'デバイス名',
+                ),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  final token = generateNonce(16);
+                  _sendConnectionInfo(
+                    ssid: inputSsidController.text,
+                    password: inputPasswordController.text,
+                    token: token,
+                  );
+                  ref.read(deviceRepository)
+                      .save(
+                        macAddress: widget.device.id.id,
+                        token: token,
+                      )
+                      .then((value) {
+                    Navigator.of(context).pop();
+                  });
+                },
+                child: const Text("連携"),
+              )
+            ],
+          )
+        ],
+      ),
+    );
   }
 }
 
