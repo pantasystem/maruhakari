@@ -28,10 +28,11 @@ func (r *DeviceRepositoryImpl) Create(ctx context.Context, device *entity.Device
 }
 
 func (r *DeviceRepositoryImpl) Update(ctx context.Context, device *entity.Device) (*entity.Device, error) {
-	if err := r.DB.WithContext(ctx).Save(device).Error; err != nil {
-		return nil, err
+	err := r.DB.WithContext(ctx).Model(&entity.Device{}).Where("id = ?", device.ID).Updates(device)
+	if err.Error != nil {
+		return nil, err.Error
 	}
-	return device, nil
+	return r.FindByID(ctx, device.ID)
 }
 
 func (r *DeviceRepositoryImpl) FindByID(ctx context.Context, id uuid.UUID) (*entity.Device, error) {

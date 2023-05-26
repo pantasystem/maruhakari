@@ -18,7 +18,7 @@ type Device struct {
 
 type SaveDeviceRequest struct {
 	MacAddress string  `json:"mac_address"`
-	Token      string  `json:"salt"`
+	Token      string  `json:"token"`
 	Label      *string `json:"label"`
 }
 

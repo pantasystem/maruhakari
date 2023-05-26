@@ -62,7 +62,7 @@ func (r *DeviceHandler) SaveDevice(c *gin.Context) {
 		return
 	}
 
-	if dv == nil {
+	if errors.Is(err, gorm.ErrRecordNotFound) || dv == nil {
 		dv, err = r.Module.RepositoryModule().DeviceRepository().Create(c, &entity.Device{
 			AccountID:  aId,
 			MacAddress: req.MacAddress,
@@ -87,6 +87,11 @@ func (r *DeviceHandler) SaveDevice(c *gin.Context) {
 			c.JSON(500, gin.H{"error": err.Error()})
 			return
 		}
+	}
+	if dv == nil {
+		c.JSON(500, gin.H{"error": "device is nil"})
+		fmt.Printf("device is nil\n")
+		return
 	}
 	c.JSON(200, schema.Device{
 		Id:         dv.ID.String(),
