@@ -16,13 +16,13 @@ type Device struct {
 	UpdatedAt  time.Time `json:"updated_at"`
 }
 
-type CreateDeviceRequest struct {
+type SaveDeviceRequest struct {
 	MacAddress string  `json:"mac_address"`
-	Salt       string  `json:"salt"`
+	Token      string  `json:"salt"`
 	Label      *string `json:"label"`
 }
 
 type DeviceController interface {
-	CreateDevice(c *gin.Context)
+	SaveDevice(c *gin.Context)
 	GetOwnDevices(c *gin.Context)
 }
