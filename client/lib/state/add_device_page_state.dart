@@ -19,6 +19,6 @@ enum AddDevicePageStateType {
   selectDevice, inputConnectInfo
 }
 
-final addDevicePageNotifier = ChangeNotifierProvider((ref) {
+final addDevicePageNotifier = ChangeNotifierProvider.autoDispose((ref) {
   return AddDevicePageNotifier();
 });
