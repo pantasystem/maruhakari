@@ -62,7 +62,9 @@ class HomePageState extends ConsumerState {
                   ListTile(
                     leading: const Icon(Icons.add_to_home_screen),
                     title: const Text("デバイスを追加"),
-                    onTap: () {},
+                    onTap: () {
+                      GoRouter.of(context).push("/add-device");
+                    },
                   ),
                   ListTile(
                     leading: const Icon(Icons.playlist_add_outlined),

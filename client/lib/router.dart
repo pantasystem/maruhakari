@@ -1,3 +1,4 @@
+import 'package:client/pages/add_device/add_device_page.dart';
 import 'package:client/pages/add_food/add_food_page.dart';
 import 'package:client/pages/food_list_page.dart';
 import 'package:client/pages/initial_page.dart';
@@ -48,6 +49,12 @@ final routerProvider = Provider((ref) {
           pageBuilder: (context, state) {
             return const MaterialPage(child: AddFoodPage());
           },
+        ),
+        GoRoute(
+          path: "/add-device",
+          pageBuilder: (context, state) {
+            return const MaterialPage(child: AddDevicePage());
+          }
         )
       ],
       refreshListenable: authState,
