@@ -74,6 +74,10 @@ class AddDevicePageInputServerInfoBodyState
     required String password,
     required String token,
   }) async {
+    final state = await widget.device.state.first;
+    if (state == BluetoothDeviceState.disconnected) {
+      await widget.device.connect();
+    }
     final targetServices = await widget.device.discoverServices();
     final service = targetServices.firstWhereOrNull((element) {
       return element.uuid.toString() == "4426c565-997d-4902-946f-4060916183db";
