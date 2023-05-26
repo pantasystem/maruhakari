@@ -2,6 +2,7 @@
 import 'package:client/repositories/auth_repository.dart';
 import 'package:client/schema/account.dart';
 import 'package:client/schema/container_template.dart';
+import 'package:client/schema/device.dart';
 import 'package:client/schema/food.dart';
 import 'package:client/schema/food_template.dart';
 import 'package:dio/dio.dart';
@@ -41,6 +42,12 @@ abstract class MaruhakariApiClient {
 
   @PUT("api/v1/foods/{foodId}")
   Future<Food> updateFood(@Path("foodId") String foodId, @Body() UpdateFoodRequest req);
+
+  @GET("api/v1/devices")
+  Future<List<Device>> getDevices();
+
+  @POST("api/v1/devices")
+  Future<Device> saveDevice(@Body() SaveDeviceRequest req);
 
 }
 
