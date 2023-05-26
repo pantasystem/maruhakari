@@ -1,58 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:client/pages/add_device/add_device_page.dart';
 import 'package:client/schema/iot_connection_info.dart';
-import 'package:client/state/add_device_page_state.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:permission_handler/permission_handler.dart';
 
-import 'add_device_appbar.dart';
-
-class AddDevicePage extends ConsumerStatefulWidget {
-  const AddDevicePage({super.key});
-
-  @override
-  ConsumerState<ConsumerStatefulWidget> createState() {
-    return AddDevicePageState();
-  }
-}
-
-class AddDevicePageState extends ConsumerState<ConsumerStatefulWidget> {
-  @override
-  void initState() {
-    [
-      Permission.location,
-      Permission.storage,
-      Permission.bluetooth,
-      Permission.bluetoothConnect,
-      Permission.bluetoothScan
-    ].request();
-
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final notifier = ref.watch(addDevicePageNotifier);
-
-    return Scaffold(
-        appBar: AppBar(
-          title: AddDeviceAppBarTitle(type: notifier.type),
-        ),
-        body: () {
-          switch (notifier.type) {
-            case AddDevicePageStateType.selectDevice:
-              return const AddDevicePageSelectDeviceBody();
-            case AddDevicePageStateType.inputConnectInfo:
-              return AddDevicePageInputServerInfoBody(device: notifier.device!);
-          }
-        }());
-  }
-}
 
 class AddDevicePageInputServerInfoBody extends ConsumerStatefulWidget {
   final BluetoothDevice device;
