@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:developer';
+import 'dart:developer' as dev;
+import 'dart:math';
 
 import 'package:client/schema/iot_connection_info.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 class AddDevicePageInputServerInfoBody extends ConsumerStatefulWidget {
   final BluetoothDevice device;
@@ -42,9 +42,9 @@ class AddDevicePageInputServerInfoBodyState
       return element.uuid.toString() == "7a21cc0f-3845-4452-8ab6-86e035978d35";
     });
     if (c == null) {
-      log("characteristic is null");
+      dev.log("characteristic is null");
     } else {
-      log("characteristic is not null");
+      dev.log("characteristic is not null");
     }
     final info = IotConnectionInfo(
       ssid: ssid,
@@ -112,7 +112,11 @@ class AddDevicePageInputServerInfoBodyState
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    _sendConnectionInfo(ssid: inputSsidController.text, password: inputPasswordController.text, token: "token");
+                    _sendConnectionInfo(
+                      ssid: inputSsidController.text,
+                      password: inputPasswordController.text,
+                      token: generateNonce(16),
+                    );
                   },
                   child: const Text("連携"),
                 )
@@ -121,4 +125,14 @@ class AddDevicePageInputServerInfoBodyState
           ],
         ));
   }
+}
+
+String generateNonce([int length = 32]) {
+  const charset =
+      '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+  final random = Random.secure();
+  final randomStr =
+      List.generate(length, (_) => charset[random.nextInt(charset.length)])
+          .join();
+  return randomStr;
 }
