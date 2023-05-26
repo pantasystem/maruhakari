@@ -37,5 +37,9 @@ func (r *SetupHandler) Setup(g *gin.Engine, c schema.Module) {
 	mhc := c.MeasurementHistoryController()
 	g.POST("api/v1/measurement-histories", mhc.RecordHistory)
 
+	dc := c.DeviceController()
+	g.GET("api/v1/devices", m.CheckToken(), dc.GetOwnDevices)
+	g.POST("api/v1/devices", m.CheckToken(), dc.SaveDevice)
+
 	g.Static("/container-images", "./container-images")
 }

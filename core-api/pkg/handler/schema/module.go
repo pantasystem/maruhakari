@@ -6,4 +6,5 @@ type Module interface {
 	FoodTemplateController() FoodTemplateController
 	FoodController() FoodController
 	MeasurementHistoryController() MeasurementHistoryController
+	DeviceController() DeviceController
 }

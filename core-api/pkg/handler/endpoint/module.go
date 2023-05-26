@@ -43,3 +43,10 @@ func (r *ModuleImpl) MeasurementHistoryController() schema.MeasurementHistoryCon
 	}
 	return &c
 }
+
+func (r *ModuleImpl) DeviceController() schema.DeviceController {
+	c := DeviceHandler{
+		Module: r.Module,
+	}
+	return &c
+}
