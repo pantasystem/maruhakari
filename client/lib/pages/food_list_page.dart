@@ -27,28 +27,33 @@ class HomePageState extends ConsumerState {
           IconButton(onPressed: () {}, icon: const Icon(Icons.account_circle))
         ],
       ),
-      body: foods.when(
-        data: (data) {
-          return MyFoodsListView(myFoods: data);
+      body: RefreshIndicator(
+        onRefresh: () {
+          return ref.refresh(myFoodsFutureProvider.future);
         },
-        error: (e, st) {
-          log('myFoodsの読み込みに失敗', error: e, stackTrace: st);
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: const [Text("読み込みに失敗しました")],
-            ),
-          );
-        },
-        loading: () {
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [CircularProgressIndicator()],
-            ),
-          );
-        },
+        child: foods.when(
+          data: (data) {
+            return MyFoodsListView(myFoods: data);
+          },
+          error: (e, st) {
+            log('myFoodsの読み込みに失敗', error: e, stackTrace: st);
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: const [Text("読み込みに失敗しました")],
+              ),
+            );
+          },
+          loading: () {
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [CircularProgressIndicator()],
+              ),
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
