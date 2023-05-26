@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:client/pages/add_device/add_device_appbar.dart';
+import 'package:client/schema/iot_connection_info.dart';
 import 'package:client/state/add_device_page_state.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +62,6 @@ class AddDevicePageInputServerInfoBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
-        Text("接続待ち"),
         TextButton(
             onPressed: () async {
 
@@ -86,7 +87,17 @@ class AddDevicePageInputServerInfoBody extends ConsumerWidget {
               } else {
                 log("characteristic is not null");
               }
-              c?.write([104, 101, 108, 108, 111]);
+              final info = const IotConnectionInfo(
+                ssid: "aaaaaa",
+                password: "test",
+                token: "token-test"
+              );
+              final json = jsonEncode(info.toJson());
+              List<int> codeUnits = [];
+              for (int i = 0; i < json.length; i++) {
+                codeUnits.add(json.codeUnitAt(i));
+              }
+              c?.write(codeUnits);
             },
             child: const Text("send text")),
       ],

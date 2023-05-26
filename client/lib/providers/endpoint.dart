@@ -4,5 +4,5 @@ import 'package:client/providers/repositories.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final apiClientServiceProvider = Provider((ref) {
-  return create(ref.read(authRepositoryProvider), baseUrl: "http://10.200.1.179:8081/");
+  return create(ref.read(authRepositoryProvider), baseUrl: "http://192.168.11.12:8081/");
 });
