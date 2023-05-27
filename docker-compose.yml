@@ -7,6 +7,15 @@ services:
       - "8081:8080"
     volumes:
       - "./core-api:/go/src/app"
+
+  device-api:
+    build: .
+    tty: true
+    ports:
+      - "8082:8080"
+    volumes:
+      - "./device-api:/go/src/app"
+      
   psql:
     container_name: "psqldb"
     image: postgres:latest
