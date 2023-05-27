@@ -13,7 +13,7 @@
 #define CONNECT_INFO_CHARACTERISTIC_UUID "7a21cc0f-3845-4452-8ab6-86e035978d35"
 #define MTU_SIZE 200
 
-#define API_ENDPOINT_URL "http://192.168.0.16:8081/api/v1/measurement-histories"
+#define API_ENDPOINT_URL "http://maruhakari-iot.panta.systems/api/v1/measurement-histories"
 
 BLECharacteristic *connectionInfoCharacteristicTx;
 
