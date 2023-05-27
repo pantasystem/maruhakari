@@ -4,6 +4,7 @@ import (
 	"core-api/pkg/entity"
 	"core-api/pkg/handler/schema"
 	"core-api/pkg/module"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,7 @@ func (r *MeasurementHistoryHandler) RecordHistory(c *gin.Context) {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Printf("req: %v\n", req)
 
 	dv, err := r.Module.RepositoryModule().DeviceRepository().FindByToken(c, req.DeviceToken)
 	if err != nil {
