@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
@@ -162,7 +163,7 @@ func (r *FoodHandler) FindFoodByNfcUid(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	f, err := r.Module.RepositoryModule().FoodRepository().FindByAccountIdAndNfcUid(c, aId, nfcUid)
+	f, err := r.Module.RepositoryModule().FoodRepository().FindByAccountIdAndNfcUid(c, aId, strings.ToLower(nfcUid))
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
@@ -183,9 +184,12 @@ func (r *FoodHandler) FindFoodByNfcUid(c *gin.Context) {
 		ContainerMaxWeightGram: f.ContainerMaxWeightGram,
 		GramPerMilliliter:      f.GramPerMilliliter,
 		AccountId:              f.AccountID.String(),
-		NfcUid:                 f.NfcUid,
 		UpdatedAt:              &f.UpdatedAt,
 		CreatedAt:              &f.CreatedAt,
+	}
+	if f.NfcUid != nil {
+		u := strings.ToLower(*f.NfcUid)
+		sFood.NfcUid = &u
 	}
 
 	if len(histories) > 0 {
@@ -228,9 +232,12 @@ func (r *FoodHandler) FindFoodById(c *gin.Context) {
 		ContainerMaxWeightGram: f.ContainerMaxWeightGram,
 		GramPerMilliliter:      f.GramPerMilliliter,
 		AccountId:              f.AccountID.String(),
-		NfcUid:                 f.NfcUid,
 		UpdatedAt:              &f.UpdatedAt,
 		CreatedAt:              &f.CreatedAt,
+	}
+	if f.NfcUid != nil {
+		u := strings.ToLower(*f.NfcUid)
+		sFood.NfcUid = &u
 	}
 
 	if len(histories) > 0 {
@@ -299,9 +306,12 @@ func (r *FoodHandler) ConvertToProtoFoods(ctx context.Context, foods []*entity.F
 			ContainerMaxWeightGram: food.ContainerMaxWeightGram,
 			GramPerMilliliter:      food.GramPerMilliliter,
 			AccountId:              food.AccountID.String(),
-			NfcUid:                 food.NfcUid,
 			CreatedAt:              &food.CreatedAt,
 			UpdatedAt:              &food.UpdatedAt,
+		}
+		if food.NfcUid != nil {
+			u := strings.ToLower(*food.NfcUid)
+			pf.NfcUid = &u
 		}
 		protoFoods = append(protoFoods, pf)
 		history := historyMap[food.ID]
