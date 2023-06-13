@@ -48,6 +48,11 @@ class AuthStore extends ChangeNotifier {
     type = AuthStateType.authorized;
     notifyListeners();
   }
+
+  Future<void> logout() async {
+    await authRepository.saveToken(token: null);
+    await fetch();
+  }
 }
 
 enum AuthStateType {

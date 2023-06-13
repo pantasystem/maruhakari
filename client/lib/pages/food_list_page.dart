@@ -24,7 +24,9 @@ class HomePageState extends ConsumerState {
       appBar: AppBar(
         title: const Text("調味料一覧"),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.account_circle))
+          IconButton(onPressed: () {
+            GoRouter.of(context).push("/account");
+          }, icon: const Icon(Icons.account_circle))
         ],
       ),
       body: RefreshIndicator(
