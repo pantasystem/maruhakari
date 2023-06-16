@@ -80,7 +80,7 @@ class AddFoodPageScanNfcSectionBodyState extends ConsumerState {
       final list = map["identifier"] as Uint8List?;
       return list;
     }).whereType<Uint8List>().map((id){
-      return id.map((e) => e.toRadixString(16)).reduce((value, element) => element + value);
+      return id.map((e) => e.toRadixString(16)).map ((n) => n.length == 1 ? "0$n" : n).reduce((value, element) =>  value + element);
     });
     final id = ids.firstOrNull;
     if (id == null) {
