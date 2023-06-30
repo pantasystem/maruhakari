@@ -3,6 +3,7 @@ package dao
 import (
 	"context"
 	"core-api/pkg/entity"
+	"time"
 
 	"github.com/google/uuid"
 	"gorm.io/gorm"
@@ -28,6 +29,15 @@ func (r *MeasurementHistoryRepositoryImpl) FindLatestByFoodIDs(ctx context.Conte
 					where food_id in ? group by food_id
 			) mh2 where mh2.id = measurement_histories.id
 		)`, foodIDs).Find(&measurementHistories)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return measurementHistories, nil
+}
+
+func (r *MeasurementHistoryRepositoryImpl) FindByRange(ctx context.Context, foodID uuid.UUID, beginAt time.Time, endAt time.Time) ([]*entity.MeasurementHistory, error) {
+	measurementHistories := []*entity.MeasurementHistory{}
+	result := r.DB.WithContext(ctx).Where("food_id = ? and created_at between ? and ?", foodID, beginAt, endAt).Find(&measurementHistories)
 	if result.Error != nil {
 		return nil, result.Error
 	}
