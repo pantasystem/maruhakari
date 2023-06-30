@@ -25,13 +25,13 @@ func (r *FoodChartHandler) GetFoodChart(c *gin.Context) {
 
 	stBegin := c.Query("begin_at")
 	stEnd := c.Query("end_at")
-	endAt, err := time.Parse(time.RFC3339, stBegin)
+	endAt, err := time.Parse(time.RFC3339, stEnd)
 	if err != nil {
 		fmt.Printf("parse time error: %v\n", err)
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
-	beginAt, err := time.Parse(time.RFC3339, stEnd)
+	beginAt, err := time.Parse(time.RFC3339, stBegin)
 	if err != nil {
 		fmt.Printf("parse time error: %v\n", err)
 		c.JSON(400, gin.H{"error": err.Error()})
