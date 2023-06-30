@@ -20,12 +20,14 @@ MeasurementHistory _$MeasurementHistoryFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MeasurementHistory {
-  String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'food_id')
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "food_id")
   String get foodId => throw _privateConstructorUsedError;
   double get weight => throw _privateConstructorUsedError;
-  @JsonKey(name: 'created_at')
-  String get createdAt => throw _privateConstructorUsedError;
+  String? get deviceId => throw _privateConstructorUsedError;
+  Device? get device => throw _privateConstructorUsedError;
+  Food? get food => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,10 +42,16 @@ abstract class $MeasurementHistoryCopyWith<$Res> {
       _$MeasurementHistoryCopyWithImpl<$Res, MeasurementHistory>;
   @useResult
   $Res call(
-      {String id,
-      @JsonKey(name: 'food_id') String foodId,
+      {int id,
+      @JsonKey(name: "food_id") String foodId,
       double weight,
-      @JsonKey(name: 'created_at') String createdAt});
+      String? deviceId,
+      Device? device,
+      Food? food,
+      DateTime createdAt});
+
+  $DeviceCopyWith<$Res>? get device;
+  $FoodCopyWith<$Res>? get food;
 }
 
 /// @nodoc
@@ -62,13 +70,16 @@ class _$MeasurementHistoryCopyWithImpl<$Res, $Val extends MeasurementHistory>
     Object? id = null,
     Object? foodId = null,
     Object? weight = null,
+    Object? deviceId = freezed,
+    Object? device = freezed,
+    Object? food = freezed,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       foodId: null == foodId
           ? _value.foodId
           : foodId // ignore: cast_nullable_to_non_nullable
@@ -77,11 +88,47 @@ class _$MeasurementHistoryCopyWithImpl<$Res, $Val extends MeasurementHistory>
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as double,
+      deviceId: freezed == deviceId
+          ? _value.deviceId
+          : deviceId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      device: freezed == device
+          ? _value.device
+          : device // ignore: cast_nullable_to_non_nullable
+              as Device?,
+      food: freezed == food
+          ? _value.food
+          : food // ignore: cast_nullable_to_non_nullable
+              as Food?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $DeviceCopyWith<$Res>? get device {
+    if (_value.device == null) {
+      return null;
+    }
+
+    return $DeviceCopyWith<$Res>(_value.device!, (value) {
+      return _then(_value.copyWith(device: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FoodCopyWith<$Res>? get food {
+    if (_value.food == null) {
+      return null;
+    }
+
+    return $FoodCopyWith<$Res>(_value.food!, (value) {
+      return _then(_value.copyWith(food: value) as $Val);
+    });
   }
 }
 
@@ -94,10 +141,18 @@ abstract class _$$_MeasurementHistoryCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String id,
-      @JsonKey(name: 'food_id') String foodId,
+      {int id,
+      @JsonKey(name: "food_id") String foodId,
       double weight,
-      @JsonKey(name: 'created_at') String createdAt});
+      String? deviceId,
+      Device? device,
+      Food? food,
+      DateTime createdAt});
+
+  @override
+  $DeviceCopyWith<$Res>? get device;
+  @override
+  $FoodCopyWith<$Res>? get food;
 }
 
 /// @nodoc
@@ -114,13 +169,16 @@ class __$$_MeasurementHistoryCopyWithImpl<$Res>
     Object? id = null,
     Object? foodId = null,
     Object? weight = null,
+    Object? deviceId = freezed,
+    Object? device = freezed,
+    Object? food = freezed,
     Object? createdAt = null,
   }) {
     return _then(_$_MeasurementHistory(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       foodId: null == foodId
           ? _value.foodId
           : foodId // ignore: cast_nullable_to_non_nullable
@@ -129,10 +187,22 @@ class __$$_MeasurementHistoryCopyWithImpl<$Res>
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as double,
+      deviceId: freezed == deviceId
+          ? _value.deviceId
+          : deviceId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      device: freezed == device
+          ? _value.device
+          : device // ignore: cast_nullable_to_non_nullable
+              as Device?,
+      food: freezed == food
+          ? _value.food
+          : food // ignore: cast_nullable_to_non_nullable
+              as Food?,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
     ));
   }
 }
@@ -142,27 +212,35 @@ class __$$_MeasurementHistoryCopyWithImpl<$Res>
 class _$_MeasurementHistory implements _MeasurementHistory {
   const _$_MeasurementHistory(
       {required this.id,
-      @JsonKey(name: 'food_id') required this.foodId,
+      @JsonKey(name: "food_id") required this.foodId,
       required this.weight,
-      @JsonKey(name: 'created_at') required this.createdAt});
+      this.deviceId,
+      this.device,
+      this.food,
+      required this.createdAt});
 
   factory _$_MeasurementHistory.fromJson(Map<String, dynamic> json) =>
       _$$_MeasurementHistoryFromJson(json);
 
   @override
-  final String id;
+  final int id;
   @override
-  @JsonKey(name: 'food_id')
+  @JsonKey(name: "food_id")
   final String foodId;
   @override
   final double weight;
   @override
-  @JsonKey(name: 'created_at')
-  final String createdAt;
+  final String? deviceId;
+  @override
+  final Device? device;
+  @override
+  final Food? food;
+  @override
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'MeasurementHistory(id: $id, foodId: $foodId, weight: $weight, createdAt: $createdAt)';
+    return 'MeasurementHistory(id: $id, foodId: $foodId, weight: $weight, deviceId: $deviceId, device: $device, food: $food, createdAt: $createdAt)';
   }
 
   @override
@@ -173,13 +251,18 @@ class _$_MeasurementHistory implements _MeasurementHistory {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.foodId, foodId) || other.foodId == foodId) &&
             (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.deviceId, deviceId) ||
+                other.deviceId == deviceId) &&
+            (identical(other.device, device) || other.device == device) &&
+            (identical(other.food, food) || other.food == food) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, foodId, weight, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, id, foodId, weight, deviceId, device, food, createdAt);
 
   @JsonKey(ignore: true)
   @override
@@ -198,25 +281,32 @@ class _$_MeasurementHistory implements _MeasurementHistory {
 
 abstract class _MeasurementHistory implements MeasurementHistory {
   const factory _MeasurementHistory(
-          {required final String id,
-          @JsonKey(name: 'food_id') required final String foodId,
-          required final double weight,
-          @JsonKey(name: 'created_at') required final String createdAt}) =
-      _$_MeasurementHistory;
+      {required final int id,
+      @JsonKey(name: "food_id") required final String foodId,
+      required final double weight,
+      final String? deviceId,
+      final Device? device,
+      final Food? food,
+      required final DateTime createdAt}) = _$_MeasurementHistory;
 
   factory _MeasurementHistory.fromJson(Map<String, dynamic> json) =
       _$_MeasurementHistory.fromJson;
 
   @override
-  String get id;
+  int get id;
   @override
-  @JsonKey(name: 'food_id')
+  @JsonKey(name: "food_id")
   String get foodId;
   @override
   double get weight;
   @override
-  @JsonKey(name: 'created_at')
-  String get createdAt;
+  String? get deviceId;
+  @override
+  Device? get device;
+  @override
+  Food? get food;
+  @override
+  DateTime get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$_MeasurementHistoryCopyWith<_$_MeasurementHistory> get copyWith =>

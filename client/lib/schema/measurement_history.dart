@@ -1,3 +1,5 @@
+import 'package:client/schema/device.dart';
+import 'package:client/schema/food.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'measurement_history.freezed.dart';
@@ -6,10 +8,13 @@ part 'measurement_history.g.dart';
 @freezed
 class MeasurementHistory with _$MeasurementHistory {
   const factory MeasurementHistory({
-    required String id,
-    @JsonKey(name: 'food_id') required String foodId,
+    required int id,
+    @JsonKey(name: "food_id") required String foodId,
     required double weight,
-    @JsonKey(name: 'created_at') required String createdAt,
+    String? deviceId,
+    Device? device,
+    Food? food,
+    required DateTime createdAt,
   }) = _MeasurementHistory;
 
   factory MeasurementHistory.fromJson(Map<String, dynamic> json) => _$MeasurementHistoryFromJson(json);

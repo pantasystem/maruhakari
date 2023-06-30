@@ -1,6 +1,7 @@
 import 'package:client/endpoints/service.dart';
 import 'package:client/schema/food.dart';
 import 'package:client/schema/handler.dart';
+import 'package:client/schema/measurement_history.dart';
 
 class FoodRepository {
   FoodRepository({required this.client});
@@ -35,6 +36,12 @@ class FoodRepository {
   Future<Food> findOne(String foodId) async {
     return await handleError(() async {
       return await client.getFood(foodId);
+    });
+  }
+
+  Future<List<MeasurementHistory>> getMeasurementHistories(String foodId, {required DateTime beginAt, required DateTime endAt}) async {
+    return await handleError(() async {
+      return await client.getMeasurementHistories(foodId, beginAt.toUtc().toIso8601String(), endAt.toUtc().toIso8601String());
     });
   }
 }

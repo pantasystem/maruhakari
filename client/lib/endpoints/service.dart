@@ -6,6 +6,7 @@ import 'package:client/schema/device.dart';
 import 'package:client/schema/food.dart';
 import 'package:client/schema/food_chart.dart';
 import 'package:client/schema/food_template.dart';
+import 'package:client/schema/measurement_history.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -52,6 +53,9 @@ abstract class MaruhakariApiClient {
   
   @GET("api/v1/foods/{foodId}/chart")
   Future<FoodChart> getFoodChart(@Path("foodId") String foodId, @Query("begin_at") String beginAt, @Query("end_at") String endAt);
+
+  @GET("api/v1/foods/{foodId}/measurement-histories")
+  Future<List<MeasurementHistory>> getMeasurementHistories(@Path("foodId") String foodId, @Query("begin_at") String beginAt, @Query("end_at") String endAt);
 
 }
 
