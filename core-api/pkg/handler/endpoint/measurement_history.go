@@ -122,16 +122,19 @@ func (r *MeasurementHistoryHandler) FindHistory(c *gin.Context) {
 			CreatedAt: history.CreatedAt,
 			Food:      schemaFood,
 		}
-		d := deviceMap[*history.DeviceID]
-		if d != nil {
-			schemaHistories[i].Device = &schema.Device{
-				Id:         d.ID.String(),
-				MacAddress: d.MacAddress,
-				Label:      d.Label,
-				CreatedAt:  d.CreatedAt,
-				UpdatedAt:  d.UpdatedAt,
+		if history.DeviceID != nil {
+			d := deviceMap[*history.DeviceID]
+			if d != nil {
+				schemaHistories[i].Device = &schema.Device{
+					Id:         d.ID.String(),
+					MacAddress: d.MacAddress,
+					Label:      d.Label,
+					CreatedAt:  d.CreatedAt,
+					UpdatedAt:  d.UpdatedAt,
+				}
 			}
 		}
+
 	}
 	c.JSON(http.StatusOK, schemaHistories)
 }
