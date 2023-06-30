@@ -31,4 +31,10 @@ class FoodRepository {
       return await client.getOwnFoods();
     });
   }
+
+  Future<Food> findOne(String foodId) async {
+    return await handleError(() async {
+      return await client.getFood(foodId);
+    });
+  }
 }

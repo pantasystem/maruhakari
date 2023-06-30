@@ -24,9 +24,11 @@ class HomePageState extends ConsumerState {
       appBar: AppBar(
         title: const Text("調味料一覧"),
         actions: [
-          IconButton(onPressed: () {
-            GoRouter.of(context).push("/account");
-          }, icon: const Icon(Icons.account_circle))
+          IconButton(
+              onPressed: () {
+                GoRouter.of(context).push("/account");
+              },
+              icon: const Icon(Icons.account_circle))
         ],
       ),
       body: RefreshIndicator(
@@ -119,7 +121,12 @@ class MyFoodsListView extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: myFoods.lowWeightFoods.length,
               itemBuilder: (BuildContext context, int index) {
-                return FoodCard(food: myFoods.lowWeightFoods[index]);
+                return FoodCard(
+                  food: myFoods.lowWeightFoods[index],
+                  onSelected: (food) {
+                    GoRouter.of(context).push("/foods/${food.id}");
+                  },
+                );
               },
             ),
           ),
@@ -144,7 +151,12 @@ class MyFoodsListView extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: myFoods.unusedFoods.length,
               itemBuilder: (BuildContext context, int index) {
-                return FoodCard(food: (myFoods.unusedFoods)[index]);
+                return FoodCard(
+                  food: (myFoods.unusedFoods)[index],
+                  onSelected: (food) {
+                    GoRouter.of(context).push("/foods/${food.id}");
+                  },
+                );
               },
             ),
           ),
@@ -168,7 +180,12 @@ class MyFoodsListView extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             itemCount: myFoods.foods.length,
             itemBuilder: (BuildContext context, int index) {
-              return FoodCard(food: myFoods.foods[index]);
+              return FoodCard(
+                food: myFoods.foods[index],
+                onSelected: (food) {
+                  GoRouter.of(context).push("/foods/${food.id}");
+                },
+              );
             },
           ),
         )
