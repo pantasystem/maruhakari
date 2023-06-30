@@ -10,15 +10,15 @@ _$_FoodChart _$$_FoodChartFromJson(Map<String, dynamic> json) => _$_FoodChart(
       records: (json['records'] as List<dynamic>)
           .map((e) => FoodChartRecord.fromJson(e as Map<String, dynamic>))
           .toList(),
-      beginAt: DateTime.parse(json['beginAt'] as String),
-      endAt: DateTime.parse(json['endAt'] as String),
+      beginAt: DateTime.parse(json['begin_at'] as String),
+      endAt: DateTime.parse(json['end_at'] as String),
     );
 
 Map<String, dynamic> _$$_FoodChartToJson(_$_FoodChart instance) =>
     <String, dynamic>{
       'records': instance.records,
-      'beginAt': instance.beginAt.toIso8601String(),
-      'endAt': instance.endAt.toIso8601String(),
+      'begin_at': instance.beginAt.toIso8601String(),
+      'end_at': instance.endAt.toIso8601String(),
     };
 
 _$_FoodChartRecord _$$_FoodChartRecordFromJson(Map<String, dynamic> json) =>

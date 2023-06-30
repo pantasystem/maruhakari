@@ -3,6 +3,7 @@ import 'package:client/repositories/account_repository.dart';
 import 'package:client/repositories/auth_repository.dart';
 import 'package:client/repositories/container_template_repository.dart';
 import 'package:client/repositories/device_repository.dart';
+import 'package:client/repositories/food_chart_repository.dart';
 import 'package:client/repositories/food_repository.dart';
 import 'package:client/repositories/food_template_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,4 +34,8 @@ final foodRepository = Provider((ref) {
 
 final deviceRepository = Provider((ref) {
   return DeviceRepository(client: ref.read(apiClientServiceProvider));
+});
+
+final foodChartRepository = Provider((ref) {
+  return FoodChartRepository(client: ref.read(apiClientServiceProvider));
 });

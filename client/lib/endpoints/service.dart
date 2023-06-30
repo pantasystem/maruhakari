@@ -51,7 +51,7 @@ abstract class MaruhakariApiClient {
   Future<Device> saveDevice(@Body() SaveDeviceRequest req);
   
   @GET("api/v1/foods/{foodId}/chart")
-  Future<FoodChart> getFoodChart(@Path("foodId") String foodId, @Query("begin_at") DateTime beginAt, @Query("end_at") DateTime endAt);
+  Future<FoodChart> getFoodChart(@Path("foodId") String foodId, @Query("begin_at") String beginAt, @Query("end_at") String endAt);
 
 }
 
