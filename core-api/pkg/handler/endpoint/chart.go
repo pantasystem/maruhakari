@@ -42,11 +42,11 @@ func (r *FoodChartHandler) GetFoodChart(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
-	// food, err := r.Module.RepositoryModule().FoodRepository().FindByID(c, foodId)
-	// if err != nil {
-	// 	c.JSON(500, gin.H{"error": err.Error()})
-	// 	return
-	// }
+	food, err := r.Module.RepositoryModule().FoodRepository().FindByID(c, foodId)
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
 	charts := make([]*schema.FoodChartRecord, 0)
 
 	maxRawWeightGram := float32(0)
@@ -56,11 +56,10 @@ func (r *FoodChartHandler) GetFoodChart(c *gin.Context) {
 		}
 	}
 	for _, h := range histories {
-		diff := float32(h.CreatedAt.UnixMilli() - beginAt.UnixMilli())
-		max := float32(endAt.UnixMilli() - beginAt.UnixMilli())
+		// diff := float32(h.CreatedAt.UnixMilli() - beginAt.UnixMilli())
 		charts = append(charts, &schema.FoodChartRecord{
-			X: diff / max,
-			Y: float32(h.RawWeightGram) / float32(maxRawWeightGram),
+			X: float32(h.CreatedAt.Second()),
+			Y: float32(food.ContainerWeightGram - h.RawWeightGram),
 		})
 	}
 	c.JSON(200, schema.FoodChart{
