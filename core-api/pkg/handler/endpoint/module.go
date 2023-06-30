@@ -50,3 +50,10 @@ func (r *ModuleImpl) DeviceController() schema.DeviceController {
 	}
 	return &c
 }
+
+func (r *ModuleImpl) FoodChartController() schema.FoodChartController {
+	c := FoodChartHandler{
+		Module: r.Module,
+	}
+	return &c
+}
