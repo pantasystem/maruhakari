@@ -11,5 +11,7 @@ type MeasurementHistory struct {
 	FoodID        uuid.UUID
 	Food          *Food `gorm:"foreignKey:FoodID"`
 	RawWeightGram float32
+	DeviceID      uuid.UUID
+	Device        *Device `gorm:"foreignKey:DeviceID"`
 	CreatedAt     time.Time
 }
