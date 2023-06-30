@@ -15,15 +15,15 @@ type FoodChartHandler struct {
 
 func (r *FoodChartHandler) GetFoodChart(c *gin.Context) {
 
-	strFoodId := c.Param("food_id")
+	strFoodId := c.Param("foodId")
 	foodId, err := uuid.Parse(strFoodId)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
 
-	stBegin := c.GetString("begin_at")
-	stEnd := c.GetString("end_at")
+	stBegin := c.Query("begin_at")
+	stEnd := c.Query("end_at")
 	endAt, err := time.Parse(time.RFC3339, stBegin)
 	if err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})

@@ -285,41 +285,5 @@ func (r *FoodHandler) FindByOwnFoods(c *gin.Context) {
 }
 
 func (r *FoodHandler) ConvertToProtoFoods(ctx context.Context, foods []*entity.Food) ([]*schema.Food, error) {
-	foodIds := make([]uuid.UUID, len(foods))
-	for i, food := range foods {
-		foodIds[i] = food.ID
-	}
-	histories, err := r.Module.RepositoryModule().MeasurementHistoryRepository().FindLatestByFoodIDs(ctx, foodIds)
-	if err != nil {
-		return nil, err
-	}
-	historyMap := make(map[uuid.UUID]*entity.MeasurementHistory)
-	for _, history := range histories {
-		historyMap[history.FoodID] = history
-	}
-	var protoFoods []*schema.Food
-	for _, food := range foods {
-		pf := &schema.Food{
-			Id:                     food.ID.String(),
-			Name:                   food.Name,
-			ContainerWeightGram:    food.ContainerWeightGram,
-			ContainerMaxWeightGram: food.ContainerMaxWeightGram,
-			GramPerMilliliter:      food.GramPerMilliliter,
-			AccountId:              food.AccountID.String(),
-			CreatedAt:              &food.CreatedAt,
-			UpdatedAt:              &food.UpdatedAt,
-		}
-		if food.NfcUid != nil {
-			u := strings.ToLower(*food.NfcUid)
-			pf.NfcUid = &u
-		}
-		protoFoods = append(protoFoods, pf)
-		history := historyMap[food.ID]
-		if history != nil {
-			pf.RawWeightGram = history.RawWeightGram
-			pf.WeightGram = history.RawWeightGram - pf.ContainerWeightGram
-		}
-	}
-	return protoFoods, nil
-
+	return NewUtil(r.Module).ConvertToSchemaFoods(ctx, foods)
 }

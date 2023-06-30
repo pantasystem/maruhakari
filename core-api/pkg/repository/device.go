@@ -14,4 +14,5 @@ type DeviceRepository interface {
 	FindByID(ctx context.Context, id uuid.UUID) (*entity.Device, error)
 	FindByAccountIDAndMacAddress(ctx context.Context, accountID uuid.UUID, macAddress string) (*entity.Device, error)
 	FindByAccountID(ctx context.Context, accountID uuid.UUID) ([]*entity.Device, error)
+	FindByIn(ctx context.Context, ids []uuid.UUID) ([]*entity.Device, error)
 }

@@ -43,3 +43,12 @@ func (r *MeasurementHistoryRepositoryImpl) FindByRange(ctx context.Context, food
 	}
 	return measurementHistories, nil
 }
+
+func (r *MeasurementHistoryRepositoryImpl) FindLatestByFoodID(ctx context.Context, foodID uuid.UUID) ([]*entity.MeasurementHistory, error) {
+	measurementHistories := []*entity.MeasurementHistory{}
+	result := r.DB.WithContext(ctx).Where("food_id = ?", foodID).Order("created_at desc").Limit(1).Find(&measurementHistories)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return measurementHistories, nil
+}

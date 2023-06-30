@@ -58,3 +58,11 @@ func (r *DeviceRepositoryImpl) FindByAccountID(ctx context.Context, accountID uu
 	}
 	return devices, nil
 }
+
+func (r *DeviceRepositoryImpl) FindByIn(ctx context.Context, ids []uuid.UUID) ([]*entity.Device, error) {
+	devices := []*entity.Device{}
+	if err := r.DB.WithContext(ctx).Where("id in ?", ids).Find(&devices).Error; err != nil {
+		return nil, err
+	}
+	return devices, nil
+}
