@@ -59,7 +59,7 @@ func (r *FoodChartHandler) GetFoodChart(c *gin.Context) {
 		// diff := float32(h.CreatedAt.UnixMilli() - beginAt.UnixMilli())
 		charts = append(charts, &schema.FoodChartRecord{
 			X: float32(h.CreatedAt.Second()),
-			Y: float32(food.ContainerWeightGram - h.RawWeightGram),
+			Y: float32(h.RawWeightGram - food.ContainerWeightGram),
 		})
 	}
 	c.JSON(200, schema.FoodChart{
