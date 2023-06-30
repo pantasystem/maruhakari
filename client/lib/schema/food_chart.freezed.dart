@@ -20,8 +20,11 @@ FoodChart _$FoodChartFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$FoodChart {
+  @JsonKey(name: "records")
   List<FoodChartRecord> get records => throw _privateConstructorUsedError;
+  @JsonKey(name: "begin_at")
   DateTime get beginAt => throw _privateConstructorUsedError;
+  @JsonKey(name: "end_at")
   DateTime get endAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -35,7 +38,10 @@ abstract class $FoodChartCopyWith<$Res> {
   factory $FoodChartCopyWith(FoodChart value, $Res Function(FoodChart) then) =
       _$FoodChartCopyWithImpl<$Res, FoodChart>;
   @useResult
-  $Res call({List<FoodChartRecord> records, DateTime beginAt, DateTime endAt});
+  $Res call(
+      {@JsonKey(name: "records") List<FoodChartRecord> records,
+      @JsonKey(name: "begin_at") DateTime beginAt,
+      @JsonKey(name: "end_at") DateTime endAt});
 }
 
 /// @nodoc
@@ -79,7 +85,10 @@ abstract class _$$_FoodChartCopyWith<$Res> implements $FoodChartCopyWith<$Res> {
       __$$_FoodChartCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<FoodChartRecord> records, DateTime beginAt, DateTime endAt});
+  $Res call(
+      {@JsonKey(name: "records") List<FoodChartRecord> records,
+      @JsonKey(name: "begin_at") DateTime beginAt,
+      @JsonKey(name: "end_at") DateTime endAt});
 }
 
 /// @nodoc
@@ -118,9 +127,9 @@ class __$$_FoodChartCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_FoodChart implements _FoodChart {
   const _$_FoodChart(
-      {required final List<FoodChartRecord> records,
-      required this.beginAt,
-      required this.endAt})
+      {@JsonKey(name: "records") required final List<FoodChartRecord> records,
+      @JsonKey(name: "begin_at") required this.beginAt,
+      @JsonKey(name: "end_at") required this.endAt})
       : _records = records;
 
   factory _$_FoodChart.fromJson(Map<String, dynamic> json) =>
@@ -128,6 +137,7 @@ class _$_FoodChart implements _FoodChart {
 
   final List<FoodChartRecord> _records;
   @override
+  @JsonKey(name: "records")
   List<FoodChartRecord> get records {
     if (_records is EqualUnmodifiableListView) return _records;
     // ignore: implicit_dynamic_type
@@ -135,8 +145,10 @@ class _$_FoodChart implements _FoodChart {
   }
 
   @override
+  @JsonKey(name: "begin_at")
   final DateTime beginAt;
   @override
+  @JsonKey(name: "end_at")
   final DateTime endAt;
 
   @override
@@ -175,18 +187,21 @@ class _$_FoodChart implements _FoodChart {
 
 abstract class _FoodChart implements FoodChart {
   const factory _FoodChart(
-      {required final List<FoodChartRecord> records,
-      required final DateTime beginAt,
-      required final DateTime endAt}) = _$_FoodChart;
+      {@JsonKey(name: "records") required final List<FoodChartRecord> records,
+      @JsonKey(name: "begin_at") required final DateTime beginAt,
+      @JsonKey(name: "end_at") required final DateTime endAt}) = _$_FoodChart;
 
   factory _FoodChart.fromJson(Map<String, dynamic> json) =
       _$_FoodChart.fromJson;
 
   @override
+  @JsonKey(name: "records")
   List<FoodChartRecord> get records;
   @override
+  @JsonKey(name: "begin_at")
   DateTime get beginAt;
   @override
+  @JsonKey(name: "end_at")
   DateTime get endAt;
   @override
   @JsonKey(ignore: true)

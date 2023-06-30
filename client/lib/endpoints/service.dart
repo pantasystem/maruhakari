@@ -4,6 +4,7 @@ import 'package:client/schema/account.dart';
 import 'package:client/schema/container_template.dart';
 import 'package:client/schema/device.dart';
 import 'package:client/schema/food.dart';
+import 'package:client/schema/food_chart.dart';
 import 'package:client/schema/food_template.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -48,6 +49,9 @@ abstract class MaruhakariApiClient {
 
   @POST("api/v1/devices")
   Future<Device> saveDevice(@Body() SaveDeviceRequest req);
+  
+  @GET("api/v1/foods/{foodId}/chart")
+  Future<FoodChart> getFoodChart(@Path("foodId") String foodId, @Query("begin_at") DateTime beginAt, @Query("end_at") DateTime endAt);
 
 }
 
