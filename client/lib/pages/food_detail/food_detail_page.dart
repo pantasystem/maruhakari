@@ -71,8 +71,11 @@ class FoodDetailPage extends ConsumerWidget {
                           ),
                           Column(
                             children: [
-                              Text("${history.createdAt?.year}/${history.createdAt?.month}/${history.createdAt?.day}"),
-                              Text("${history.createdAt?.hour}:${history.createdAt?.minute}"),
+                              if (history.createdAt != null)
+                              ...[
+                                Text("${history.createdAt?.year}/${history.createdAt?.month}/${history.createdAt?.day}"),
+                                Text("${history.createdAt?.hour}:${history.createdAt?.minute}"),
+                              ]
                             ],
                           )
                         ],
