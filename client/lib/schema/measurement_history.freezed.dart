@@ -27,7 +27,7 @@ mixin _$MeasurementHistory {
   String? get deviceId => throw _privateConstructorUsedError;
   Device? get device => throw _privateConstructorUsedError;
   Food? get food => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -48,7 +48,7 @@ abstract class $MeasurementHistoryCopyWith<$Res> {
       String? deviceId,
       Device? device,
       Food? food,
-      DateTime createdAt});
+      DateTime? createdAt});
 
   $DeviceCopyWith<$Res>? get device;
   $FoodCopyWith<$Res>? get food;
@@ -73,7 +73,7 @@ class _$MeasurementHistoryCopyWithImpl<$Res, $Val extends MeasurementHistory>
     Object? deviceId = freezed,
     Object? device = freezed,
     Object? food = freezed,
-    Object? createdAt = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -100,10 +100,10 @@ class _$MeasurementHistoryCopyWithImpl<$Res, $Val extends MeasurementHistory>
           ? _value.food
           : food // ignore: cast_nullable_to_non_nullable
               as Food?,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ) as $Val);
   }
 
@@ -147,7 +147,7 @@ abstract class _$$_MeasurementHistoryCopyWith<$Res>
       String? deviceId,
       Device? device,
       Food? food,
-      DateTime createdAt});
+      DateTime? createdAt});
 
   @override
   $DeviceCopyWith<$Res>? get device;
@@ -172,7 +172,7 @@ class __$$_MeasurementHistoryCopyWithImpl<$Res>
     Object? deviceId = freezed,
     Object? device = freezed,
     Object? food = freezed,
-    Object? createdAt = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_$_MeasurementHistory(
       id: null == id
@@ -199,10 +199,10 @@ class __$$_MeasurementHistoryCopyWithImpl<$Res>
           ? _value.food
           : food // ignore: cast_nullable_to_non_nullable
               as Food?,
-      createdAt: null == createdAt
+      createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
     ));
   }
 }
@@ -217,7 +217,7 @@ class _$_MeasurementHistory implements _MeasurementHistory {
       this.deviceId,
       this.device,
       this.food,
-      required this.createdAt});
+      this.createdAt});
 
   factory _$_MeasurementHistory.fromJson(Map<String, dynamic> json) =>
       _$$_MeasurementHistoryFromJson(json);
@@ -236,7 +236,7 @@ class _$_MeasurementHistory implements _MeasurementHistory {
   @override
   final Food? food;
   @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
 
   @override
   String toString() {
@@ -287,7 +287,7 @@ abstract class _MeasurementHistory implements MeasurementHistory {
       final String? deviceId,
       final Device? device,
       final Food? food,
-      required final DateTime createdAt}) = _$_MeasurementHistory;
+      final DateTime? createdAt}) = _$_MeasurementHistory;
 
   factory _MeasurementHistory.fromJson(Map<String, dynamic> json) =
       _$_MeasurementHistory.fromJson;
@@ -306,7 +306,7 @@ abstract class _MeasurementHistory implements MeasurementHistory {
   @override
   Food? get food;
   @override
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
   @JsonKey(ignore: true)
   _$$_MeasurementHistoryCopyWith<_$_MeasurementHistory> get copyWith =>

@@ -14,7 +14,7 @@ class MeasurementHistory with _$MeasurementHistory {
     String? deviceId,
     Device? device,
     Food? food,
-    required DateTime createdAt,
+    DateTime? createdAt,
   }) = _MeasurementHistory;
 
   factory MeasurementHistory.fromJson(Map<String, dynamic> json) => _$MeasurementHistoryFromJson(json);

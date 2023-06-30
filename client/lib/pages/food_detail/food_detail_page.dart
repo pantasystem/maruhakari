@@ -32,10 +32,10 @@ class FoodDetailPage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Text("アクティビティ",
-                        style: TextStyle(
+                Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Text("アクティビティ(${histories.length})",
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold))),
                 ListView.builder(
                   shrinkWrap: true,
@@ -46,14 +46,33 @@ class FoodDetailPage extends ConsumerWidget {
                     final weight = history.weight - (history.food?.containerWeightGram ?? 0);
                     final percentage = (weight / (history.food?.containerMaxWeightGram ?? 1)) * 100;
                     return Padding(
-                      padding: const EdgeInsets.all(16),
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(children: [
-                                Text("${percentage.round()}%"),
-                              ],)
+                                Text("${percentage.round()}%", style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: percentage <= 10 ? Colors.red : Colors.green,
+                                ),),
+                                const SizedBox(width: 8,),
+                                Text("${weight.round()}g", style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: percentage <= 10 ? Colors.red : Colors.green,
+                                ),),
+                              ],),
+                              Text(history.device?.label ?? "デバイス名なし")
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text("${history.createdAt?.year}/${history.createdAt?.month}/${history.createdAt?.day}"),
+                              Text("${history.createdAt?.hour}:${history.createdAt?.minute}"),
                             ],
                           )
                         ],
@@ -150,8 +169,8 @@ final foodChartFutureProvider =
       );
 });
 
-final foodMeasurementHistories = FutureProvider.family<List<MeasurementHistory>,
+final foodMeasurementHistories = FutureProvider.autoDispose.family<List<MeasurementHistory>,
     String>((ref, request) async {
-  return ref.read(foodRepository).getMeasurementHistories(request, beginAt: DateTime.now().subtract(const Duration(days: 50)),
+  return await ref.read(foodRepository).getMeasurementHistories(request, beginAt: DateTime.now().subtract(const Duration(days: 50)),
   endAt: DateTime.now(),);
 });
