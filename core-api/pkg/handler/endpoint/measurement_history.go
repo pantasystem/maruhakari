@@ -96,6 +96,8 @@ func (r *MeasurementHistoryHandler) FindHistory(c *gin.Context) {
 		return
 	}
 
+	fmt.Printf("histories count: %v\n", len(histories))
+
 	schemaHistories := make([]*schema.MeasurementHistory, len(histories))
 	schemaFood, err := NewUtil(r.Module).CovertToSchemaFood(c, food)
 	if err != nil {
@@ -126,7 +128,6 @@ func (r *MeasurementHistoryHandler) FindHistory(c *gin.Context) {
 				Id:         d.ID.String(),
 				MacAddress: d.MacAddress,
 				Label:      d.Label,
-				Token:      d.Token,
 				CreatedAt:  d.CreatedAt,
 				UpdatedAt:  d.UpdatedAt,
 			}
