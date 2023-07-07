@@ -1,4 +1,5 @@
 import 'package:client/endpoints/service.dart';
+import 'package:client/schema/create_measurement_history_request.dart';
 import 'package:client/schema/food.dart';
 import 'package:client/schema/handler.dart';
 import 'package:client/schema/measurement_history.dart';
@@ -48,6 +49,12 @@ class FoodRepository {
   Future<void> delete(String foodId) async {
     return await handleError(() async {
       await client.deleteFood(foodId);
+    });
+  }
+
+  Future<void> recordHistory(String foodId, {required double weight}) async {
+    return await handleError(() async {
+      await client.createMeasurementHistory(foodId, CreateMeasurementHistoryRequest(weight: weight));
     });
   }
 }

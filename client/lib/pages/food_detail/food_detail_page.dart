@@ -46,8 +46,7 @@ class FoodDetailPage extends ConsumerWidget {
                       TextButton(
                           onPressed: () {
                             ref.read(foodRepository).delete(foodId).then(
-                              (value) {
-                                Navigator.of(context).pop();
+                                  (value) {
                                 Navigator.of(context).pop();
                               },
                             );
@@ -72,11 +71,29 @@ class FoodDetailPage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text("アクティビティ(${histories.length})",
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Text(
+                        "アクティビティ(${histories.length})",
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold))),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showDialog(context: context, builder: (BuildContext context) {
+                          return AddWeightHistoryDialog(foodId: foodId);
+                        });
+                      },
+                      icon: const Icon(Icons.add),
+                    )
+                  ],
+                ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -213,6 +230,46 @@ class FoodInfoCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class AddWeightHistoryDialog extends ConsumerStatefulWidget {
+  final String foodId;
+
+  const AddWeightHistoryDialog({super.key, required this.foodId});
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return AddWeightHistoryState();
+  }
+}
+
+class AddWeightHistoryState extends ConsumerState<AddWeightHistoryDialog> {
+  final controller = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text("手動で追加"),
+      content: TextField(
+        controller: controller,
+        keyboardType: TextInputType.number,
+        decoration: const InputDecoration(
+          labelText: "重さ(g)",
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () {
+          Navigator.of(context).pop();
+        }, child: const Text("キャンセル")),
+        TextButton(onPressed: () {
+          final number = double.tryParse(controller.text);
+          if (number != null) {
+            ref.read(foodRepository).recordHistory(widget.foodId, weight: number).then((value) {
+              Navigator.of(context).pop();
+            });
+          }
+        }, child: const Text("追加"))
+      ],
     );
   }
 }
