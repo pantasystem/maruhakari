@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:client/constants.dart';
 import 'package:client/pages/components/food_card.dart';
 import 'package:client/providers/repositories.dart';
 import 'package:client/schema/food.dart';
@@ -202,6 +203,6 @@ final myFoodsPollingStreamProvider = StreamProvider.autoDispose((ref) async* {
   });
   for (;enabled;) {
     yield await ref.read(foodRepository).getMyFoods();
-    await Future<void>.delayed(const Duration(seconds: 5));
+    await Future<void>.delayed(const Duration(seconds: AppConstants.pollingIntervalSeconds));
   }
 });

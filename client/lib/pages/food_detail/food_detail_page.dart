@@ -1,3 +1,4 @@
+import 'package:client/constants.dart';
 import 'package:client/providers/repositories.dart';
 import 'package:client/schema/food.dart';
 import 'package:client/schema/food_chart.dart';
@@ -353,7 +354,7 @@ final foodFuturePollingProvider =
   });
   while (enable) {
     yield await ref.read(foodRepository).findOne(foodId);
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: AppConstants.pollingIntervalSeconds));
   }
 });
 
@@ -369,7 +370,7 @@ final foodChartPollingStreamProvider =
           beginAt: DateTime.now().subtract(const Duration(days: 50)),
           endAt: DateTime.now(),
         );
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: AppConstants.pollingIntervalSeconds));
   }
 });
 
@@ -385,6 +386,6 @@ final foodMeasurementPollingHistories = StreamProvider.autoDispose
           beginAt: DateTime.now().subtract(const Duration(days: 50)),
           endAt: DateTime.now(),
         );
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: AppConstants.pollingIntervalSeconds));
   }
 });
