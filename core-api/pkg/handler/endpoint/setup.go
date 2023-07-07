@@ -38,6 +38,7 @@ func (r *SetupHandler) Setup(g *gin.Engine, c schema.Module) {
 	mhc := c.MeasurementHistoryController()
 	g.POST("api/v1/measurement-histories", mhc.RecordHistory)
 	g.GET("api/v1/foods/:foodId/measurement-histories", m.CheckToken(), mhc.FindHistory)
+	g.POST("api/v1/foods/:foodId/measurement-histories", m.CheckToken(), mhc.RecordHistory)
 
 	dc := c.DeviceController()
 	g.GET("api/v1/devices", m.CheckToken(), dc.GetOwnDevices)
