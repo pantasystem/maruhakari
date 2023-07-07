@@ -174,11 +174,15 @@ func (r *MeasurementHistoryHandler) CreateHistory(c *gin.Context) {
 		return
 	}
 
-	record, err := r.Module.RepositoryModule().MeasurementHistoryRepository().Create(c, &entity.MeasurementHistory{
+	e := &entity.MeasurementHistory{
 		FoodID:        f.ID,
 		RawWeightGram: req.Weight,
-		CreatedAt:     req.RecordAt,
-	})
+	}
+
+	if req.RecordAt != nil {
+		e.CreatedAt = *req.RecordAt
+	}
+	record, err := r.Module.RepositoryModule().MeasurementHistoryRepository().Create(c, e)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
