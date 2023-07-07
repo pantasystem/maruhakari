@@ -45,6 +45,9 @@ abstract class MaruhakariApiClient {
   @PUT("api/v1/foods/{foodId}")
   Future<Food> updateFood(@Path("foodId") String foodId, @Body() UpdateFoodRequest req);
 
+  @DELETE("api/v1/foods/{foodId}")
+  Future<void> deleteFood(@Path("foodId") String foodId);
+
   @GET("api/v1/devices")
   Future<List<Device>> getDevices();
 

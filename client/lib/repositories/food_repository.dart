@@ -44,4 +44,10 @@ class FoodRepository {
       return await client.getMeasurementHistories(foodId, beginAt.toUtc().toIso8601String(), endAt.toUtc().toIso8601String());
     });
   }
+
+  Future<void> delete(String foodId) async {
+    return await handleError(() async {
+      await client.deleteFood(foodId);
+    });
+  }
 }

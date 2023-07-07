@@ -15,10 +15,48 @@ class FoodDetailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final food = ref.watch(foodFuturePollingProvider(foodId));
     final chart = ref.watch(foodChartPollingStreamProvider(foodId));
-    final histories = ref.watch(foodMeasurementPollingHistories(foodId)).valueOrNull ?? [];
+    final histories =
+        ref.watch(foodMeasurementPollingHistories(foodId)).valueOrNull ?? [];
     return Scaffold(
       appBar: AppBar(
         title: Text(food.valueOrNull?.name ?? ''),
+        actions: [
+          // IconButton(
+          //   icon: const Icon(Icons.edit),
+          //   onPressed: () {
+          //     Navigator.of(context).pushNamed('/food/edit', arguments: foodId);
+          //   },
+          // ),
+          IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text("削除の確認"),
+                      content: const Text("この食品を削除しますか？"),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text("キャンセル")),
+                        TextButton(onPressed: () {
+                          ref.read(foodRepository).delete(foodId).then((value) {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                          });
+                        }, child: const Text("削除"))
+                      ],
+                    );
+                  });
+              ref.read(foodRepository).delete(foodId).then((value) {
+                Navigator.of(context).pop();
+              });
+            },
+          ),
+        ],
       ),
       body: ListView(
         children: [
@@ -42,38 +80,57 @@ class FoodDetailPage extends ConsumerWidget {
                   itemCount: histories.length,
                   itemBuilder: (BuildContext context, int index) {
                     final history = histories[index];
-                    final weight = history.weight - (history.food?.containerWeightGram ?? 0);
-                    final percentage = (weight / (history.food?.containerMaxWeightGram ?? 1)) * 100;
+                    final weight = history.weight -
+                        (history.food?.containerWeightGram ?? 0);
+                    final percentage =
+                        (weight / (history.food?.containerMaxWeightGram ?? 1)) *
+                            100;
                     return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(children: [
-                                Text("${percentage.round()}%", style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: percentage <= 10 ? Colors.red : Colors.green,
-                                ),),
-                                const SizedBox(width: 8,),
-                                Text("${weight.round()}g", style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: percentage <= 10 ? Colors.red : Colors.green,
-                                ),),
-                              ],),
+                              Row(
+                                children: [
+                                  Text(
+                                    "${percentage.round()}%",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: percentage <= 10
+                                          ? Colors.red
+                                          : Colors.green,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  Text(
+                                    "${weight.round()}g",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: percentage <= 10
+                                          ? Colors.red
+                                          : Colors.green,
+                                    ),
+                                  ),
+                                ],
+                              ),
                               Text(history.device?.label ?? "デバイス名なし")
                             ],
                           ),
                           Column(
                             children: [
-                              if (history.createdAt != null)
-                              ...[
-                                Text("${history.createdAt?.year}/${history.createdAt?.month}/${history.createdAt?.day}"),
-                                Text("${history.createdAt?.hour}:${history.createdAt?.minute}"),
+                              if (history.createdAt != null) ...[
+                                Text(
+                                    "${history.createdAt?.year}/${history.createdAt?.month}/${history.createdAt?.day}"),
+                                Text(
+                                    "${history.createdAt?.hour}:${history.createdAt?.minute}"),
                               ]
                             ],
                           )
@@ -163,37 +220,40 @@ final foodFuturePollingProvider =
   ref.onDispose(() {
     enable = false;
   });
-  while(enable) {
+  while (enable) {
     yield await ref.read(foodRepository).findOne(foodId);
     await Future.delayed(const Duration(seconds: 5));
   }
 });
 
-final foodChartPollingStreamProvider = StreamProvider.family<FoodChart, String>((ref, foodId) async* {
+final foodChartPollingStreamProvider =
+    StreamProvider.family<FoodChart, String>((ref, foodId) async* {
   var enable = true;
   ref.onDispose(() {
     enable = false;
   });
-  while(enable) {
+  while (enable) {
     yield await ref.read(foodChartRepository).getFoodChart(
-      foodId: foodId,
-      beginAt: DateTime.now().subtract(const Duration(days: 50)),
-      endAt: DateTime.now(),
-    );
+          foodId: foodId,
+          beginAt: DateTime.now().subtract(const Duration(days: 50)),
+          endAt: DateTime.now(),
+        );
     await Future.delayed(const Duration(seconds: 5));
   }
 });
 
-
-
-final foodMeasurementPollingHistories = StreamProvider.autoDispose.family<List<MeasurementHistory>, String>((ref, request) async* {
+final foodMeasurementPollingHistories = StreamProvider.autoDispose
+    .family<List<MeasurementHistory>, String>((ref, request) async* {
   var enable = true;
   ref.onDispose(() {
     enable = false;
   });
-  for(;enable;) {
-    yield await ref.read(foodRepository).getMeasurementHistories(request, beginAt: DateTime.now().subtract(const Duration(days: 50)),
-      endAt: DateTime.now(),);
+  for (; enable;) {
+    yield await ref.read(foodRepository).getMeasurementHistories(
+          request,
+          beginAt: DateTime.now().subtract(const Duration(days: 50)),
+          endAt: DateTime.now(),
+        );
     await Future.delayed(const Duration(seconds: 5));
   }
 });
