@@ -19,7 +19,7 @@ class FoodListPage extends ConsumerStatefulWidget {
 class HomePageState extends ConsumerState {
   @override
   Widget build(BuildContext context) {
-    final foods = ref.watch(myFoodsFutureProvider);
+    final foods = ref.watch(myFoodsPollingStreamProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("調味料一覧"),
@@ -33,7 +33,7 @@ class HomePageState extends ConsumerState {
       ),
       body: RefreshIndicator(
         onRefresh: () {
-          return ref.refresh(myFoodsFutureProvider.future);
+          return ref.refresh(myFoodsPollingStreamProvider.future);
         },
         child: foods.when(
           data: (data) {
@@ -194,6 +194,10 @@ class MyFoodsListView extends StatelessWidget {
   }
 }
 
-final myFoodsFutureProvider = FutureProvider((ref) {
-  return ref.read(foodRepository).getMyFoods();
+
+final myFoodsPollingStreamProvider = StreamProvider.autoDispose((ref) async* {
+  for (;;) {
+    yield await ref.read(foodRepository).getMyFoods();
+    await Future<void>.delayed(const Duration(seconds: 5));
+  }
 });

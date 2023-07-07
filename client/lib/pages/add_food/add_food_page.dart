@@ -58,7 +58,7 @@ class AddFoodPageState extends ConsumerState {
               return AddFoodConfirmSectionBody(
                 onConfirmButtonClicked: () {
                   notifier.save().then((value) {
-                    ref.refresh(myFoodsFutureProvider);
+                    ref.refresh(myFoodsPollingStreamProvider);
                     Navigator.of(context).pop();
                   });
                 },
