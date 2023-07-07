@@ -23,7 +23,8 @@ type RecordHistoryRequest struct {
 }
 
 type CreateMeasurementHistoryRequest struct {
-	Weight float32 `json:"weight"`
+	Weight   float32   `json:"weight"`
+	RecordAt time.Time `json:"record_at"`
 }
 
 type MeasurementHistoryController interface {
