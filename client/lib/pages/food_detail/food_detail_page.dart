@@ -31,29 +31,32 @@ class FoodDetailPage extends ConsumerWidget {
             icon: const Icon(Icons.delete),
             onPressed: () {
               showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text("削除の確認"),
-                      content: const Text("この食品を削除しますか？"),
-                      actions: [
-                        TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text("キャンセル")),
-                        TextButton(onPressed: () {
-                          ref.read(foodRepository).delete(foodId).then((value) {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                          });
-                        }, child: const Text("削除"))
-                      ],
-                    );
-                  });
-              ref.read(foodRepository).delete(foodId).then((value) {
-                Navigator.of(context).pop();
-              });
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("削除の確認"),
+                    content: const Text("この食品を削除しますか？"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text("キャンセル"),
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            ref.read(foodRepository).delete(foodId).then(
+                              (value) {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                              },
+                            );
+                          },
+                          child: const Text("削除"))
+                    ],
+                  );
+                },
+              );
             },
           ),
         ],

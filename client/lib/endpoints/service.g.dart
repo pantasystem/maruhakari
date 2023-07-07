@@ -263,6 +263,27 @@ class _MaruhakariApiClient implements MaruhakariApiClient {
   }
 
   @override
+  Future<void> deleteFood(foodId) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          'api/v1/foods/${foodId}',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    return null;
+  }
+
+  @override
   Future<List<Device>> getDevices() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
