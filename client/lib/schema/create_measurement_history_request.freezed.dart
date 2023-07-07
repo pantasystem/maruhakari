@@ -22,6 +22,8 @@ CreateMeasurementHistoryRequest _$CreateMeasurementHistoryRequestFromJson(
 /// @nodoc
 mixin _$CreateMeasurementHistoryRequest {
   double get weight => throw _privateConstructorUsedError;
+  @JsonKey(name: "record_at")
+  DateTime? get recordAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -37,7 +39,7 @@ abstract class $CreateMeasurementHistoryRequestCopyWith<$Res> {
       _$CreateMeasurementHistoryRequestCopyWithImpl<$Res,
           CreateMeasurementHistoryRequest>;
   @useResult
-  $Res call({double weight});
+  $Res call({double weight, @JsonKey(name: "record_at") DateTime? recordAt});
 }
 
 /// @nodoc
@@ -55,12 +57,17 @@ class _$CreateMeasurementHistoryRequestCopyWithImpl<$Res,
   @override
   $Res call({
     Object? weight = null,
+    Object? recordAt = freezed,
   }) {
     return _then(_value.copyWith(
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as double,
+      recordAt: freezed == recordAt
+          ? _value.recordAt
+          : recordAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -74,7 +81,7 @@ abstract class _$$_CreateMeasurementHistoryRequestCopyWith<$Res>
       __$$_CreateMeasurementHistoryRequestCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double weight});
+  $Res call({double weight, @JsonKey(name: "record_at") DateTime? recordAt});
 }
 
 /// @nodoc
@@ -91,12 +98,17 @@ class __$$_CreateMeasurementHistoryRequestCopyWithImpl<$Res>
   @override
   $Res call({
     Object? weight = null,
+    Object? recordAt = freezed,
   }) {
     return _then(_$_CreateMeasurementHistoryRequest(
       weight: null == weight
           ? _value.weight
           : weight // ignore: cast_nullable_to_non_nullable
               as double,
+      recordAt: freezed == recordAt
+          ? _value.recordAt
+          : recordAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -105,7 +117,8 @@ class __$$_CreateMeasurementHistoryRequestCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CreateMeasurementHistoryRequest
     implements _CreateMeasurementHistoryRequest {
-  const _$_CreateMeasurementHistoryRequest({required this.weight});
+  const _$_CreateMeasurementHistoryRequest(
+      {required this.weight, @JsonKey(name: "record_at") this.recordAt});
 
   factory _$_CreateMeasurementHistoryRequest.fromJson(
           Map<String, dynamic> json) =>
@@ -113,10 +126,13 @@ class _$_CreateMeasurementHistoryRequest
 
   @override
   final double weight;
+  @override
+  @JsonKey(name: "record_at")
+  final DateTime? recordAt;
 
   @override
   String toString() {
-    return 'CreateMeasurementHistoryRequest(weight: $weight)';
+    return 'CreateMeasurementHistoryRequest(weight: $weight, recordAt: $recordAt)';
   }
 
   @override
@@ -124,12 +140,14 @@ class _$_CreateMeasurementHistoryRequest
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CreateMeasurementHistoryRequest &&
-            (identical(other.weight, weight) || other.weight == weight));
+            (identical(other.weight, weight) || other.weight == weight) &&
+            (identical(other.recordAt, recordAt) ||
+                other.recordAt == recordAt));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, weight);
+  int get hashCode => Object.hash(runtimeType, weight, recordAt);
 
   @JsonKey(ignore: true)
   @override
@@ -150,13 +168,18 @@ class _$_CreateMeasurementHistoryRequest
 abstract class _CreateMeasurementHistoryRequest
     implements CreateMeasurementHistoryRequest {
   const factory _CreateMeasurementHistoryRequest(
-      {required final double weight}) = _$_CreateMeasurementHistoryRequest;
+          {required final double weight,
+          @JsonKey(name: "record_at") final DateTime? recordAt}) =
+      _$_CreateMeasurementHistoryRequest;
 
   factory _CreateMeasurementHistoryRequest.fromJson(Map<String, dynamic> json) =
       _$_CreateMeasurementHistoryRequest.fromJson;
 
   @override
   double get weight;
+  @override
+  @JsonKey(name: "record_at")
+  DateTime? get recordAt;
   @override
   @JsonKey(ignore: true)
   _$$_CreateMeasurementHistoryRequestCopyWith<

@@ -52,7 +52,7 @@ class FoodRepository {
     });
   }
 
-  Future<void> recordHistory(String foodId, {required double weight}) async {
+  Future<void> recordHistory(String foodId, {required double weight, DateTime? recordAt}) async {
     return await handleError(() async {
       await client.createMeasurementHistory(foodId, CreateMeasurementHistoryRequest(weight: weight));
     });

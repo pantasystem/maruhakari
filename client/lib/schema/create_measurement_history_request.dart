@@ -7,6 +7,7 @@ part 'create_measurement_history_request.g.dart';
 class CreateMeasurementHistoryRequest with _$CreateMeasurementHistoryRequest {
   const factory CreateMeasurementHistoryRequest({
     required double weight,
+    @JsonKey(name: "record_at") DateTime? recordAt,
   }) = _CreateMeasurementHistoryRequest;
 
   factory CreateMeasurementHistoryRequest.fromJson(Map<String, dynamic> json) => _$CreateMeasurementHistoryRequestFromJson(json);

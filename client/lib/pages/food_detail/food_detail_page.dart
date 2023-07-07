@@ -46,7 +46,7 @@ class FoodDetailPage extends ConsumerWidget {
                       TextButton(
                           onPressed: () {
                             ref.read(foodRepository).delete(foodId).then(
-                                  (value) {
+                              (value) {
                                 Navigator.of(context).pop();
                               },
                             );
@@ -86,9 +86,11 @@ class FoodDetailPage extends ConsumerWidget {
                     ),
                     IconButton(
                       onPressed: () {
-                        showDialog(context: context, builder: (BuildContext context) {
-                          return AddWeightHistoryDialog(foodId: foodId);
-                        });
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AddWeightHistoryDialog(foodId: foodId);
+                            });
                       },
                       icon: const Icon(Icons.add),
                     )
@@ -238,6 +240,7 @@ class AddWeightHistoryDialog extends ConsumerStatefulWidget {
   final String foodId;
 
   const AddWeightHistoryDialog({super.key, required this.foodId});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return AddWeightHistoryState();
@@ -246,29 +249,97 @@ class AddWeightHistoryDialog extends ConsumerStatefulWidget {
 
 class AddWeightHistoryState extends ConsumerState<AddWeightHistoryDialog> {
   final controller = TextEditingController();
+
+  DateTime? date;
+  TimeOfDay? time;
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: const Text("手動で追加"),
-      content: TextField(
-        controller: controller,
-        keyboardType: TextInputType.number,
-        decoration: const InputDecoration(
-          labelText: "重さ(g)",
+      content: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    final picked = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2020),
+                      lastDate: DateTime.now(),
+                    );
+                    setState(() {
+                      date = picked;
+                    });
+                  },
+                  child: () {
+                    if (date == null) {
+                      return const Text("日付を指定");
+                    } else {
+                      return Text("${date?.year}/${date?.month}/${date?.day}");
+                    }
+                  }(),
+                ),
+                const SizedBox(width: 16),
+                TextButton(
+                  onPressed: () async {
+                    final picked = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay.now(),
+                    );
+                    setState(() {
+                      time = picked;
+                    });
+                  },
+                  child: () {
+                    if (time == null) {
+                      return const Text("時間を指定");
+                    } else {
+                      return Text("${time?.hour}:${time?.minute}");
+                    }
+                  }(),
+                )
+              ],
+            ),
+            TextField(
+              controller: controller,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: "重さ(g)",
+              ),
+            )
+          ],
         ),
       ),
       actions: [
-        TextButton(onPressed: () {
-          Navigator.of(context).pop();
-        }, child: const Text("キャンセル")),
-        TextButton(onPressed: () {
-          final number = double.tryParse(controller.text);
-          if (number != null) {
-            ref.read(foodRepository).recordHistory(widget.foodId, weight: number).then((value) {
+        TextButton(
+            onPressed: () {
               Navigator.of(context).pop();
-            });
-          }
-        }, child: const Text("追加"))
+            },
+            child: const Text("キャンセル")),
+        TextButton(
+            onPressed: () {
+              final number = double.tryParse(controller.text);
+
+              final DateTime recordAt;
+              if (date != null && time != null) {
+                recordAt = DateTime(date!.year, date!.month, date!.day, time!.hour,
+                    time!.minute);
+              } else {
+                recordAt = DateTime.now();
+              }
+              if (number != null) {
+                ref
+                    .read(foodRepository)
+                    .recordHistory(widget.foodId, weight: number, recordAt: recordAt)
+                    .then((value) {
+                  Navigator.of(context).pop();
+                });
+              }
+            },
+            child: const Text("追加"))
       ],
     );
   }
