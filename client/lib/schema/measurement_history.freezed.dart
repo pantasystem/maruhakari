@@ -27,6 +27,7 @@ mixin _$MeasurementHistory {
   String? get deviceId => throw _privateConstructorUsedError;
   Device? get device => throw _privateConstructorUsedError;
   Food? get food => throw _privateConstructorUsedError;
+  @JsonKey(name: "created_at")
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -48,7 +49,7 @@ abstract class $MeasurementHistoryCopyWith<$Res> {
       String? deviceId,
       Device? device,
       Food? food,
-      DateTime? createdAt});
+      @JsonKey(name: "created_at") DateTime? createdAt});
 
   $DeviceCopyWith<$Res>? get device;
   $FoodCopyWith<$Res>? get food;
@@ -147,7 +148,7 @@ abstract class _$$_MeasurementHistoryCopyWith<$Res>
       String? deviceId,
       Device? device,
       Food? food,
-      DateTime? createdAt});
+      @JsonKey(name: "created_at") DateTime? createdAt});
 
   @override
   $DeviceCopyWith<$Res>? get device;
@@ -217,7 +218,7 @@ class _$_MeasurementHistory implements _MeasurementHistory {
       this.deviceId,
       this.device,
       this.food,
-      this.createdAt});
+      @JsonKey(name: "created_at") this.createdAt});
 
   factory _$_MeasurementHistory.fromJson(Map<String, dynamic> json) =>
       _$$_MeasurementHistoryFromJson(json);
@@ -236,6 +237,7 @@ class _$_MeasurementHistory implements _MeasurementHistory {
   @override
   final Food? food;
   @override
+  @JsonKey(name: "created_at")
   final DateTime? createdAt;
 
   @override
@@ -281,13 +283,14 @@ class _$_MeasurementHistory implements _MeasurementHistory {
 
 abstract class _MeasurementHistory implements MeasurementHistory {
   const factory _MeasurementHistory(
-      {required final int id,
-      @JsonKey(name: "food_id") required final String foodId,
-      required final double weight,
-      final String? deviceId,
-      final Device? device,
-      final Food? food,
-      final DateTime? createdAt}) = _$_MeasurementHistory;
+          {required final int id,
+          @JsonKey(name: "food_id") required final String foodId,
+          required final double weight,
+          final String? deviceId,
+          final Device? device,
+          final Food? food,
+          @JsonKey(name: "created_at") final DateTime? createdAt}) =
+      _$_MeasurementHistory;
 
   factory _MeasurementHistory.fromJson(Map<String, dynamic> json) =
       _$_MeasurementHistory.fromJson;
@@ -306,6 +309,7 @@ abstract class _MeasurementHistory implements MeasurementHistory {
   @override
   Food? get food;
   @override
+  @JsonKey(name: "created_at")
   DateTime? get createdAt;
   @override
   @JsonKey(ignore: true)

@@ -19,9 +19,9 @@ _$_MeasurementHistory _$$_MeasurementHistoryFromJson(
       food: json['food'] == null
           ? null
           : Food.fromJson(json['food'] as Map<String, dynamic>),
-      createdAt: json['createdAt'] == null
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
+          : DateTime.parse(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$$_MeasurementHistoryToJson(
@@ -33,7 +33,7 @@ Map<String, dynamic> _$$_MeasurementHistoryToJson(
       'deviceId': instance.deviceId,
       'device': instance.device,
       'food': instance.food,
-      'createdAt': instance.createdAt?.toIso8601String(),
+      'created_at': instance.createdAt?.toIso8601String(),
     };
 
 _$_RecordHistoryRequest _$$_RecordHistoryRequestFromJson(
