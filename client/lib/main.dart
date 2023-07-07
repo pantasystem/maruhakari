@@ -25,6 +25,7 @@ class RouterPage extends ConsumerWidget {
     final router = ref.watch(routerProvider);
     return MaterialApp.router(
       title: "Chat App",
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
           primarySwatch: Colors.red,
           primaryColor: const Color.fromARGB(0xff, 0xee, 0x02, 0x02),
