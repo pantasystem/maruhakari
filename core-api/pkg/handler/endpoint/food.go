@@ -284,6 +284,44 @@ func (r *FoodHandler) FindByOwnFoods(c *gin.Context) {
 
 }
 
+func (r *FoodHandler) DeleteFood(c *gin.Context) {
+	aId, err := uuid.Parse(c.GetString(middleware.AccountId))
+	if err != nil {
+		fmt.Printf("error: %v\n", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	fId, ok := c.Params.Get("foodId")
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "invalid food id"})
+		return
+	}
+	fUuid, err := uuid.Parse(fId)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	f, err := r.Module.RepositoryModule().FoodRepository().FindByID(c, fUuid)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		} else {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		}
+		return
+	}
+	if f.AccountID != aId {
+		c.JSON(http.StatusNotFound, gin.H{"error": "not found"})
+		return
+	}
+	err = r.Module.RepositoryModule().FoodRepository().Delete(c, f.ID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, nil)
+}
+
 func (r *FoodHandler) ConvertToProtoFoods(ctx context.Context, foods []*entity.Food) ([]*schema.Food, error) {
 	return NewUtil(r.Module).ConvertToSchemaFoods(ctx, foods)
 }

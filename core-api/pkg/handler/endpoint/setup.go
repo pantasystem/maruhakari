@@ -33,6 +33,7 @@ func (r *SetupHandler) Setup(g *gin.Engine, c schema.Module) {
 	g.GET("api/v1/foods/:foodId/related-nfc", m.CheckToken(), fc.FindFoodByNfcUid)
 	g.POST("api/v1/foods", m.CheckToken(), fc.CreateFood)
 	g.PUT("api/v1/foods/:foodId", m.CheckToken(), fc.UpdateFood)
+	g.DELETE("api/v1/foods/:foodId", m.CheckToken(), fc.DeleteFood)
 
 	mhc := c.MeasurementHistoryController()
 	g.POST("api/v1/measurement-histories", mhc.RecordHistory)

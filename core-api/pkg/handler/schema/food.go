@@ -50,4 +50,5 @@ type FoodController interface {
 	FindFoodByNfcUid(c *gin.Context)
 	FindFoodById(c *gin.Context)
 	FindByOwnFoods(c *gin.Context)
+	DeleteFood(c *gin.Context)
 }
