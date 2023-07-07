@@ -22,7 +22,12 @@ type RecordHistoryRequest struct {
 	Weight      float32 `json:"weight"`
 }
 
+type CreateMeasurementHistoryRequest struct {
+	Weight float32 `json:"weight"`
+}
+
 type MeasurementHistoryController interface {
 	RecordHistory(c *gin.Context)
 	FindHistory(c *gin.Context)
+	CreateHistory(c *gin.Context)
 }

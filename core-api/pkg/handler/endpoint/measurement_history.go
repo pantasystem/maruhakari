@@ -5,6 +5,7 @@ import (
 	"core-api/pkg/handler/middleware"
 	"core-api/pkg/handler/schema"
 	"core-api/pkg/module"
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -12,6 +13,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"gorm.io/gorm"
 )
 
 type MeasurementHistoryHandler struct {
@@ -137,4 +139,55 @@ func (r *MeasurementHistoryHandler) FindHistory(c *gin.Context) {
 
 	}
 	c.JSON(http.StatusOK, schemaHistories)
+}
+
+func (r *MeasurementHistoryHandler) CreateHistory(c *gin.Context) {
+	var req schema.CreateMeasurementHistoryRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	aId, err := uuid.Parse(c.GetString(middleware.AccountId))
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	foodId, err := uuid.Parse(c.Param("foodId"))
+	if err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	f, err := r.Module.RepositoryModule().FoodRepository().FindByID(c, foodId)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			c.JSON(404, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	if f.AccountID != aId {
+		c.JSON(403, gin.H{"error": "food does not belong to the account"})
+		return
+	}
+
+	record, err := r.Module.RepositoryModule().MeasurementHistoryRepository().Create(c, &entity.MeasurementHistory{
+		FoodID:        f.ID,
+		RawWeightGram: req.Weight,
+	})
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, schema.MeasurementHistory{
+		Id:        record.ID,
+		FoodId:    f.ID.String(),
+		Weight:    record.RawWeightGram,
+		CreatedAt: record.CreatedAt,
+	})
+
 }
