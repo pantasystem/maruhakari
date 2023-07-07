@@ -144,6 +144,7 @@ func (r *MeasurementHistoryHandler) FindHistory(c *gin.Context) {
 func (r *MeasurementHistoryHandler) CreateHistory(c *gin.Context) {
 	var req schema.CreateMeasurementHistoryRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
+		fmt.Printf("err bind json: %v\n", err)
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
@@ -155,6 +156,7 @@ func (r *MeasurementHistoryHandler) CreateHistory(c *gin.Context) {
 
 	foodId, err := uuid.Parse(c.Param("foodId"))
 	if err != nil {
+		fmt.Printf("err parse food id: %v\n", err)
 		c.JSON(400, gin.H{"error": err.Error()})
 		return
 	}
