@@ -196,7 +196,11 @@ class MyFoodsListView extends StatelessWidget {
 
 
 final myFoodsPollingStreamProvider = StreamProvider.autoDispose((ref) async* {
-  for (;;) {
+  var enabled = true;
+  ref.onDispose(() {
+    enabled = false;
+  });
+  for (;enabled;) {
     yield await ref.read(foodRepository).getMyFoods();
     await Future<void>.delayed(const Duration(seconds: 5));
   }
