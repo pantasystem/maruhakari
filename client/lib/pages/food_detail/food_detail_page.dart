@@ -13,10 +13,9 @@ class FoodDetailPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final food = ref.watch(foodFutureProvider(foodId));
-    final chart = ref.watch(foodChartFutureProvider(foodId));
-    final graph = chart.valueOrNull?.records ?? [];
-    final histories = ref.watch(foodMeasurementHistories(foodId)).valueOrNull ?? [];
+    final food = ref.watch(foodFuturePollingProvider(foodId));
+    final chart = ref.watch(foodChartPollingStreamProvider(foodId));
+    final histories = ref.watch(foodMeasurementPollingHistories(foodId)).valueOrNull ?? [];
     return Scaffold(
       appBar: AppBar(
         title: Text(food.valueOrNull?.name ?? ''),
@@ -158,22 +157,43 @@ class FoodInfoCard extends StatelessWidget {
   }
 }
 
-final foodFutureProvider =
-    FutureProvider.family<Food, String>((ref, foodId) async {
-  return ref.read(foodRepository).findOne(foodId);
+final foodFuturePollingProvider =
+    StreamProvider.family<Food, String>((ref, foodId) async* {
+  var enable = true;
+  ref.onDispose(() {
+    enable = false;
+  });
+  while(enable) {
+    yield await ref.read(foodRepository).findOne(foodId);
+    await Future.delayed(const Duration(seconds: 5));
+  }
 });
 
-final foodChartFutureProvider =
-    FutureProvider.family<FoodChart, String>((ref, foodId) {
-  return ref.read(foodChartRepository).getFoodChart(
-        foodId: foodId,
-        beginAt: DateTime.now().subtract(const Duration(days: 50)),
-        endAt: DateTime.now(),
-      );
+final foodChartPollingStreamProvider = StreamProvider.family<FoodChart, String>((ref, foodId) async* {
+  var enable = true;
+  ref.onDispose(() {
+    enable = false;
+  });
+  while(enable) {
+    yield await ref.read(foodChartRepository).getFoodChart(
+      foodId: foodId,
+      beginAt: DateTime.now().subtract(const Duration(days: 50)),
+      endAt: DateTime.now(),
+    );
+    await Future.delayed(const Duration(seconds: 5));
+  }
 });
 
-final foodMeasurementHistories = FutureProvider.autoDispose.family<List<MeasurementHistory>,
-    String>((ref, request) async {
-  return await ref.read(foodRepository).getMeasurementHistories(request, beginAt: DateTime.now().subtract(const Duration(days: 50)),
-  endAt: DateTime.now(),);
+
+
+final foodMeasurementPollingHistories = StreamProvider.autoDispose.family<List<MeasurementHistory>, String>((ref, request) async* {
+  var enable = true;
+  ref.onDispose(() {
+    enable = false;
+  });
+  for(;enable;) {
+    yield await ref.read(foodRepository).getMeasurementHistories(request, beginAt: DateTime.now().subtract(const Duration(days: 50)),
+      endAt: DateTime.now(),);
+    await Future.delayed(const Duration(seconds: 5));
+  }
 });
