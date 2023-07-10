@@ -78,7 +78,7 @@ func main() {
 func setupFirebase() (*messaging.Client, error) {
 	ctx := context.Background()
 
-	sa := option.WithCredentialsFile("path/to/serviceAccountKey.json")
+	sa := option.WithCredentialsFile("keys/serviceAccountKey.json")
 	app, err := firebase.NewApp(ctx, nil, sa)
 	if err != nil {
 		log.Fatalln(err)
