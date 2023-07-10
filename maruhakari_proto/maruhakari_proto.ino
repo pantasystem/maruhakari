@@ -5,7 +5,15 @@
 #include <Arduino.h>
 #include "ArduinoJson.h"
 #include <HTTPClient.h>
+#include <SPI.h>
 #include <MFRC522.h>
+#include <HX711.h>
+
+#define DT_PIN 2
+#define SCK_PIN 4
+
+#define RST_PIN 5  
+#define SS_PIN 26
 
 #define DEVICE_NAME "ESP32" 
 
@@ -17,8 +25,18 @@
 
 BLECharacteristic *connectionInfoCharacteristicTx;
 
+MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
+
+HX711 scale;
+
 bool  deviceConnected = false; 
 bool connectingWifi = false;
+
+long offset = 51015;
+double gradient = 0.0004479036;
+double baseWeight = 300.0;
+
+char* nfcUid;  // ポインタを宣言
 
 RTC_DATA_ATTR char wifiSsid[128]; 
 RTC_DATA_ATTR char wifiPassword[128]; 
@@ -138,8 +156,43 @@ void waitConnectionInfoAvailable() {
 
 void getSensorValueAndSendToServer() {
   // TODO: nfcからuidをchar*で取得する処理と歪みセンサーから重量を取得する処理を実装する
-  const char* nfcUid = "dcb9e1aa";
-  float weight = 114514;
+
+  SPI.begin();
+  mfrc522.PCD_Init();
+
+  long value = scale.read_average(5);
+
+  if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
+
+      // UIDのバイト配列を取得
+      byte* uidBytes = mfrc522.uid.uidByte;
+      int uidSize = mfrc522.uid.size;
+
+      // UIDを文字列に変換
+      nfcUid = new char[uidSize * 2 + 1];  // 必要なサイズを計算し、動的にメモリを割り当て
+      
+      for (int i = 0; i < uidSize; i++) {
+        sprintf(nfcUid + i * 2, "%02x", uidBytes[i]);
+      }
+      
+      nfcUid[uidSize * 2] = '\0';  // 文字列の終端にヌル文字を追加
+
+      // UIDの出力
+      //Serial.print("NFCカードのUID: ");
+      //Serial.println(nfcUid);
+
+      // NFCタグとの通信を停止
+      mfrc522.PICC_HaltA();
+      mfrc522.PCD_StopCrypto1();
+      
+  }else{
+
+    Serial.println("NFC読み取れてないよおおおおおおお");
+    
+  }
+  
+  //const char* nfcUid = "dcb9e1aa";
+  float weight = (double)(value - offset) * gradient;
 
   DynamicJsonDocument doc(1024);
   doc["nfc_uid"] = nfcUid;
@@ -150,6 +203,7 @@ void getSensorValueAndSendToServer() {
 
   String requestBody;
   serializeJson(doc, requestBody);
+  Serial.println(requestBody);
 
   HTTPClient httpClient;
   httpClient.begin(API_ENDPOINT_URL);
@@ -158,6 +212,9 @@ void getSensorValueAndSendToServer() {
   int statusCode = httpClient.POST(requestBody);
   Serial.println(statusCode);
   httpClient.end();
+
+  // メモリの解放
+  delete[] nfcUid;
   
 }
 
@@ -165,6 +222,8 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Start programm ...");
   // put your setup code here, to run once:
+
+  scale.begin(DT_PIN, SCK_PIN);
 
   if (!checkConnectionInfoAvailable()) {
     startBluetooth();
