@@ -1,14 +1,19 @@
 package main
 
 import (
+	"context"
 	"core-api/pkg/config"
 	"core-api/pkg/entity"
 	"core-api/pkg/handler/endpoint"
 	"core-api/pkg/module"
 	"fmt"
+	"log"
 
+	firebase "firebase.google.com/go"
+	"firebase.google.com/go/messaging"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"google.golang.org/api/option"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -34,11 +39,17 @@ func main() {
 		DB: db,
 	}
 	engine := gin.Default()
+	fac, err := setupFirebase()
+	if err != nil {
+		panic(err)
+	}
+
 	setupHandler := endpoint.SetupHandler{
 		Module: m,
 	}
 	schemaModule := endpoint.ModuleImpl{
-		Module: m,
+		Module:                 m,
+		FirebaseMssagingClient: fac,
 	}
 	setupHandler.Setup(engine, &schemaModule)
 	engine.Run(fmt.Sprintf(":%d", config.Port))
@@ -62,4 +73,22 @@ func main() {
 	// <-quit
 	// fmt.Println("stopping gRPC server...")
 	// s.GracefulStop()
+}
+
+func setupFirebase() (*messaging.Client, error) {
+	ctx := context.Background()
+	sa := option.WithCredentialsFile("path/to/serviceAccount.json")
+	app, err := firebase.NewApp(ctx, nil, sa)
+	if err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+
+	client, err := app.Messaging(ctx)
+	if err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+
+	return client, nil
 }
