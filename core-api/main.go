@@ -6,6 +6,8 @@ import (
 	"core-api/pkg/entity"
 	"core-api/pkg/handler/endpoint"
 	"core-api/pkg/module"
+	"encoding/base64"
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -79,7 +81,20 @@ func main() {
 
 func setupFirebase() (*messaging.Client, error) {
 	ctx := context.Background()
-	credentials, err := google.CredentialsFromJSON(ctx, []byte(os.Getenv("FIREBASE_KEYFILE_JSON")))
+	encodedKey := os.Getenv("BASE64_FIREBASE_KEYFILE_JSON")
+	if encodedKey == "" {
+		fmt.Println("BASE64_FIREBASE_KEYFILE_JSON is not set")
+		return nil, errors.New("BASE64_FIREBASE_KEYFILE_JSON is not set")
+	}
+
+	// base64デコード
+	decodedKey, err := base64.StdEncoding.DecodeString(encodedKey)
+	if err != nil {
+		fmt.Println("Failed to decode base64:", err)
+		return nil, err
+	}
+
+	credentials, err := google.CredentialsFromJSON(ctx, decodedKey)
 	if err != nil {
 		log.Printf("error credentials from json: %v\n", err)
 	}
