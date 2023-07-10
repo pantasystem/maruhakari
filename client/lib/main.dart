@@ -1,15 +1,30 @@
+import 'dart:io';
+
 import 'package:client/firebase_options.dart';
 import 'package:client/router.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const ProviderScope(child: MyApp()));
+  FirebaseMessaging.onBackgroundMessage((message) async {
+
+  });
+  if (Platform.isAndroid) {
+    [
+      Permission.notification,
+    ].request().then((value) {
+      runApp(const ProviderScope(child: MyApp()));
+    });
+  } else {
+    runApp(const ProviderScope(child: MyApp()));
+  }
 }
 
 class MyApp extends StatelessWidget {
