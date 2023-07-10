@@ -20,6 +20,7 @@ func (r *SetupHandler) Setup(g *gin.Engine, c schema.Module) {
 	g.POST("api/v1/accounts/register", ac.CreateAccount)
 	g.POST("api/v1/accounts/login", ac.LoginAccount)
 	g.GET("api/v1/accounts/verify", m.CheckToken(), ac.VerifyToken)
+	g.POST("api/v1/accounts/fcm-token", m.CheckToken(), ac.RegisterFcmToken)
 
 	ctc := c.ContainerTemplateController()
 	g.GET("api/v1/container-templates", ctc.GetContainerTemplates)

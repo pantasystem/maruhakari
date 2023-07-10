@@ -8,6 +8,7 @@ import 'package:client/schema/food.dart';
 import 'package:client/schema/food_chart.dart';
 import 'package:client/schema/food_template.dart';
 import 'package:client/schema/measurement_history.dart';
+import 'package:client/schema/register_fcm_token_request.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
@@ -24,6 +25,9 @@ abstract class MaruhakariApiClient {
 
   @GET("api/v1/accounts/verify")
   Future<Account> verifyToken();
+
+  @POST("api/v1/accounts/fcm-token")
+  Future<void> registerFcmToken(@Body() RegisterFcmTokenRequest req);
 
   @GET("api/v1/container-templates")
   Future<List<ContainerTemplate>> getContainerTemplates();

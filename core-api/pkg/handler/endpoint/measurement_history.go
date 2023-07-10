@@ -1,6 +1,7 @@
 package endpoint
 
 import (
+	"context"
 	"core-api/pkg/entity"
 	"core-api/pkg/handler/middleware"
 	"core-api/pkg/handler/schema"
@@ -11,13 +12,15 @@ import (
 	"strings"
 	"time"
 
+	"firebase.google.com/go/messaging"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
 type MeasurementHistoryHandler struct {
-	Module module.Module
+	Module                 module.Module
+	FirebaseMssagingClient *messaging.Client
 }
 
 func (r *MeasurementHistoryHandler) RecordHistory(c *gin.Context) {
@@ -55,12 +58,16 @@ func (r *MeasurementHistoryHandler) RecordHistory(c *gin.Context) {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
+
+	r.sendPushNotifyIfNeed(c, f, mhe)
+
 	c.JSON(http.StatusOK, schema.MeasurementHistory{
 		Id:        mhe.ID,
 		FoodId:    f.ID.String(),
 		Weight:    mhe.RawWeightGram,
 		CreatedAt: mhe.CreatedAt,
 	})
+
 }
 
 func (r *MeasurementHistoryHandler) FindHistory(c *gin.Context) {
@@ -196,5 +203,54 @@ func (r *MeasurementHistoryHandler) CreateHistory(c *gin.Context) {
 		Weight:    record.RawWeightGram,
 		CreatedAt: record.CreatedAt,
 	})
+
+}
+
+func (r *MeasurementHistoryHandler) sendPushNotifyIfNeed(ctx context.Context, food *entity.Food, history *entity.MeasurementHistory) {
+	if r.FirebaseMssagingClient == nil {
+		fmt.Printf("firebase messaging client is nil\n")
+		return
+	}
+
+	if food == nil {
+		fmt.Printf("food is nil\n")
+		return
+	}
+
+	a, err := r.Module.RepositoryModule().AccountRepository().FindByID(ctx, food.AccountID)
+	if err != nil {
+		fmt.Printf("error finding account: %v\n", err)
+		return
+	}
+
+	if a.FcmToken == nil {
+		fmt.Printf("fcm token is nil\n")
+		return
+	}
+
+	food, err = r.Module.RepositoryModule().FoodRepository().FindByID(ctx, food.ID)
+	if err != nil {
+		fmt.Printf("error finding food: %v\n", err)
+		return
+	}
+
+	// 10%を切ったら通知
+	// TODO: 短時間に大量の通知を送信しないような工夫を行う。
+	// TODO: DB上に通知済みの履歴を持つなどの工夫が必要かもしれない
+	weight := history.RawWeightGram - food.ContainerWeightGram
+	if weight < food.ContainerMaxWeightGram*0.1 {
+		result, err := r.FirebaseMssagingClient.Send(ctx, &messaging.Message{
+			Token: *a.FcmToken,
+			Notification: &messaging.Notification{
+				Title: fmt.Sprintf("%sが少なくなっています", food.Name),
+				Body:  fmt.Sprintf("%sの残量が10%%を下回りました。", food.Name),
+			},
+		})
+		if err != nil {
+			fmt.Printf("error sending push notification: %v\n", err)
+			return
+		}
+		fmt.Printf("send push notification result: %v\n", result)
+	}
 
 }

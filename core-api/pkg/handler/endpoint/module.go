@@ -3,10 +3,13 @@ package endpoint
 import (
 	"core-api/pkg/handler/schema"
 	"core-api/pkg/module"
+
+	"firebase.google.com/go/messaging"
 )
 
 type ModuleImpl struct {
-	Module module.Module
+	Module                 module.Module
+	FirebaseMssagingClient *messaging.Client
 }
 
 func (r *ModuleImpl) AccountController() schema.AccountController {
@@ -39,7 +42,8 @@ func (r *ModuleImpl) FoodController() schema.FoodController {
 
 func (r *ModuleImpl) MeasurementHistoryController() schema.MeasurementHistoryController {
 	c := MeasurementHistoryHandler{
-		Module: r.Module,
+		Module:                 r.Module,
+		FirebaseMssagingClient: r.FirebaseMssagingClient,
 	}
 	return &c
 }

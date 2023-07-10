@@ -102,3 +102,33 @@ func (r *AccountHandler) VerifyToken(c *gin.Context) {
 		UpdatedAt: a.UpdatedAt.String(),
 	})
 }
+
+func (r *AccountHandler) RegisterFcmToken(c *gin.Context) {
+	var req schema.RegisterFcmTokenRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"validation_error": err.Error()})
+		return
+	}
+	aUuid, err := uuid.Parse(c.GetString(middleware.AccountId))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	a, err := r.Module.RepositoryModule().AccountRepository().FindByID(c.Request.Context(), aUuid)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	a.FcmToken = &req.FcmToken
+	a, err = r.Module.RepositoryModule().AccountRepository().Update(c.Request.Context(), a)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, schema.Account{
+		Id:        a.ID.String(),
+		Username:  a.Username,
+		CreatedAt: a.CreatedAt.String(),
+		UpdatedAt: a.UpdatedAt.String(),
+	})
+}
