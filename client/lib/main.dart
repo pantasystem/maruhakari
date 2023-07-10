@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:client/firebase_options.dart';
@@ -27,7 +28,7 @@ void main() async {
 }
 
 Future<void> _onBackgroundMessage(RemoteMessage message) async {
-
+  log("onBackgroundMessage: $message");
 }
 
 class MyApp extends StatelessWidget {

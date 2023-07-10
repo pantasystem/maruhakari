@@ -248,10 +248,10 @@ func (r *MeasurementHistoryHandler) sendPushNotifyIfNeed(ctx context.Context, fo
 			},
 		})
 		if err != nil {
-			fmt.Printf("error sending push notification: %v\n", err)
+			fmt.Printf("プッシュ通知の送信に失敗: %v\n", err)
 			return
 		}
-		fmt.Printf("send push notification result: %v\n", result)
+		fmt.Printf("プッシュ通知の送信に成功しました: %v\n", result)
 	}
 
 }
