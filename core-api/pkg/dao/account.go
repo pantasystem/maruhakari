@@ -44,10 +44,19 @@ func (r *AccountRepositoryImpl) Create(ctx context.Context, account *entity.Acco
 }
 
 func (r *AccountRepositoryImpl) Update(ctx context.Context, account *entity.Account) (*entity.Account, error) {
-	if err := r.DB.WithContext(ctx).Save(account).Error; err != nil {
-		return nil, err
+	err := r.DB.WithContext(ctx).Model(&entity.Account{}).
+		Where("id = ?", account.ID).
+		Select(
+			"Username",
+			"EncryptedPassword",
+			"Token",
+			"FcmToken",
+		).
+		Updates(account)
+	if err.Error != nil {
+		return nil, err.Error
 	}
-	return account, nil
+	return r.FindByID(ctx, account.ID)
 }
 
 func (r *AccountRepositoryImpl) Delete(ctx context.Context, id uuid.UUID) error {

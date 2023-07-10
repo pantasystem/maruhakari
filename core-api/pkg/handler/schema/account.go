@@ -24,6 +24,10 @@ type TokenWithAccount struct {
 	Account *Account `json:"account"`
 }
 
+type RegisterFcmTokenRequest struct {
+	FcmToken string `json:"fcm_token"`
+}
+
 type AccountController interface {
 	CreateAccount(c *gin.Context)
 	LoginAccount(c *gin.Context)
