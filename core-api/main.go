@@ -8,11 +8,13 @@ import (
 	"core-api/pkg/module"
 	"fmt"
 	"log"
+	"os"
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/messaging"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -77,7 +79,11 @@ func main() {
 
 func setupFirebase() (*messaging.Client, error) {
 	ctx := context.Background()
-	sa := option.WithCredentialsFile("path/to/serviceAccount.json")
+	credentials, err := google.CredentialsFromJSON(ctx, []byte(os.Getenv("FIREBASE_KEYFILE_JSON")))
+	if err != nil {
+		log.Printf("error credentials from json: %v\n", err)
+	}
+	sa := option.WithCredentials(credentials)
 	app, err := firebase.NewApp(ctx, nil, sa)
 	if err != nil {
 		log.Fatalln(err)
