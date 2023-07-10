@@ -6,17 +6,13 @@ import (
 	"core-api/pkg/entity"
 	"core-api/pkg/handler/endpoint"
 	"core-api/pkg/module"
-	"encoding/base64"
-	"errors"
 	"fmt"
 	"log"
-	"os"
 
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/messaging"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"golang.org/x/oauth2/google"
 	"google.golang.org/api/option"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -81,24 +77,8 @@ func main() {
 
 func setupFirebase() (*messaging.Client, error) {
 	ctx := context.Background()
-	encodedKey := os.Getenv("BASE64_FIREBASE_KEYFILE_JSON")
-	if encodedKey == "" {
-		fmt.Println("BASE64_FIREBASE_KEYFILE_JSON is not set")
-		return nil, errors.New("BASE64_FIREBASE_KEYFILE_JSON is not set")
-	}
 
-	// base64デコード
-	decodedKey, err := base64.StdEncoding.DecodeString(encodedKey)
-	if err != nil {
-		fmt.Println("Failed to decode base64:", err)
-		return nil, err
-	}
-
-	credentials, err := google.CredentialsFromJSON(ctx, decodedKey)
-	if err != nil {
-		log.Printf("error credentials from json: %v\n", err)
-	}
-	sa := option.WithCredentials(credentials)
+	sa := option.WithCredentialsFile("path/to/serviceAccountKey.json")
 	app, err := firebase.NewApp(ctx, nil, sa)
 	if err != nil {
 		log.Fatalln(err)
