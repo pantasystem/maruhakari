@@ -13,9 +13,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  FirebaseMessaging.onBackgroundMessage((message) async {
-
-  });
+  FirebaseMessaging.onBackgroundMessage(_onBackgroundMessage);
   if (Platform.isAndroid) {
     [
       Permission.notification,
@@ -25,6 +23,10 @@ void main() async {
   } else {
     runApp(const ProviderScope(child: MyApp()));
   }
+}
+
+Future<void> _onBackgroundMessage(RemoteMessage message) async {
+
 }
 
 class MyApp extends StatelessWidget {
