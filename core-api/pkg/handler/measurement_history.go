@@ -26,12 +26,15 @@ func (r *MeasurementHistoryHandler) RecordHistory(ctx context.Context, in *proto
 		return nil, err
 	}
 
+	newHistory := &entity.MeasurementHistory{
+		FoodID:        f.ID,
+		RawWeightGram: in.Weight,
+		DeviceID:      &dev.ID,
+	}
+
 	h, err := r.Module.RepositoryModule().MeasurementHistoryRepository().Create(
 		ctx,
-		&entity.MeasurementHistory{
-			FoodID:        f.ID,
-			RawWeightGram: in.Weight,
-		},
+		newHistory,
 	)
 	if err != nil {
 		return nil, err
