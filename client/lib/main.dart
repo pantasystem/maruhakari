@@ -1,8 +1,14 @@
+import 'package:client/firebase_options.dart';
 import 'package:client/router.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -16,12 +22,26 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-class RouterPage extends ConsumerWidget {
+class RouterPage extends ConsumerStatefulWidget {
   const RouterPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return RouterPageState();
+  }
+}
+
+class RouterPageState extends ConsumerState<RouterPage> {
+  RouterPageState();
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final router = ref.watch(routerProvider);
     return MaterialApp.router(
       title: "Chat App",
