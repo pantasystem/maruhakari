@@ -56,11 +56,11 @@ class ConnectionCallbacks: public BLEServerCallbacks {
     }
 };
 
-void onWifiConnectFailed() {
-  memset(wifiSsid, 0, sizeof(wifiSsid));
-  memset(wifiPassword, 0, sizeof(wifiPassword));
-  memset(secretToken, 0, sizeof(secretToken));
-}
+// void onWifiConnectFailed() {
+//   memset(wifiSsid, 0, sizeof(wifiSsid));
+//   memset(wifiPassword, 0, sizeof(wifiPassword));
+//   memset(secretToken, 0, sizeof(secretToken));
+// }
 
 void connectWifi(const char* ssid, const char* password) {
     if (connectingWifi) {
@@ -81,7 +81,7 @@ void connectWifi(const char* ssid, const char* password) {
     if (delayCounter < 100) {
       Serial.println("接続成功");  
     } else {
-      onWifiConnectFailed();
+      // onWifiConnectFailed();
     }
     
 
