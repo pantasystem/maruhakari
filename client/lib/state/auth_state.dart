@@ -3,6 +3,7 @@ import 'package:client/repositories/account_repository.dart';
 import 'package:client/repositories/auth_repository.dart';
 import 'package:client/schema/account.dart';
 import 'package:client/schema/handler.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,6 +21,9 @@ class AuthStore extends ChangeNotifier {
       final result = await accountRepository.findMe();
       myAccount = result;
       type = AuthStateType.authorized;
+      FirebaseMessaging.instance.getToken().then((value) {
+        accountRepository.registerFcmToken(fcmToken: value!);
+      });
     } on UnauthorizedException catch(_)  {
       type = AuthStateType.unauthorized;
     } catch (e) {

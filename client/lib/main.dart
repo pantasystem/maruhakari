@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:client/firebase_options.dart';
+import 'package:client/providers/repositories.dart';
 import 'package:client/router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -53,7 +54,9 @@ class RouterPageState extends ConsumerState<RouterPage> {
 
   @override
   void initState() {
-
+    FirebaseMessaging.instance.onTokenRefresh.listen((event) {
+      ref.read(accountRepositoryProvider).registerFcmToken(fcmToken: event);
+    });
     super.initState();
   }
 

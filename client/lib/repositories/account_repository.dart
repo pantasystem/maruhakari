@@ -2,6 +2,7 @@ import 'package:client/endpoints/service.dart';
 import 'package:client/repositories/auth_repository.dart';
 import 'package:client/schema/account.dart';
 import 'package:client/schema/handler.dart';
+import 'package:client/schema/register_fcm_token_request.dart';
 
 class AccountRepository {
   AccountRepository({
@@ -37,4 +38,9 @@ class AccountRepository {
     });
   }
 
+  Future<void> registerFcmToken({required String fcmToken}) async {
+    return handleError(() async {
+      await client.registerFcmToken(RegisterFcmTokenRequest(fcmToken: fcmToken));
+    });
+  }
 }
