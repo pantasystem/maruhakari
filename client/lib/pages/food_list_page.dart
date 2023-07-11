@@ -26,6 +26,7 @@ class HomePageState extends ConsumerState {
 
   @override
   void initState() {
+
     FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 10));
     fetchBluetoothCurrentValue();
     super.initState();
@@ -53,6 +54,7 @@ class HomePageState extends ConsumerState {
           await device.connect();
           break;
       }
+      await device.requestMtu(500);
       final c = service?.characteristics.firstWhereOrNull((element) => element.uuid.toString() == BluetoothConstants.currentNfcAndWeightCharacteristicUuid);
       c?.setNotifyValue(true);
       if (c == null) {
@@ -61,12 +63,11 @@ class HomePageState extends ConsumerState {
         return;
       }
       c.onValueChangedStream.listen((event) {
-        log("json:$event");
         final json = String.fromCharCodes(event);
-          log("json:$json");
           final map = jsonDecode(json) as Map<String, dynamic>;
           final weight = map["weight"] as double;
           final nfcUid = map["nfc_uid"] as String;
+          ref.read(foodRepository).createHistoryForApp(nfcUuid: nfcUid, weight: weight);
       });
     }
 

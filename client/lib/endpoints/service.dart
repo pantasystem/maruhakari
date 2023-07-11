@@ -2,6 +2,7 @@
 import 'package:client/repositories/auth_repository.dart';
 import 'package:client/schema/account.dart';
 import 'package:client/schema/container_template.dart';
+import 'package:client/schema/create_measurement_history_from_app_request.dart';
 import 'package:client/schema/create_measurement_history_request.dart';
 import 'package:client/schema/device.dart';
 import 'package:client/schema/food.dart';
@@ -68,6 +69,8 @@ abstract class MaruhakariApiClient {
   @POST("api/v1/foods/{foodId}/measurement-histories")
   Future<MeasurementHistory> createMeasurementHistory(@Path("foodId") String foodId, @Body() CreateMeasurementHistoryRequest req);
 
+  @POST("api/v1/foods/measurement-histories/app")
+  Future<MeasurementHistory> createMeasurementHistoryFromApp(@Body() CreateMeasurementHistoryFromAppRequest req);
 }
 
 

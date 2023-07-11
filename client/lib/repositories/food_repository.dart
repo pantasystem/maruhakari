@@ -1,4 +1,5 @@
 import 'package:client/endpoints/service.dart';
+import 'package:client/schema/create_measurement_history_from_app_request.dart';
 import 'package:client/schema/create_measurement_history_request.dart';
 import 'package:client/schema/food.dart';
 import 'package:client/schema/handler.dart';
@@ -55,6 +56,15 @@ class FoodRepository {
   Future<void> recordHistory(String foodId, {required double weight, DateTime? recordAt}) async {
     return await handleError(() async {
       await client.createMeasurementHistory(foodId, CreateMeasurementHistoryRequest(weight: weight, recordAt: recordAt?.toUtc()));
+    });
+  }
+
+  Future<void> createHistoryForApp({required String nfcUuid, required double weight}) async {
+    return await handleError(() async {
+      await client.createMeasurementHistoryFromApp(CreateMeasurementHistoryFromAppRequest(
+        nfcUid: nfcUuid,
+        weight: weight,
+      ));
     });
   }
 }
