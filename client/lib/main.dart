@@ -19,6 +19,11 @@ void main() async {
   if (Platform.isAndroid) {
     [
       Permission.notification,
+      Permission.location,
+      Permission.storage,
+      Permission.bluetooth,
+      Permission.bluetoothConnect,
+      Permission.bluetoothScan,
     ].request().then((value) {
       runApp(const ProviderScope(child: MyApp()));
     });

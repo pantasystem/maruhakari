@@ -6,9 +6,7 @@ import 'package:client/state/add_device_page_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:permission_handler/permission_handler.dart';
 
-import 'device_list_tile.dart';
 
 class AddDevicePage extends ConsumerStatefulWidget {
   const AddDevicePage({super.key});
@@ -22,13 +20,13 @@ class AddDevicePage extends ConsumerStatefulWidget {
 class AddDevicePageState extends ConsumerState<ConsumerStatefulWidget> {
   @override
   void initState() {
-    [
-      Permission.location,
-      Permission.storage,
-      Permission.bluetooth,
-      Permission.bluetoothConnect,
-      Permission.bluetoothScan
-    ].request();
+    // [
+    //   Permission.location,
+    //   Permission.storage,
+    //   Permission.bluetooth,
+    //   Permission.bluetoothConnect,
+    //   Permission.bluetoothScan
+    // ].request();
 
     super.initState();
   }

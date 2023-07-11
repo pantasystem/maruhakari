@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer' as dev;
 import 'dart:math';
 
+import 'package:client/BluetoothConstants.dart';
 import 'package:client/providers/repositories.dart';
 import 'package:client/schema/iot_connection_info.dart';
 import 'package:collection/collection.dart';
@@ -37,10 +38,10 @@ class AddDevicePageInputServerInfoBodyState
     }
     final targetServices = await widget.device.discoverServices();
     final service = targetServices.firstWhereOrNull((element) {
-      return element.uuid.toString() == "4426c565-997d-4902-946f-4060916183db";
+      return element.uuid.toString() == BluetoothConstants.serviceUuid;
     });
     final c = service?.characteristics.firstWhereOrNull((element) {
-      return element.uuid.toString() == "7a21cc0f-3845-4452-8ab6-86e035978d35";
+      return element.uuid.toString() == BluetoothConstants.connectionInfoCharacteristicUuid;
     });
     if (c == null) {
       dev.log("characteristic is null");
