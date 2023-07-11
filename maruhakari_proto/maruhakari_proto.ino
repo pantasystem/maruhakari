@@ -19,11 +19,14 @@
 
 #define SERVICE_UUID           "4426c565-997d-4902-946f-4060916183db"  // サービスのUUID
 #define CONNECT_INFO_CHARACTERISTIC_UUID "7a21cc0f-3845-4452-8ab6-86e035978d35"
+#define CURRENT_NFC_AND_WEIGHT_CHARAXTERISTIC_UUID "fc170318-c6dd-4681-94c8-352aa763056e"
+
 #define MTU_SIZE 200
 
 #define API_ENDPOINT_URL "http://maruhakari-iot.panta.systems/api/v1/measurement-histories"
 
 BLECharacteristic *connectionInfoCharacteristicTx;
+BLECharacteristic *currentNfcAndWeightCharacteristicTx;
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 
@@ -156,11 +159,37 @@ void waitConnectionInfoAvailable() {
 
 void getSensorValueAndSendToServer() {
   // TODO: nfcからuidをchar*で取得する処理と歪みセンサーから重量を取得する処理を実装する
+  loadNfcUid();
+  float weight = getWeight();
+  
+  DynamicJsonDocument doc(1024);
+  doc["nfc_uid"] = nfcUid;
+  doc["weight"] = weight;
+  doc["device_token"] = secretToken;
 
+  char jsonString[400];
+
+  String requestBody;
+  serializeJson(doc, requestBody);
+  Serial.println(requestBody);
+
+  HTTPClient httpClient;
+  httpClient.begin(API_ENDPOINT_URL);
+  httpClient.addHeader("Content-Type", "application/json");
+  
+  int statusCode = httpClient.POST(requestBody);
+  Serial.println(statusCode);
+  httpClient.end();
+
+  // メモリの解放
+  delete[] nfcUid;
+  
+}
+
+void loadNfcUid() {
   SPI.begin();
   mfrc522.PCD_Init();
 
-  long value = scale.read_average(5);
 
   if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
 
@@ -186,36 +215,15 @@ void getSensorValueAndSendToServer() {
       mfrc522.PCD_StopCrypto1();
       
   }else{
-
     Serial.println("NFC読み取れてないよおおおおおおお");
-    
   }
-  
-  //const char* nfcUid = "dcb9e1aa";
+}
+
+float getWeight() {
+  long value = scale.read_average(5);
+//const char* nfcUid = "dcb9e1aa";
   float weight = (double)(value - offset) * gradient;
-
-  DynamicJsonDocument doc(1024);
-  doc["nfc_uid"] = nfcUid;
-  doc["weight"] = weight;
-  doc["device_token"] = secretToken;
-
-  char jsonString[400];
-
-  String requestBody;
-  serializeJson(doc, requestBody);
-  Serial.println(requestBody);
-
-  HTTPClient httpClient;
-  httpClient.begin(API_ENDPOINT_URL);
-  httpClient.addHeader("Content-Type", "application/json");
-  
-  int statusCode = httpClient.POST(requestBody);
-  Serial.println(statusCode);
-  httpClient.end();
-
-  // メモリの解放
-  delete[] nfcUid;
-  
+  return weight;
 }
 
 void setup() {
@@ -255,6 +263,14 @@ void doPrepare(BLEService *pService) {
     connectionInfoCharacteristicTx = pService->createCharacteristic(
                       CONNECT_INFO_CHARACTERISTIC_UUID,
                       BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE
+                      );
+
+    currentNfcAndWeightCharacteristicTx = pService->createCharacteristic(
+                      CURRENT_NFC_AND_WEIGHT_CHARAXTERISTIC_UUID,
+                      BLECharacteristic::PROPERTY_READ   |
+                      BLECharacteristic::PROPERTY_WRITE  |
+                      BLECharacteristic::PROPERTY_NOTIFY |
+                      BLECharacteristic::PROPERTY_INDICATE
                       );
     connectionInfoCharacteristicTx->setCallbacks(new ConnectionInfoBleCallbacks());
 }
