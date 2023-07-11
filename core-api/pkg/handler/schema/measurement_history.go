@@ -27,8 +27,14 @@ type CreateMeasurementHistoryRequest struct {
 	RecordAt *time.Time `json:"record_at"`
 }
 
+type CreateMeasurementHistoryFromAppRequest struct {
+	Weight float32 `json:"weight"`
+	NfcUid string  `json:"nfc_uid"`
+}
+
 type MeasurementHistoryController interface {
 	RecordHistory(c *gin.Context)
 	FindHistory(c *gin.Context)
 	CreateHistory(c *gin.Context)
+	CreateHistoryFromApp(c *gin.Context)
 }

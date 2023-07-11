@@ -255,3 +255,39 @@ func (r *MeasurementHistoryHandler) sendPushNotifyIfNeed(ctx context.Context, fo
 	}
 
 }
+
+func (r *MeasurementHistoryHandler) CreateHistoryFromApp(c *gin.Context) {
+	var req schema.CreateMeasurementHistoryFromAppRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	aId, err := uuid.Parse(c.GetString(middleware.AccountId))
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	f, err := r.Module.RepositoryModule().FoodRepository().FindByAccountIdAndNfcUid(c, aId, strings.ToLower(req.NfcUid))
+	if err != nil {
+		c.JSON(404, gin.H{"error": err.Error()})
+		return
+	}
+
+	mhe, err := r.Module.RepositoryModule().MeasurementHistoryRepository().Create(c, &entity.MeasurementHistory{
+		FoodID:        f.ID,
+		RawWeightGram: req.Weight,
+	})
+	if err != nil {
+		c.JSON(500, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, schema.MeasurementHistory{
+		Id:        mhe.ID,
+		FoodId:    f.ID.String(),
+		Weight:    mhe.RawWeightGram,
+		CreatedAt: mhe.CreatedAt,
+	})
+}

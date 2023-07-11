@@ -48,5 +48,7 @@ func (r *SetupHandler) Setup(g *gin.Engine, c schema.Module) {
 	fcc := c.FoodChartController()
 	g.GET("api/v1/foods/:foodId/chart", m.CheckToken(), fcc.GetFoodChart)
 
+	g.POST("api/v1/foods/measurement-histories/app", m.CheckToken(), mhc.CreateHistoryFromApp)
+
 	g.Static("/container-images", "./container-images")
 }
