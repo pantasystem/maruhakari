@@ -41,11 +41,14 @@ double baseWeight = 300.0;
 
 char* nfcUid;  // ポインタを宣言
 
+
+
 RTC_DATA_ATTR char wifiSsid[128]; 
 RTC_DATA_ATTR char wifiPassword[128]; 
 RTC_DATA_ATTR char secretToken[128];
 
 RTC_DATA_ATTR int bootCount = 0; // RTCスローメモリに変数を確保
+RTC_DATA_ATTR int sendFailCount = 0;
 
 class ConnectionCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
@@ -79,6 +82,9 @@ void connectWifi(const char* ssid, const char* password) {
     while (WiFi.status() != WL_CONNECTED && delayCounter < 100) {
         delay(500);
         delayCounter++;
+        if (delayCounter % 5 == 0) {
+          readSensorValueAndWriteToBle();
+        }
         Serial.print(".");
     }
     if (delayCounter < 100) {
@@ -152,8 +158,13 @@ bool checkConnectionInfoAvailable() {
  * 接続情報に何かしらの情報が代入されるまで待ち続ける処理
  */
 void waitConnectionInfoAvailable() {
+  int count = 0;
   while(!checkConnectionInfoAvailable()) {
-    delay(100);  
+    if (count % 10 == 0) {
+      readSensorValueAndWriteToBle();
+    }
+    delay(100);
+    count ++;
   }
 }
 
@@ -179,7 +190,26 @@ void getSensorValueAndSendToServer() {
   
   int statusCode = httpClient.POST(requestBody);
   Serial.println(statusCode);
+  if (statusCode >= 200 && statusCode <= 300) {
+    sendFailCount ++;
+  }
   httpClient.end();
+
+  // メモリの解放
+  delete[] nfcUid;
+  
+}
+
+void readSensorValueAndWriteToBle() {
+  loadNfcUid();
+  float weight = getWeight();
+  DynamicJsonDocument doc(1024);
+  doc["nfc_uid"] = nfcUid;
+  doc["weight"] = weight;
+
+  char jsonString[400];
+  currentNfcAndWeightCharacteristicTx->setValue(jsonString);
+  currentNfcAndWeightCharacteristicTx->notify();
 
   // メモリの解放
   delete[] nfcUid;
@@ -233,8 +263,8 @@ void setup() {
 
   scale.begin(DT_PIN, SCK_PIN);
 
-  if (!checkConnectionInfoAvailable()) {
-    startBluetooth();
+  startBluetooth();
+  if (!checkConnectionInfoAvailable()) {  
     Serial.println("Waiting to connect ...");
     waitConnectionInfoAvailable();
   }
@@ -245,6 +275,8 @@ void setup() {
 
   if (WiFi.status() == WL_CONNECTED) {
     getSensorValueAndSendToServer(); 
+  } else {
+    sendFailCount ++;
   }
   
   bootCount++;
