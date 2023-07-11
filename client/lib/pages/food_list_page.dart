@@ -5,6 +5,7 @@ import 'package:client/BluetoothConstants.dart';
 import 'package:client/constants.dart';
 import 'package:client/pages/components/food_card.dart';
 import 'package:client/providers/repositories.dart';
+import 'package:client/schema/device.dart';
 import 'package:client/schema/food.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
@@ -27,21 +28,32 @@ class HomePageState extends ConsumerState {
   @override
   void initState() {
 
-    FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 10));
-    fetchBluetoothCurrentValue();
+    ref.read(deviceRepository).getOwnDevices().then((value) {
+      log("getOwnDevices: $value");
+      FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 10));
+      fetchBluetoothCurrentValue(value);
+    });
+
     super.initState();
   }
 
-  void fetchBluetoothCurrentValue() async {
+  void fetchBluetoothCurrentValue(List<Device> apiDevicesList) async {
     final Set<String> listeningDeviceIds = {};
     void listenWeightAndNfcUid(BluetoothDevice device) async {
       if (listeningDeviceIds.contains(device.id.id)) {
         return;
       }
+
+      // NOTE: 一つも含まれていなければ終了
+      if (!apiDevicesList.any((element) => element.macAddress == device.id.id)) {
+        log("一度も接続したことがないので終了:${device.id.id}");
+        return;
+      }
+
       listeningDeviceIds.add(device.id.id);
-      final services = await device.discoverServices();
-      final service = services.firstWhereOrNull((element) => element.uuid.toString() == BluetoothConstants.serviceUuid);
+
       final state = await device.state.first;
+
       switch(state) {
         case BluetoothDeviceState.disconnected:
           await device.connect();
@@ -54,6 +66,8 @@ class HomePageState extends ConsumerState {
           await device.connect();
           break;
       }
+      final services = await device.discoverServices();
+      final service = services.firstWhereOrNull((element) => element.uuid.toString() == BluetoothConstants.serviceUuid);
       device.requestMtu(500);
       final c = service?.characteristics.firstWhereOrNull((element) => element.uuid.toString() == BluetoothConstants.currentNfcAndWeightCharacteristicUuid);
       c?.setNotifyValue(true);
@@ -78,19 +92,15 @@ class HomePageState extends ConsumerState {
     final Map<String, BluetoothDevice> map = {};
     final devices = await FlutterBluePlus.instance.connectedDevices;
     for (var element in devices) {
-      final services = await element.discoverServices();
-      if (services.any((element) => element.uuid.toString() == BluetoothConstants.serviceUuid)) {
-        map[element.id.id.toString()] = element;
-        listenWeightAndNfcUid(element);
-      }
+      listenWeightAndNfcUid(element);
     }
 
     await for (final event in FlutterBluePlus.instance.scanResults) {
       for (var element in event) {
+        if (map.containsKey(element.device.id.id)) {
+          continue;
+        }
         if (element.advertisementData.serviceUuids.contains(BluetoothConstants.serviceUuid)) {
-          if (map.containsKey(element.device.id.id)) {
-            continue;
-          }
           map[element.device.id.id] = element.device;
           listenWeightAndNfcUid(element.device);
         }
