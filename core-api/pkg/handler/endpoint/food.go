@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"sort"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -276,6 +277,19 @@ func (r *FoodHandler) FindByOwnFoods(c *gin.Context) {
 		}
 	}
 	unusedFoods := make([]*schema.Food, 0)
+
+	// foodListをupdatedAtでソートする
+	// updatedAtが新しい順に並べる
+	sort.Slice(foodList, func(i, j int) bool {
+		if foodList[i].UpdatedAt == nil {
+			return false
+		}
+		if foodList[j].UpdatedAt == nil {
+			return true
+		}
+		return foodList[i].UpdatedAt.After(*foodList[j].UpdatedAt)
+	})
+
 	c.JSON(http.StatusOK, &schema.MyFoodsResponse{
 		Foods:          foodList,
 		LowWeightFoods: lowWeightFoods,

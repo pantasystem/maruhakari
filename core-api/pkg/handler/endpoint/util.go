@@ -48,6 +48,7 @@ func (r *Util) ConvertToSchemaFoods(ctx context.Context, foods []*entity.Food) (
 		if history != nil {
 			pf.RawWeightGram = history.RawWeightGram
 			pf.WeightGram = history.RawWeightGram - pf.ContainerWeightGram
+			pf.UpdatedAt = &history.CreatedAt
 		}
 	}
 	return protoFoods, nil
