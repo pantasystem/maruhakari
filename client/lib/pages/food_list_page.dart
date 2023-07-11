@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:client/BluetoothConstants.dart';
@@ -59,19 +60,14 @@ class HomePageState extends ConsumerState {
         listeningDeviceIds.remove(device.id.id);
         return;
       }
-      await for (final value in c.value) {
-        final json = String.fromCharCodes(value);
-        log("json:$json");
-        // final map = jsonDecode(json) as Map<String, dynamic>;
-        // final weight = map["weight"] as double;
-        // final nfcUid = map["nfc_uid"] as String;
-        // final food = ref.read(myFoodsProvider).firstWhereOrNull((element) => element.nfcUid == nfcUid);
-        // if (food == null) {
-        //   continue;
-        // }
-        // ref.read(myFoodsProvider.notifier).updateFood(food.copyWith(weight: weight));
-      }
-
+      c.onValueChangedStream.listen((event) {
+        log("json:$event");
+        final json = String.fromCharCodes(event);
+          log("json:$json");
+          final map = jsonDecode(json) as Map<String, dynamic>;
+          final weight = map["weight"] as double;
+          final nfcUid = map["nfc_uid"] as String;
+      });
     }
 
     final Map<String, BluetoothDevice> map = {};

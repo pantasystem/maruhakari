@@ -15,13 +15,13 @@
 #define RST_PIN 5  
 #define SS_PIN 26
 
-#define DEVICE_NAME "ESP32" 
+#define DEVICE_NAME "Maruhakari" 
 
 #define SERVICE_UUID           "4426c565-997d-4902-946f-4060916183db"  // サービスのUUID
 #define CONNECT_INFO_CHARACTERISTIC_UUID "7a21cc0f-3845-4452-8ab6-86e035978d35"
 #define CURRENT_NFC_AND_WEIGHT_CHARAXTERISTIC_UUID "fc170318-c6dd-4681-94c8-352aa763056e"
 
-#define MTU_SIZE 200
+#define MTU_SIZE 500
 
 #define API_ENDPOINT_URL "http://maruhakari-iot.panta.systems/api/v1/measurement-histories"
 
@@ -206,8 +206,9 @@ void readSensorValueAndWriteToBle() {
   DynamicJsonDocument doc(1024);
   doc["nfc_uid"] = nfcUid;
   doc["weight"] = weight;
-
+  
   char jsonString[400];
+  serializeJson(doc, jsonString);
   currentNfcAndWeightCharacteristicTx->setValue(jsonString);
   currentNfcAndWeightCharacteristicTx->notify();
 
