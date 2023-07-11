@@ -1,12 +1,16 @@
 import 'dart:developer';
 
+import 'package:client/BluetoothConstants.dart';
 import 'package:client/constants.dart';
 import 'package:client/pages/components/food_card.dart';
 import 'package:client/providers/repositories.dart';
 import 'package:client/schema/food.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import 'package:collection/collection.dart';
 
 class FoodListPage extends ConsumerStatefulWidget {
   const FoodListPage({super.key});
@@ -18,6 +22,81 @@ class FoodListPage extends ConsumerStatefulWidget {
 }
 
 class HomePageState extends ConsumerState {
+
+  @override
+  void initState() {
+    FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 10));
+    fetchBluetoothCurrentValue();
+    super.initState();
+  }
+
+  void fetchBluetoothCurrentValue() async {
+    final Set<String> listeningDeviceIds = {};
+    void listenWeightAndNfcUid(BluetoothDevice device) async {
+      if (listeningDeviceIds.contains(device.id.id)) {
+        return;
+      }
+      listeningDeviceIds.add(device.id.id);
+      final services = await device.discoverServices();
+      final service = services.firstWhereOrNull((element) => element.uuid.toString() == BluetoothConstants.serviceUuid);
+      final state = await device.state.first;
+      switch(state) {
+        case BluetoothDeviceState.disconnected:
+          await device.connect();
+          break;
+        case BluetoothDeviceState.connecting:
+          break;
+        case BluetoothDeviceState.connected:
+          break;
+        case BluetoothDeviceState.disconnecting:
+          await device.connect();
+          break;
+      }
+      final c = service?.characteristics.firstWhereOrNull((element) => element.uuid.toString() == BluetoothConstants.currentNfcAndWeightCharacteristicUuid);
+      c?.setNotifyValue(true);
+      if (c == null) {
+        log("characteristic is null");
+        listeningDeviceIds.remove(device.id.id);
+        return;
+      }
+      await for (final value in c.value) {
+        final json = String.fromCharCodes(value);
+        log("json:$json");
+        // final map = jsonDecode(json) as Map<String, dynamic>;
+        // final weight = map["weight"] as double;
+        // final nfcUid = map["nfc_uid"] as String;
+        // final food = ref.read(myFoodsProvider).firstWhereOrNull((element) => element.nfcUid == nfcUid);
+        // if (food == null) {
+        //   continue;
+        // }
+        // ref.read(myFoodsProvider.notifier).updateFood(food.copyWith(weight: weight));
+      }
+
+    }
+
+    final Map<String, BluetoothDevice> map = {};
+    final devices = await FlutterBluePlus.instance.connectedDevices;
+    for (var element in devices) {
+      final services = await element.discoverServices();
+      if (services.any((element) => element.uuid.toString() == BluetoothConstants.serviceUuid)) {
+        map[element.id.id.toString()] = element;
+        listenWeightAndNfcUid(element);
+      }
+    }
+
+    await for (final event in FlutterBluePlus.instance.scanResults) {
+      for (var element in event) {
+        if (element.advertisementData.serviceUuids.contains(BluetoothConstants.serviceUuid)) {
+          if (map.containsKey(element.device.id.id)) {
+            continue;
+          }
+          map[element.device.id.id] = element.device;
+          listenWeightAndNfcUid(element.device);
+        }
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final foods = ref.watch(myFoodsPollingStreamProvider);
