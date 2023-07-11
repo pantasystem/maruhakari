@@ -54,7 +54,7 @@ class HomePageState extends ConsumerState {
           await device.connect();
           break;
       }
-      await device.requestMtu(500);
+      device.requestMtu(500);
       final c = service?.characteristics.firstWhereOrNull((element) => element.uuid.toString() == BluetoothConstants.currentNfcAndWeightCharacteristicUuid);
       c?.setNotifyValue(true);
       if (c == null) {
@@ -63,10 +63,14 @@ class HomePageState extends ConsumerState {
         return;
       }
       c.onValueChangedStream.listen((event) {
+        device.requestMtu(500);
         final json = String.fromCharCodes(event);
           final map = jsonDecode(json) as Map<String, dynamic>;
           final weight = map["weight"] as double;
-          final nfcUid = map["nfc_uid"] as String;
+          final nfcUid = map["nfc_uid"] as String?;
+          if (nfcUid == null) {
+            return;
+          }
           ref.read(foodRepository).createHistoryForApp(nfcUuid: nfcUid, weight: weight);
       });
     }
