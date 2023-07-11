@@ -18,8 +18,9 @@ type DeviceHandler struct {
 }
 
 func (r *DeviceHandler) GetOwnDevices(c *gin.Context) {
-	aId, err := uuid.Parse(c.GetString("accountId"))
+	aId, err := uuid.Parse(c.GetString(middleware.AccountId))
 	if err != nil {
+		fmt.Printf("find device error: %v\n", err)
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
