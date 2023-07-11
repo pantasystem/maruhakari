@@ -23,7 +23,7 @@ class FoodCard extends StatelessWidget {
                     Text(
                       food.name,
                       style: const TextStyle(
-                        fontSize: 18,
+                        fontSize: 17,
                       ),
                     ),
                     Row(
