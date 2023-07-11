@@ -25,6 +25,7 @@ func (r *DeviceHandler) GetOwnDevices(c *gin.Context) {
 	}
 	devices, err := r.Module.RepositoryModule().DeviceRepository().FindByAccountID(c, aId)
 	if err != nil {
+		fmt.Printf("find device error: %v\n", err)
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
