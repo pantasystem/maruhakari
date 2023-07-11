@@ -1,18 +1,15 @@
-import 'dart:convert';
 import 'dart:developer';
 
-import 'package:client/BluetoothConstants.dart';
+import 'package:client/bluetooth/connected_iot_bluetooth_data_streaming.dart';
 import 'package:client/constants.dart';
 import 'package:client/pages/components/food_card.dart';
 import 'package:client/providers/repositories.dart';
-import 'package:client/schema/device.dart';
 import 'package:client/schema/food.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:collection/collection.dart';
 
 class FoodListPage extends ConsumerStatefulWidget {
   const FoodListPage({super.key});
@@ -25,87 +22,25 @@ class FoodListPage extends ConsumerStatefulWidget {
 
 class HomePageState extends ConsumerState {
 
+  late ConnectedIoTBluetoothDataStreaming _connectedIoTBluetoothDataStreaming;
   @override
   void initState() {
-
+    _connectedIoTBluetoothDataStreaming = ConnectedIoTBluetoothDataStreaming();
     ref.read(deviceRepository).getOwnDevices().then((value) {
       log("getOwnDevices: $value");
       FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 10));
-      fetchBluetoothCurrentValue(value);
+      _connectedIoTBluetoothDataStreaming.currentWeightEventStream(value).listen((event) {
+        ref.read(foodRepository).createHistoryForApp(nfcUuid: event.nfcUid, weight: event.weight);
+      });
     });
 
     super.initState();
   }
 
-  void fetchBluetoothCurrentValue(List<Device> apiDevicesList) async {
-    final Set<String> listeningDeviceIds = {};
-    void listenWeightAndNfcUid(BluetoothDevice device) async {
-      if (listeningDeviceIds.contains(device.id.id)) {
-        return;
-      }
-
-      // NOTE: 一つも含まれていなければ終了
-      if (!apiDevicesList.any((element) => element.macAddress == device.id.id)) {
-        log("一度も接続したことがないので終了:${device.id.id}");
-        return;
-      }
-
-      listeningDeviceIds.add(device.id.id);
-
-      final state = await device.state.first;
-
-      switch(state) {
-        case BluetoothDeviceState.disconnected:
-          await device.connect();
-          break;
-        case BluetoothDeviceState.connecting:
-          break;
-        case BluetoothDeviceState.connected:
-          break;
-        case BluetoothDeviceState.disconnecting:
-          await device.connect();
-          break;
-      }
-      final services = await device.discoverServices();
-      final service = services.firstWhereOrNull((element) => element.uuid.toString() == BluetoothConstants.serviceUuid);
-      device.requestMtu(500);
-      final c = service?.characteristics.firstWhereOrNull((element) => element.uuid.toString() == BluetoothConstants.currentNfcAndWeightCharacteristicUuid);
-      c?.setNotifyValue(true);
-      if (c == null) {
-        log("characteristic is null");
-        listeningDeviceIds.remove(device.id.id);
-        return;
-      }
-      c.onValueChangedStream.listen((event) {
-        device.requestMtu(500);
-        final json = String.fromCharCodes(event);
-          final map = jsonDecode(json) as Map<String, dynamic>;
-          final weight = map["weight"] as double;
-          final nfcUid = map["nfc_uid"] as String?;
-          if (nfcUid == null) {
-            return;
-          }
-          ref.read(foodRepository).createHistoryForApp(nfcUuid: nfcUid, weight: weight);
-      });
-    }
-
-    final Map<String, BluetoothDevice> map = {};
-    final devices = await FlutterBluePlus.instance.connectedDevices;
-    for (var element in devices) {
-      listenWeightAndNfcUid(element);
-    }
-
-    await for (final event in FlutterBluePlus.instance.scanResults) {
-      for (var element in event) {
-        if (map.containsKey(element.device.id.id)) {
-          continue;
-        }
-        if (element.advertisementData.serviceUuids.contains(BluetoothConstants.serviceUuid)) {
-          map[element.device.id.id] = element.device;
-          listenWeightAndNfcUid(element.device);
-        }
-      }
-    }
+  @override
+  void dispose() {
+    _connectedIoTBluetoothDataStreaming.dispose();
+    super.dispose();
   }
 
   @override

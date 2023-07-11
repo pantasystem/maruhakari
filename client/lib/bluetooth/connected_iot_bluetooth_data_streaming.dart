@@ -1,4 +1,5 @@
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
@@ -16,6 +17,8 @@ class IoTCurrentSensorData {
 }
 
 class ConnectedIoTBluetoothDataStreaming {
+  final List<StreamSubscription<List<ScanResult>>> _scanSubscriptions = [];
+
   Stream<IoTCurrentSensorData> currentWeightEventStream(List<Device> apiDevicesList) async* {
     final Set<String> listeningDeviceIds = {};
     final streamGroup = StreamGroup<IoTCurrentSensorData>();
@@ -39,10 +42,12 @@ class ConnectedIoTBluetoothDataStreaming {
           await device.connect();
           break;
         case BluetoothDeviceState.connecting:
+          await device.state.firstWhere((s) => s == BluetoothDeviceState.connected);
           break;
         case BluetoothDeviceState.connected:
           break;
         case BluetoothDeviceState.disconnecting:
+          await device.state.firstWhere((s) => s == BluetoothDeviceState.disconnected);
           await device.connect();
           break;
       }
@@ -79,7 +84,7 @@ class ConnectedIoTBluetoothDataStreaming {
       streamGroup.add(listenWeightAndNfcUid(element));
     }
 
-    FlutterBluePlus.instance.scanResults.listen((event) {
+    final subscription = FlutterBluePlus.instance.scanResults.listen((event) {
       for (var element in event) {
         if (map.containsKey(element.device.id.id)) {
           continue;
@@ -90,9 +95,15 @@ class ConnectedIoTBluetoothDataStreaming {
         }
       }
     });
-
+    _scanSubscriptions.add(subscription);
     await for (final event in streamGroup.stream) {
       yield event;
+    }
+  }
+
+  void dispose() {
+    for (var element in _scanSubscriptions) {
+      element.cancel();
     }
   }
 }
