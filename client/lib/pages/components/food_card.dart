@@ -36,7 +36,7 @@ class FoodCard extends StatelessWidget {
                         ),
                         Expanded(
                             child: Text(
-                              "${food.weightGram}g",
+                              "${food.weightGram.round()}g",
                               textAlign: TextAlign.center,
                             )),
                       ],
