@@ -290,4 +290,5 @@ func (r *MeasurementHistoryHandler) CreateHistoryFromApp(c *gin.Context) {
 		Weight:    mhe.RawWeightGram,
 		CreatedAt: mhe.CreatedAt,
 	})
+	r.sendPushNotifyIfNeed(c, f, mhe)
 }
