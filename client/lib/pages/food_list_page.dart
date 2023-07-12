@@ -16,11 +16,11 @@ class FoodListPage extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
-    return HomePageState();
+    return FooListPageState();
   }
 }
 
-class HomePageState extends ConsumerState {
+class FooListPageState extends ConsumerState {
 
   late ConnectedIoTBluetoothDataStreaming _connectedIoTBluetoothDataStreaming;
   @override
