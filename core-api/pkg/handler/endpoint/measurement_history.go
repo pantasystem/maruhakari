@@ -133,6 +133,8 @@ func (r *MeasurementHistoryHandler) FindHistory(c *gin.Context) {
 		}
 		if history.DeviceID != nil {
 			d := deviceMap[*history.DeviceID]
+			dId := history.DeviceID.String()
+			schemaHistories[i].DeviceId = &dId
 			if d != nil {
 				schemaHistories[i].Device = &schema.Device{
 					Id:         d.ID.String(),
