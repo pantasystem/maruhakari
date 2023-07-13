@@ -193,6 +193,7 @@ func (r *MeasurementHistoryHandler) CreateHistory(c *gin.Context) {
 	if req.RecordAt != nil {
 		e.CreatedAt = *req.RecordAt
 	}
+
 	record, err := r.Module.RepositoryModule().MeasurementHistoryRepository().Create(c, e)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
@@ -277,10 +278,28 @@ func (r *MeasurementHistoryHandler) CreateHistoryFromApp(c *gin.Context) {
 		return
 	}
 
-	mhe, err := r.Module.RepositoryModule().MeasurementHistoryRepository().Create(c, &entity.MeasurementHistory{
+	h := &entity.MeasurementHistory{
 		FoodID:        f.ID,
 		RawWeightGram: req.Weight,
-	})
+	}
+	if req.DeviceId != nil {
+		dId, err := uuid.Parse(*req.DeviceId)
+		if err != nil {
+			c.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
+		device, err := r.Module.RepositoryModule().DeviceRepository().FindByID(c, dId)
+		if err != nil {
+			c.JSON(404, gin.H{"error": err.Error()})
+			return
+		}
+		if device.AccountID != aId {
+			c.JSON(403, gin.H{"error": "device does not belong to the account"})
+			return
+		}
+		h.DeviceID = &device.ID
+	}
+	mhe, err := r.Module.RepositoryModule().MeasurementHistoryRepository().Create(c, h)
 	if err != nil {
 		c.JSON(500, gin.H{"error": err.Error()})
 		return

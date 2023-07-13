@@ -28,8 +28,9 @@ type CreateMeasurementHistoryRequest struct {
 }
 
 type CreateMeasurementHistoryFromAppRequest struct {
-	Weight float32 `json:"weight"`
-	NfcUid string  `json:"nfc_uid"`
+	Weight   float32 `json:"weight"`
+	NfcUid   string  `json:"nfc_uid"`
+	DeviceId *string `json:"device_id"`
 }
 
 type MeasurementHistoryController interface {
