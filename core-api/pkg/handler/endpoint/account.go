@@ -119,12 +119,25 @@ func (r *AccountHandler) RegisterFcmToken(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	a.FcmToken = &req.FcmToken
-	a, err = r.Module.RepositoryModule().AccountRepository().Update(c.Request.Context(), a)
+	tokens, err := r.Module.RepositoryModule().FcmTokenRepostiroy().FindByToken(c.Request.Context(), req.FcmToken)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	if len(tokens) > 0 {
+
+	} else {
+		_, err := r.Module.RepositoryModule().FcmTokenRepostiroy().Create(c.Request.Context(), &entity.FcmToken{
+			AccountID: a.ID,
+			Token:     req.FcmToken,
+		})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+
+	}
+
 	c.JSON(http.StatusOK, schema.Account{
 		Id:        a.ID.String(),
 		Username:  a.Username,

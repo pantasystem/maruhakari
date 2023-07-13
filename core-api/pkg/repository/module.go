@@ -8,4 +8,5 @@ type Module interface {
 	ContainerTemplateRepository() ContainerTemplateRepository
 	FoodTemplateRepository() FoodTempalteRepository
 	ConfigRepository() ConfigRepository
+	FcmTokenRepostiroy() FcmTokenRepostiroy
 }

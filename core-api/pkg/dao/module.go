@@ -37,3 +37,7 @@ func (r *ModuleImpl) FoodRepository() repository.FoodRepository {
 func (r *ModuleImpl) ConfigRepository() repository.ConfigRepository {
 	return NewConfigRepository()
 }
+
+func (r *ModuleImpl) FcmTokenRepostiroy() repository.FcmTokenRepostiroy {
+	return &FcmTokenRepositoryImpl{DB: r.DB}
+}

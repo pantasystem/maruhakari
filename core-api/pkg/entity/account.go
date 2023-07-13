@@ -15,7 +15,6 @@ type Account struct {
 	Token             uuid.UUID `gorm:"uniqueIndex"`
 	Devices           *[]Device `gorm:"foreignKey:AccountID"`
 	Foods             *[]Food   `gorm:"foreignKey:AccountID"`
-	FcmToken          *string   `gorm:"uniqueIndex"`
 	CreatedAt         time.Time
 	UpdatedAt         time.Time
 }

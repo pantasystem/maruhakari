@@ -226,13 +226,15 @@ func (r *MeasurementHistoryHandler) sendPushNotifyIfNeed(ctx context.Context, fo
 		fmt.Printf("error finding account: %v\n", err)
 		return
 	}
+	tokens, err := r.Module.RepositoryModule().FcmTokenRepostiroy().FindByAccountID(ctx, a.ID)
 
-	if a.FcmToken == nil {
-		fmt.Printf("fcm token is nil\n")
+	if err != nil {
+		fmt.Printf("error finding fcm token: %v\n", err)
 		return
 	}
 
 	food, err = r.Module.RepositoryModule().FoodRepository().FindByID(ctx, food.ID)
+	weight := history.RawWeightGram - food.ContainerWeightGram
 	if err != nil {
 		fmt.Printf("error finding food: %v\n", err)
 		return
@@ -241,20 +243,22 @@ func (r *MeasurementHistoryHandler) sendPushNotifyIfNeed(ctx context.Context, fo
 	// 10%を切ったら通知
 	// TODO: 短時間に大量の通知を送信しないような工夫を行う。
 	// TODO: DB上に通知済みの履歴を持つなどの工夫が必要かもしれない
-	weight := history.RawWeightGram - food.ContainerWeightGram
 	if weight < food.ContainerMaxWeightGram*0.1 {
-		result, err := r.FirebaseMssagingClient.Send(ctx, &messaging.Message{
-			Token: *a.FcmToken,
-			Notification: &messaging.Notification{
-				Title: fmt.Sprintf("%sが少なくなっています", food.Name),
-				Body:  fmt.Sprintf("%sの残量が10%%を下回りました。", food.Name),
-			},
-		})
-		if err != nil {
-			fmt.Printf("プッシュ通知の送信に失敗: %v\n", err)
-			return
+		for _, token := range tokens {
+			result, err := r.FirebaseMssagingClient.Send(ctx, &messaging.Message{
+				Token: token.Token,
+				Notification: &messaging.Notification{
+					Title: fmt.Sprintf("%sが少なくなっています", food.Name),
+					Body:  fmt.Sprintf("%sの残量が10%%を下回りました。", food.Name),
+				},
+			})
+			if err != nil {
+				fmt.Printf("プッシュ通知の送信に失敗: %v\n", err)
+				return
+			}
+			fmt.Printf("プッシュ通知の送信に成功しました: %v\n", result)
 		}
-		fmt.Printf("プッシュ通知の送信に成功しました: %v\n", result)
+
 	}
 
 }
