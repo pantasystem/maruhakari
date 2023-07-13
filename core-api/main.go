@@ -34,7 +34,7 @@ func main() {
 		panic(err)
 	}
 
-	db.AutoMigrate(&entity.Account{}, &entity.ContainerTemplate{}, &entity.Device{}, &entity.Food{}, &entity.FoodTemplate{}, &entity.MeasurementHistory{}, entity.FcmToken{})
+	db.AutoMigrate(&entity.Account{}, &entity.ContainerTemplate{}, &entity.Device{}, &entity.Food{}, &entity.FoodTemplate{}, &entity.MeasurementHistory{}, &entity.FcmToken{})
 	m := &module.ModuleImpl{
 		DB: db,
 	}
