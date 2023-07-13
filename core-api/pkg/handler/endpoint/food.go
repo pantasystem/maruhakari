@@ -320,6 +320,7 @@ func (r *FoodHandler) DeleteFood(c *gin.Context) {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
 		} else {
+			fmt.Printf("find food failed: %v\n", err)
 			c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		}
 		return
@@ -330,6 +331,7 @@ func (r *FoodHandler) DeleteFood(c *gin.Context) {
 	}
 	err = r.Module.RepositoryModule().FoodRepository().Delete(c, f.ID)
 	if err != nil {
+		fmt.Printf("delete food failed: %v\n", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
