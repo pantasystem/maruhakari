@@ -28,7 +28,7 @@ class FooListPageState extends ConsumerState {
     _connectedIoTBluetoothDataStreaming = ConnectedIoTBluetoothDataStreaming();
     ref.read(deviceRepository).getOwnDevices().then((value) {
       log("getOwnDevices: $value");
-      FlutterBluePlus.instance.startScan(timeout: const Duration(seconds: 10));
+      FlutterBluePlus.instance.startScan();
       _connectedIoTBluetoothDataStreaming.currentWeightEventStream(value).listen((event) {
         ref.read(foodRepository).createHistoryForApp(nfcUuid: event.nfcUid, weight: event.weight);
       });
@@ -40,6 +40,7 @@ class FooListPageState extends ConsumerState {
   @override
   void dispose() {
     _connectedIoTBluetoothDataStreaming.dispose();
+    FlutterBluePlus.instance.stopScan();
     super.dispose();
   }
 
