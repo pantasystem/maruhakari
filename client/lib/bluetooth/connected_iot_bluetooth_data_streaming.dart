@@ -66,14 +66,19 @@ class ConnectedIoTBluetoothDataStreaming {
       await for (final event in c.onValueChangedStream) {
         device.requestMtu(500);
         final json = String.fromCharCodes(event);
-        final map = jsonDecode(json) as Map<String, dynamic>;
-        final weight = map["weight"] as double;
-        final nfcUid = map["nfc_uid"] as String?;
-        if (nfcUid == null) {
+        try {
+          final map = jsonDecode(json) as Map<String, dynamic>;
+          final weight = map["weight"] as double;
+          final nfcUid = map["nfc_uid"] as String?;
+          if (nfcUid == null) {
+            log("nfcUid is null");
+            continue;
+          }
+          yield IoTCurrentSensorData(nfcUid: nfcUid, weight: weight, deviceMacAddress: device.id.id);
+        } catch(e) {
+          log("error: $e");
           continue;
         }
-
-        yield IoTCurrentSensorData(nfcUid: nfcUid, weight: weight, deviceMacAddress: device.id.id);
       }
 
     }
