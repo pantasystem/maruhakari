@@ -49,6 +49,7 @@ class FoodDetailPage extends ConsumerWidget {
                             ref.read(foodRepository).delete(foodId).then(
                               (value) {
                                 Navigator.of(context).pop();
+                                Navigator.of(context).pop();
                               },
                             );
                           },
