@@ -50,15 +50,29 @@ RTC_DATA_ATTR char secretToken[128];
 RTC_DATA_ATTR int bootCount = 0; // RTCスローメモリに変数を確保
 RTC_DATA_ATTR int sendFailCount = 0;
 
+/**
+ * 接続情報に何かしらの情報が代入されているかを確認する処理
+ */
+bool checkConnectionInfoAvailable() {
+  return strlen(wifiSsid) != 0 && strlen(wifiPassword) != 0 && strlen(secretToken);
+}
+
+
 class ConnectionCallbacks: public BLEServerCallbacks {
     void onConnect(BLEServer* pServer) {
         deviceConnected = true;
-        pServer->updatePeerMTU(pServer->getConnId(), 200);
+        pServer->updatePeerMTU(pServer->getConnId(), 400);
         Serial.println("接続された");
     }
     void onDisconnect(BLEServer* pServer) {
         deviceConnected = false;
         Serial.println("接続解除された");
+        if (!checkConnectionInfoAvailable()) {
+          BLEAdvertising *pAdvertising = pServer->getAdvertising();
+          pAdvertising->addServiceUUID(SERVICE_UUID);
+          pAdvertising->start();  
+        }
+        
     }
 };
 
@@ -129,13 +143,13 @@ class ConnectionInfoBleCallbacks: public BLECharacteristicCallbacks {
     Serial.println(token);
 
     writeConnectionInfoToRtcData(ssid, password, token);
-    connectWifi(ssid, password);
+//    connectWifi(ssid, password);
   }
 };
 
 
 void startBluetooth() {
-    BLEDevice::init(DEVICE_NAME);
+  BLEDevice::init(DEVICE_NAME);
   BLEServer *pServer = BLEDevice::createServer();
   
   pServer->setCallbacks(new ConnectionCallbacks());
@@ -147,12 +161,6 @@ void startBluetooth() {
   pAdvertising->start();
 }
 
-/**
- * 接続情報に何かしらの情報が代入されているかを確認する処理
- */
-bool checkConnectionInfoAvailable() {
-  return strlen(wifiSsid) != 0 && strlen(wifiPassword) != 0 && strlen(secretToken);
-}
 
 /**
  * 接続情報に何かしらの情報が代入されるまで待ち続ける処理
@@ -160,6 +168,9 @@ bool checkConnectionInfoAvailable() {
 void waitConnectionInfoAvailable() {
   int count = 0;
   while(!checkConnectionInfoAvailable()) {
+    Serial.print("+");
+
+    // 10回に一回木ャラクタリスティックに読み取ったセンサーの情報を書き込む
     if (count % 10 == 0) {
       readSensorValueAndWriteToBle();
     }
@@ -267,11 +278,12 @@ void setup() {
 
   startBluetooth();
   if (!checkConnectionInfoAvailable()) {  
-    Serial.println("Waiting to connect ...");
+    Serial.println("Waiting to connect info ...");
     waitConnectionInfoAvailable();
   }
 
   if (checkConnectionInfoAvailable()) {
+    Serial.println("Wifiへの接続を試みる");
     connectWifi(wifiSsid, wifiPassword);
   }
 
@@ -299,6 +311,7 @@ void doPrepare(BLEService *pService) {
                       BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_WRITE
                       );
 
+  connectionInfoCharacteristicTx->setCallbacks(new ConnectionInfoBleCallbacks());
     currentNfcAndWeightCharacteristicTx = pService->createCharacteristic(
                       CURRENT_NFC_AND_WEIGHT_CHARAXTERISTIC_UUID,
                       BLECharacteristic::PROPERTY_READ   |
@@ -306,5 +319,4 @@ void doPrepare(BLEService *pService) {
                       BLECharacteristic::PROPERTY_NOTIFY |
                       BLECharacteristic::PROPERTY_INDICATE
                       );
-    connectionInfoCharacteristicTx->setCallbacks(new ConnectionInfoBleCallbacks());
 }
