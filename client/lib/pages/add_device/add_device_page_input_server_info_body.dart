@@ -124,6 +124,7 @@ class AddDevicePageInputServerInfoBodyState
                       .save(
                         macAddress: widget.device.id.id,
                         token: token,
+                        label: inputDeviceNameController.text,
                       )
                       .then((value) {
                     Navigator.of(context).pop();
