@@ -1,5 +1,7 @@
 
+import 'package:client/providers/repositories.dart';
 import 'package:client/state/auth_state.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,7 +36,11 @@ class AccountPage extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(onPressed: () {
+                TextButton(onPressed: () async {
+                  final token = await FirebaseMessaging.instance.getToken();
+                  if (token != null) {
+                    ref.read(accountRepositoryProvider).deleteToken(fcmToken: token);
+                  }
                   accountStore.logout();
                 }, child: const Text("ログアウト"))
               ],

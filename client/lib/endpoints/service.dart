@@ -71,6 +71,9 @@ abstract class MaruhakariApiClient {
 
   @POST("api/v1/foods/measurement-histories/app")
   Future<MeasurementHistory> createMeasurementHistoryFromApp(@Body() CreateMeasurementHistoryFromAppRequest req);
+  
+  @DELETE("api/v1/accounts/fcm-token/{token}")
+  Future<void> deleteFcmToken(@Path("token") String token);
 }
 
 

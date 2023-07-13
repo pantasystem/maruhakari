@@ -43,4 +43,10 @@ class AccountRepository {
       await client.registerFcmToken(RegisterFcmTokenRequest(fcmToken: fcmToken));
     });
   }
+
+  Future<void> deleteToken({required String fcmToken}) async {
+    return handleError(() async {
+      await client.deleteFcmToken(fcmToken);
+    });
+  }
 }
