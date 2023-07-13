@@ -53,8 +53,13 @@ func (r *FoodRepositoryImpl) FindByAccountID(ctx context.Context, accountID uuid
 }
 
 func (r *FoodRepositoryImpl) Delete(ctx context.Context, id uuid.UUID) error {
-	if err := r.DB.WithContext(ctx).Delete(&entity.Food{}, id).Error; err != nil {
-		return err
-	}
-	return nil
+	return r.DB.WithContext(ctx).Transaction(func(tx *gorm.DB) error {
+		if err := r.DB.WithContext(ctx).Delete(&entity.MeasurementHistory{}, "food_id = ?", id).Error; err != nil {
+			return err
+		}
+		if err := r.DB.WithContext(ctx).Delete(&entity.Food{}, id).Error; err != nil {
+			return err
+		}
+		return nil
+	})
 }
