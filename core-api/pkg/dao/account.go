@@ -50,7 +50,6 @@ func (r *AccountRepositoryImpl) Update(ctx context.Context, account *entity.Acco
 			"Username",
 			"EncryptedPassword",
 			"Token",
-			"FcmToken",
 		).
 		Updates(account)
 	if err.Error != nil {
