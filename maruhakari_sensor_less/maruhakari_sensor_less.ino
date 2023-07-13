@@ -135,7 +135,7 @@ class ConnectionInfoBleCallbacks: public BLECharacteristicCallbacks {
 
 
 void startBluetooth() {
-    BLEDevice::init(DEVICE_NAME);
+  BLEDevice::init(DEVICE_NAME);
   BLEServer *pServer = BLEDevice::createServer();
   
   pServer->setCallbacks(new ConnectionCallbacks());
@@ -218,43 +218,12 @@ void readSensorValueAndWriteToBle() {
 }
 
 void loadNfcUid() {
-  SPI.begin();
-  mfrc522.PCD_Init();
-
-
-  if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
-
-      // UIDのバイト配列を取得
-      byte* uidBytes = mfrc522.uid.uidByte;
-      int uidSize = mfrc522.uid.size;
-
-      // UIDを文字列に変換
-      nfcUid = new char[uidSize * 2 + 1];  // 必要なサイズを計算し、動的にメモリを割り当て
-      
-      for (int i = 0; i < uidSize; i++) {
-        sprintf(nfcUid + i * 2, "%02x", uidBytes[i]);
-      }
-      
-      nfcUid[uidSize * 2] = '\0';  // 文字列の終端にヌル文字を追加
-
-      // UIDの出力
-      //Serial.print("NFCカードのUID: ");
-      //Serial.println(nfcUid);
-
-      // NFCタグとの通信を停止
-      mfrc522.PICC_HaltA();
-      mfrc522.PCD_StopCrypto1();
-      
-  }else{
-    Serial.println("NFC読み取れてないよおおおおおおお");
-  }
+  char uid[] = "test-uid";
+  nfcUid = uid;
 }
 
 float getWeight() {
-  long value = scale.read_average(5);
-//const char* nfcUid = "dcb9e1aa";
-  float weight = (double)(value - offset) * gradient;
-  return weight;
+  return 350.0;
 }
 
 void setup() {

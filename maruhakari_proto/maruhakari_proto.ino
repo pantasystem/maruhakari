@@ -221,7 +221,8 @@ void loadNfcUid() {
   SPI.begin();
   mfrc522.PCD_Init();
 
-
+  // NOTE: nfcの初期化処理が遅いので、read_averageでブロッキングを行う
+  scale.read_average(5);
   if (mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) {
 
       // UIDのバイト配列を取得
