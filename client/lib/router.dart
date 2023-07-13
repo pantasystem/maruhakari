@@ -1,6 +1,7 @@
 import 'package:client/pages/account_page.dart';
 import 'package:client/pages/add_device/add_device_page.dart';
 import 'package:client/pages/add_food/add_food_page.dart';
+import 'package:client/pages/device/device_list_page.dart';
 import 'package:client/pages/food_detail/food_detail_page.dart';
 import 'package:client/pages/food_list_page.dart';
 import 'package:client/pages/initial_page.dart';
@@ -68,6 +69,12 @@ final routerProvider = Provider((ref) {
             path: "/foods/:id",
             pageBuilder: (context, state) {
               return MaterialPage(child: FoodDetailPage(foodId: state.params["id"].toString()));
+            }
+        ),
+        GoRoute(
+            path: "/devices",
+            pageBuilder: (context, state) {
+              return const MaterialPage(child: BluetoothDeviceListPage());
             }
         )
       ],

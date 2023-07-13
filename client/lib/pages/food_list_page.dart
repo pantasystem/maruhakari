@@ -51,11 +51,15 @@ class FooListPageState extends ConsumerState {
       appBar: AppBar(
         title: const Text("調味料一覧"),
         actions: [
+          IconButton(onPressed: () {
+            GoRouter.of(context).push("/devices");
+          }, icon: const Icon(Icons.device_hub)),
           IconButton(
               onPressed: () {
                 GoRouter.of(context).push("/account");
               },
-              icon: const Icon(Icons.account_circle))
+              icon: const Icon(Icons.account_circle),
+          ),
         ],
       ),
       body: RefreshIndicator(
