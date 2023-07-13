@@ -282,13 +282,13 @@ func (r *MeasurementHistoryHandler) CreateHistoryFromApp(c *gin.Context) {
 		FoodID:        f.ID,
 		RawWeightGram: req.Weight,
 	}
-	if req.DeviceId != nil {
-		dId, err := uuid.Parse(*req.DeviceId)
+	if req.MacAddress != nil {
+
 		if err != nil {
 			c.JSON(400, gin.H{"error": err.Error()})
 			return
 		}
-		device, err := r.Module.RepositoryModule().DeviceRepository().FindByID(c, dId)
+		device, err := r.Module.RepositoryModule().DeviceRepository().FindByAccountIDAndMacAddress(c, aId, *req.MacAddress)
 		if err != nil {
 			c.JSON(404, gin.H{"error": err.Error()})
 			return
