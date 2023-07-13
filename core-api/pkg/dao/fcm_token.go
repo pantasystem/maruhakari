@@ -29,8 +29,8 @@ func (r *FcmTokenRepositoryImpl) FindByAccountID(ctx context.Context, accountID 
 }
 
 func (r *FcmTokenRepositoryImpl) FindByToken(ctx context.Context, token string) ([]*entity.FcmToken, error) {
-	var fcmTokens []*entity.FcmToken
-	result := r.DB.WithContext(ctx).Where("token = ?", token).Find(fcmTokens)
+	fcmTokens := []*entity.FcmToken{}
+	result := r.DB.WithContext(ctx).Where("token = ?", token).Find(&fcmTokens)
 	if result.Error != nil {
 		return nil, result.Error
 	}
@@ -46,7 +46,7 @@ func (r *FcmTokenRepositoryImpl) Delete(ctx context.Context, id uuid.UUID) error
 
 func (r *FcmTokenRepositoryImpl) FindOne(ctx context.Context, id uuid.UUID) (*entity.FcmToken, error) {
 	fcmToken := &entity.FcmToken{}
-	if err := r.DB.WithContext(ctx).Where("id = ?", id).First(fcmToken).Error; err != nil {
+	if err := r.DB.WithContext(ctx).Where("id = ?", id).First(&fcmToken).Error; err != nil {
 		return nil, err
 	}
 	return fcmToken, nil
