@@ -39,8 +39,22 @@ class AddDevicePageSelectDeviceBody extends ConsumerWidget {
                   itemBuilder: (BuildContext context, int index) {
                     final item = items[index];
                     return DeviceListTile(
-                      onPressed: () {
-                        item.device.connect();
+                      onPressed: () async {
+                        final state = await item.device.state.first;
+                        switch(state) {
+                          case BluetoothDeviceState.disconnected:
+                            await item.device.connect();
+                            break;
+                          case BluetoothDeviceState.connecting:
+                            await item.device.state.firstWhere((s) => s == BluetoothDeviceState.connected);
+                            break;
+                          case BluetoothDeviceState.connected:
+                            break;
+                          case BluetoothDeviceState.disconnecting:
+                            await item.device.state.firstWhere((s) => s == BluetoothDeviceState.disconnected);
+                            await item.device.connect();
+                            break;
+                        }
                         notifier.onConnect(item.device);
                       },
                       device: item.device,
@@ -77,18 +91,20 @@ class AddDevicePageSelectDeviceBody extends ConsumerWidget {
                   itemBuilder: (BuildContext context, int index) {
                     final item = items[index];
                     return DeviceListTile(
-                      onPressed: () {
-                        item.state.first.then((value) {
-                          switch (value) {
+                      onPressed: () async {
+                        await item.state.first.then((value) async {
+                          switch(value) {
                             case BluetoothDeviceState.disconnected:
-                              item.connect();
+                              await item.connect();
                               break;
                             case BluetoothDeviceState.connecting:
+                              await item.state.firstWhere((s) => s == BluetoothDeviceState.connected);
                               break;
                             case BluetoothDeviceState.connected:
                               break;
                             case BluetoothDeviceState.disconnecting:
-                              item.connect();
+                              await item.state.firstWhere((s) => s == BluetoothDeviceState.disconnected);
+                              await item.connect();
                               break;
                           }
                         });
