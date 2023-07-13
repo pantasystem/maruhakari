@@ -145,3 +145,25 @@ func (r *AccountHandler) RegisterFcmToken(c *gin.Context) {
 		UpdatedAt: a.UpdatedAt.String(),
 	})
 }
+
+func (r *AccountHandler) DeleteToken(c *gin.Context) {
+	token, ok := c.Params.Get("token")
+	if !ok {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "token is required"})
+		return
+	}
+
+	aUuid, err := uuid.Parse(c.GetString(middleware.AccountId))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	err = r.Module.RepositoryModule().FcmTokenRepostiroy().DeleteByAccountIdAndToken(c, aUuid, token)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{})
+}

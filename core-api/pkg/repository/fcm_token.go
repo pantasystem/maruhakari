@@ -12,5 +12,6 @@ type FcmTokenRepostiroy interface {
 	FindByToken(ctx context.Context, token string) ([]*entity.FcmToken, error)
 	Create(ctx context.Context, fcmToken *entity.FcmToken) (*entity.FcmToken, error)
 	Delete(ctx context.Context, id uuid.UUID) error
+	DeleteByAccountIdAndToken(ctx context.Context, accountId uuid.UUID, token string) error
 	FindOne(ctx context.Context, id uuid.UUID) (*entity.FcmToken, error)
 }

@@ -33,4 +33,5 @@ type AccountController interface {
 	LoginAccount(c *gin.Context)
 	VerifyToken(c *gin.Context)
 	RegisterFcmToken(c *gin.Context)
+	DeleteToken(c *gin.Context)
 }

@@ -53,3 +53,7 @@ func (r *FcmTokenRepositoryImpl) FindOne(ctx context.Context, id uuid.UUID) (*en
 	}
 	return fcmToken, nil
 }
+
+func (r *FcmTokenRepositoryImpl) DeleteByAccountIdAndToken(ctx context.Context, accountId uuid.UUID, token string) error {
+	return r.DB.Delete(&entity.FcmToken{}, "account_id = ? AND token = ?", accountId, token).Error
+}
