@@ -145,7 +145,7 @@ class FoodDetailPage extends ConsumerWidget {
                                   ),
                                 ],
                               ),
-                              Text(history.device?.label ?? "デバイス名なし")
+                              Text(history.device?.label ?? history.deviceId ?? "デバイス名なし")
                             ],
                           ),
                           Column(

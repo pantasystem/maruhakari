@@ -59,11 +59,12 @@ class FoodRepository {
     });
   }
 
-  Future<void> createHistoryForApp({required String nfcUuid, required double weight}) async {
+  Future<void> createHistoryForApp({required String nfcUuid, required double weight, String? macAddress}) async {
     return await handleError(() async {
       await client.createMeasurementHistoryFromApp(CreateMeasurementHistoryFromAppRequest(
         nfcUid: nfcUuid,
         weight: weight,
+        macAddress: macAddress,
       ));
     });
   }

@@ -25,6 +25,8 @@ mixin _$CreateMeasurementHistoryFromAppRequest {
   double get weight => throw _privateConstructorUsedError;
   @JsonKey(name: "nfc_uid")
   String get nfcUid => throw _privateConstructorUsedError;
+  @JsonKey(name: "mac_address")
+  String? get macAddress => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -41,7 +43,10 @@ abstract class $CreateMeasurementHistoryFromAppRequestCopyWith<$Res> {
       _$CreateMeasurementHistoryFromAppRequestCopyWithImpl<$Res,
           CreateMeasurementHistoryFromAppRequest>;
   @useResult
-  $Res call({double weight, @JsonKey(name: "nfc_uid") String nfcUid});
+  $Res call(
+      {double weight,
+      @JsonKey(name: "nfc_uid") String nfcUid,
+      @JsonKey(name: "mac_address") String? macAddress});
 }
 
 /// @nodoc
@@ -60,6 +65,7 @@ class _$CreateMeasurementHistoryFromAppRequestCopyWithImpl<$Res,
   $Res call({
     Object? weight = null,
     Object? nfcUid = null,
+    Object? macAddress = freezed,
   }) {
     return _then(_value.copyWith(
       weight: null == weight
@@ -70,6 +76,10 @@ class _$CreateMeasurementHistoryFromAppRequestCopyWithImpl<$Res,
           ? _value.nfcUid
           : nfcUid // ignore: cast_nullable_to_non_nullable
               as String,
+      macAddress: freezed == macAddress
+          ? _value.macAddress
+          : macAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -83,7 +93,10 @@ abstract class _$$_CreateMeasurementHistoryFromAppRequestCopyWith<$Res>
       __$$_CreateMeasurementHistoryFromAppRequestCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double weight, @JsonKey(name: "nfc_uid") String nfcUid});
+  $Res call(
+      {double weight,
+      @JsonKey(name: "nfc_uid") String nfcUid,
+      @JsonKey(name: "mac_address") String? macAddress});
 }
 
 /// @nodoc
@@ -101,6 +114,7 @@ class __$$_CreateMeasurementHistoryFromAppRequestCopyWithImpl<$Res>
   $Res call({
     Object? weight = null,
     Object? nfcUid = null,
+    Object? macAddress = freezed,
   }) {
     return _then(_$_CreateMeasurementHistoryFromAppRequest(
       weight: null == weight
@@ -111,6 +125,10 @@ class __$$_CreateMeasurementHistoryFromAppRequestCopyWithImpl<$Res>
           ? _value.nfcUid
           : nfcUid // ignore: cast_nullable_to_non_nullable
               as String,
+      macAddress: freezed == macAddress
+          ? _value.macAddress
+          : macAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -120,7 +138,9 @@ class __$$_CreateMeasurementHistoryFromAppRequestCopyWithImpl<$Res>
 class _$_CreateMeasurementHistoryFromAppRequest
     implements _CreateMeasurementHistoryFromAppRequest {
   const _$_CreateMeasurementHistoryFromAppRequest(
-      {required this.weight, @JsonKey(name: "nfc_uid") required this.nfcUid});
+      {required this.weight,
+      @JsonKey(name: "nfc_uid") required this.nfcUid,
+      @JsonKey(name: "mac_address") this.macAddress});
 
   factory _$_CreateMeasurementHistoryFromAppRequest.fromJson(
           Map<String, dynamic> json) =>
@@ -131,10 +151,13 @@ class _$_CreateMeasurementHistoryFromAppRequest
   @override
   @JsonKey(name: "nfc_uid")
   final String nfcUid;
+  @override
+  @JsonKey(name: "mac_address")
+  final String? macAddress;
 
   @override
   String toString() {
-    return 'CreateMeasurementHistoryFromAppRequest(weight: $weight, nfcUid: $nfcUid)';
+    return 'CreateMeasurementHistoryFromAppRequest(weight: $weight, nfcUid: $nfcUid, macAddress: $macAddress)';
   }
 
   @override
@@ -143,12 +166,14 @@ class _$_CreateMeasurementHistoryFromAppRequest
         (other.runtimeType == runtimeType &&
             other is _$_CreateMeasurementHistoryFromAppRequest &&
             (identical(other.weight, weight) || other.weight == weight) &&
-            (identical(other.nfcUid, nfcUid) || other.nfcUid == nfcUid));
+            (identical(other.nfcUid, nfcUid) || other.nfcUid == nfcUid) &&
+            (identical(other.macAddress, macAddress) ||
+                other.macAddress == macAddress));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, weight, nfcUid);
+  int get hashCode => Object.hash(runtimeType, weight, nfcUid, macAddress);
 
   @JsonKey(ignore: true)
   @override
@@ -170,7 +195,8 @@ abstract class _CreateMeasurementHistoryFromAppRequest
     implements CreateMeasurementHistoryFromAppRequest {
   const factory _CreateMeasurementHistoryFromAppRequest(
           {required final double weight,
-          @JsonKey(name: "nfc_uid") required final String nfcUid}) =
+          @JsonKey(name: "nfc_uid") required final String nfcUid,
+          @JsonKey(name: "mac_address") final String? macAddress}) =
       _$_CreateMeasurementHistoryFromAppRequest;
 
   factory _CreateMeasurementHistoryFromAppRequest.fromJson(
@@ -182,6 +208,9 @@ abstract class _CreateMeasurementHistoryFromAppRequest
   @override
   @JsonKey(name: "nfc_uid")
   String get nfcUid;
+  @override
+  @JsonKey(name: "mac_address")
+  String? get macAddress;
   @override
   @JsonKey(ignore: true)
   _$$_CreateMeasurementHistoryFromAppRequestCopyWith<

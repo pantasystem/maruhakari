@@ -30,7 +30,7 @@ class FooListPageState extends ConsumerState {
       log("getOwnDevices: $value");
       FlutterBluePlus.instance.startScan();
       _connectedIoTBluetoothDataStreaming.currentWeightEventStream(value).listen((event) {
-        ref.read(foodRepository).createHistoryForApp(nfcUuid: event.nfcUid, weight: event.weight);
+        ref.read(foodRepository).createHistoryForApp(nfcUuid: event.nfcUid, weight: event.weight, macAddress: event.deviceMacAddress);
       });
     });
 

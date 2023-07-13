@@ -12,6 +12,7 @@ _$_CreateMeasurementHistoryFromAppRequest
         _$_CreateMeasurementHistoryFromAppRequest(
           weight: (json['weight'] as num).toDouble(),
           nfcUid: json['nfc_uid'] as String,
+          macAddress: json['mac_address'] as String?,
         );
 
 Map<String, dynamic> _$$_CreateMeasurementHistoryFromAppRequestToJson(
@@ -19,4 +20,5 @@ Map<String, dynamic> _$$_CreateMeasurementHistoryFromAppRequestToJson(
     <String, dynamic>{
       'weight': instance.weight,
       'nfc_uid': instance.nfcUid,
+      'mac_address': instance.macAddress,
     };
